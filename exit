@@ -1,0 +1,65 @@
+[33mcommit c72c203ba9a2b351885877099c9e9752df24ce38[m[33m ([m[1;36mHEAD -> [m[1;32mmain[m[33m)[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Fri Apr 28 11:08:20 2023 +0530
+
+    service list and services are added
+
+[33mcommit d7f9e9a552bc9dcdb689142c6823b0aa75d6a1df[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Tue Apr 25 20:32:35 2023 +0530
+
+    profile and menu List are added
+
+[33mcommit ab568e9d5cbd716ba6086cb6b2475e09e68429b2[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Thu Apr 20 12:11:05 2023 +0530
+
+    manager side and admin side ui updated
+
+[33mcommit 75b61cc63f450e737dd7a7ad71e72366ca0ebe8b[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Fri Apr 14 14:18:53 2023 +0530
+
+    event form added and jwt, local storage completed
+
+[33mcommit 07ba3d54616462b84af3166f764ef030ed6e84b6[m[33m ([m[1;31morigin/main[m[33m)[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Wed Apr 12 17:32:43 2023 +0530
+
+    user home ui design completed
+
+[33mcommit dfedf00fb81d53e249b46c8af0dc4c90ce935338[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Sun Apr 9 14:11:16 2023 +0530
+
+    forget password and reset password pages are added
+
+[33mcommit 035924156b9f971326a844d434819dcd029944c8[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Sat Apr 8 10:35:09 2023 +0530
+
+    Otp added forget otp completely change using firebase instead of twilio
+
+[33mcommit 1b023bd22a6e232121aecc51fb26650ab4e762bc[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Wed Apr 5 09:10:35 2023 +0530
+
+    notiifcation table added
+
+[33mcommit 1913acda452cf92a23ca199ad4ecb5418ca7bea8[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Mon Apr 3 12:40:01 2023 +0530
+
+    Layout design of manager and admin added
+
+[33mcommit ad393691fcbd98a34a329f3abf1a73fb80086e85[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Sun Apr 2 20:27:20 2023 +0530
+
+    forgetpasword pages added
+
+[33mcommit 1a746d1f039da381d7d142965b0e87140757d237[m
+Author: Munshid <muhammadmunshid200@gmail.com>
+Date:   Sat Apr 1 16:49:24 2023 +0530
+
+    first commit
