@@ -52,6 +52,7 @@ function ManagerProfile() {
                     },
                 }).then((response) => {
                     console.log(response.data);
+                    window.location.reload()
                 })
 
         })

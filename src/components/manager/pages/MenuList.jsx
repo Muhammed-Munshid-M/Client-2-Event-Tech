@@ -1,14 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import Layout from '../Layout'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 import { managerUrl } from '../../../API/Api'
 
 function MenuList() {
   const [modal, setModal] = useState(false)
   const [stage, setStage] = useState(false)
   const [decoration, setDecoration] = useState(false)
-  const [audio, setAudio] = useState(false)
-  const [video, setVideo] = useState(false)
+  const [photography, setPhotography] = useState(false)
+  const [vehicles, setVehicles] = useState(false)
   const [starterName, setStarterName] = useState('')
   const [starterPrice, setStarterPrice] = useState('')
   const [starterImage, setStarterImage] = useState()
@@ -23,11 +24,21 @@ function MenuList() {
   const [saladsImage, setSaladImage] = useState()
   const [catering, setCatering] = useState([])
   const [cateringMenu, setCateringMenu] = useState([])
+  const [stageData, setStageData] = useState([])
+  const [stageDataMenu, setStageDataMenu] = useState([])
+  const [stagePhoto, setStagePhoto ] = useState()
+  const [stageBudget, setBudget] = useState('')
+  const [stageSize, setStageSize] = useState('')
 
   const cateringData = { starterName, starterPrice, mainName, mainPrice, dessertsName, dessertsPrice, saladsName, saladsPrice }
+  const stageDatas = { stageBudget, stageSize }
 
   const openModal = async () => {
     setModal(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
   const closeModal = async () => {
@@ -36,6 +47,10 @@ function MenuList() {
 
   const openStage = async () => {
     setStage(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
   const closeStage = async () => {
@@ -44,33 +59,46 @@ function MenuList() {
 
   const openDecoration = async () => {
     setDecoration(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
   const closeDecoration = async () => {
     setDecoration(false)
   }
 
-    const openAudio = async () => {
-    setAudio(true)
+    const openPhotography = async () => {
+    setPhotography(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
-  const closeAudio = async () => {
-    setAudio(false)
+  const closePhotography = async () => {
+    setPhotography(false)
   }
 
-    const openVideo = async () => {
-      setVideo(true)
+    const openVehicles = async () => {
+      setVehicles(true)
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
   }
 
-  const closeVideo = async () => {
-    setVideo(false)
+  const closeVehicles = async () => {
+    setVehicles(false)
   }
+
+  // Submit Catering
 
   const submitCatering = async () => {
     try {
       setModal(false)
       // window.location.reload()
-      console.log('Hiiiiii');
 
       const uploadImage = async (image, name) => {
         const data = new FormData();
@@ -99,13 +127,63 @@ function MenuList() {
           .then((response) => {
             console.log('Hi');
             if (response.data.success) {
-              const serviceData = response.data.data
-              console.log(serviceData)
-              const services = serviceData.cateringMenu[0]
-              const cateringName = services.category_name
-              const menu = serviceData.cateringMenu
-              setCatering(cateringName)
-              setCateringMenu(menu)
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Catering Menu Added',
+                showConfirmButton: true
+              })
+            } else {
+              toast.error('something error')
+              navigate('/add-event')
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          })
+        })
+    } catch (error) {
+      console.log(error)
+      toast.error('something error')
+    }
+  }
+
+  // Submit Stage
+
+  const submitStage = async () => {
+    try {
+      setStage(false)
+      // window.location.reload()
+
+      const uploadImage = async (image, name) => {
+        const data = new FormData();
+        data.append("file", image);
+        data.append("upload_preset", "Event_Tech");
+        const response = await axios.post("https://api.cloudinary.com/v1_1/dnrcd8rxl/image/upload", data);
+        return response.data.url
+      };
+
+
+      await Promise.all([uploadImage(stagePhoto, "stagePhoto")]).then(async(response) => {
+        console.log('response image',response)
+        const imageUpload1 = response[0]
+        const managerData = {stageData, imageUpload1 }
+        console.log('managerdaaarttaaaaaa:'+imageUpload1);
+        const token = localStorage.getItem('manager-token')
+        await axios.post(`${managerUrl}add-stage`, managerData, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        })
+          .then((response) => {
+            console.log('Hi');
+            if (response.data.success) {
+              Swal.fire({
+                position: 'center',
+                icon: 'success',
+                title: 'Stage Menu Added',
+                showConfirmButton: true
+              })
             } else {
               toast.error('something error')
               navigate('/add-event')
@@ -136,9 +214,15 @@ function MenuList() {
               console.log(serviceData);
               const services = serviceData.cateringMenu[0]
               const cateringName = services.category_name
-              const menu = serviceData.cateringMenu
+              const cateringMenu = serviceData.cateringMenu
+              const stageService = serviceData.stageMenu[0]
+              const stageName = stageService.category_name
+              console.log(stageName);
+              const stageMenu = serviceData.stageMenu
               setCatering(cateringName)
-              setCateringMenu(menu)
+              setCateringMenu(cateringMenu)
+              setStageData(stageName)
+              setStageDataMenu(stageMenu)
               // window.location.reload()
             } else {
               toast.error('Something Error')
@@ -436,9 +520,11 @@ function MenuList() {
               <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
                 <dl className="sm:divide-y sm:divide-gray-200">
                   <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Stage Photo</dt>
-                    <dt className="text-sm font-medium text-gray-500">Stage Budget</dt>
-                    <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
+                  {stageData.map((data) => (
+                    <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                    ))}
+                    {/* <dt className="text-sm font-medium text-gray-500">Stage Budget</dt>
+                    <dt className="text-sm font-medium text-gray-500">Stage Size</dt> */}
                   </div>
                   <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                     <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">fdkh
@@ -471,7 +557,7 @@ function MenuList() {
                             </div>
                             <div class="md:w-2/3">
                               <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="file" accept='image/*'
-                              />
+                              onChange={(e) => setStagePhoto(e.target.files[0])} />
                             </div>
                           </div>
                           <div class="md:flex md:items-center mb-6">
@@ -481,25 +567,25 @@ function MenuList() {
                               </label>
                             </div>
                             <div class="md:w-2/3">
-                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="number" placeholder='Price' value={price}
-                                // onChange={(e) => setPrice(e.target.value)}
-                                 />
+                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="number" placeholder='Price' value={stageBudget}
+                               onChange={(e) => setBudget(e.target.value)} />
                             </div>
                           </div>
                           <div class="md:flex md:items-center mb-6">
                             <div class="md:w-1/3">
                               <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                                Included Things
+                                Stage Size
                               </label>
                             </div>
                             <div class="md:w-2/3">
-                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" placeholder='Add Item' />
+                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" placeholder='Stage Size' value={stageSize}
+                              onChange={(e) => setStageSize(e.target.value)} />
                             </div>
                           </div>
                           <div class="md:flex md:items-center">
                             <div class="md:w-1/3"></div>
                             <div class="md:w-2/3">
-                              <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                              <button onClick={submitStage} class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
                                 Add
                               </button>
                             </div>
@@ -655,12 +741,12 @@ function MenuList() {
                 </dl>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {audio ? (
+                {photography ? (
                   <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
                     <div class="max-w-xl p-6 bg-white divide-y divide-gray-500">
                       <div class="flex items-center justify-between">
                         <h3 class="text-2xl">Stage Menu Details</h3>
-                        <svg onClick={closeAudio} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                        <svg onClick={closePhotography} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                           stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -727,7 +813,7 @@ function MenuList() {
                   <button
                     type="button"
                     className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openAudio}
+                    onClick={openPhotography}
                   >
                     Add Menu
                   </button>
@@ -763,12 +849,12 @@ function MenuList() {
                 </dl>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {video ? (
+                {vehicles ? (
                   <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
                     <div class="max-w-xl p-6 bg-white divide-y divide-gray-500">
                       <div class="flex items-center justify-between">
                         <h3 class="text-2xl">Stage Menu Details</h3>
-                        <svg onClick={closeVideo} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                        <svg onClick={closeVehicles} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                           stroke="currentColor">
                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                             d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -835,7 +921,7 @@ function MenuList() {
                   <button
                     type="button"
                     className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openVideo}
+                    onClick={openVehicles}
                   >
                     Add Menu
                   </button>

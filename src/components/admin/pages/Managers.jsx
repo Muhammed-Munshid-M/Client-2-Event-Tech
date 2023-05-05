@@ -129,8 +129,8 @@ function Managers() {
             </div>
               ) : (
                 <body className='mt-[7rem]'>
-                  <div class="overflow-x-auto ">
-                    <div class="inline-block min-w-full ">
+                  <div class="overflow-x-auto">
+                    <div class="inline-block ml-10">
                       <div class="shadow overflow-hidden border-gray-200 sm:rounded-lg">
                         <h1 className='font-bold text-xl mb-5'>Managers List</h1>
                         <table class="min-w-full divide-y divide-gray-200">

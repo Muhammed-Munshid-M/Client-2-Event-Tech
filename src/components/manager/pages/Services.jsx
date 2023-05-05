@@ -2,25 +2,26 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { managerUrl } from '../../../API/Api'
+import Swal from 'sweetalert2'
 import Layout from '../Layout'
 function Services() {
     const [loading, setLoading] = useState(true)
     const [openFoodModal, setOpenFoodModal] = useState(false)
     const [openStageModal, setOpenStageModal] = useState(false)
     const [openDecorateModal, setOpenDecorateModal] = useState(false)
-    const [openAudioModal, setOpenAudioModal] = useState(false)
-    const [openVideoModal, setOpenVideoModal] = useState(false)
+    const [openPhotographyModal, setOpenPhotographyModal] = useState(false)
+    const [openvehiclesModal, setOpenvehiclesModal] = useState(false)
     const [editFoodModal, setEditFoodModal] = useState(false)
     const [editStageModal, setEditStageModal] = useState(false)
     const [editDecorateModal, setEditDecorateModal] = useState(false)
-    const [editAudioModal, setEditAudioModal] = useState(false)
-    const [editVideoModal, setEditVideoModal] = useState(false)
+    const [editphotographyModal, setEditphotographyModal] = useState(false)
+    const [editvehiclesModal, setEditvehiclesModal] = useState(false)
     const [service, setService] = useState([])
     const [catering, setCatering] = useState([])
     const [stage, setStage] = useState([])
     const [decoration, setDecoration] = useState([])
-    const [audio, setAudio] = useState([])
-    const [video, setVideo] = useState([])
+    const [photography, setPhotography] = useState([])
+    const [vehicles, setvehicles] = useState([])
 
 
     useEffect(() => {
@@ -34,11 +35,49 @@ function Services() {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
     const closeFoodModal = async () => {
         setOpenFoodModal(false)
+    }
+
+    const removeCategory = (name) => {
+        console.log('name',name);
+        Swal.fire({
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes,Remove it!'
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const token = localStorage.getItem('manager-token')
+                    await axios.post(`${managerUrl}remove-service?name=${name}`,{}, {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    }).then((response) => {
+                        if (response.data.success) {
+                            Swal.fire(
+                                'Removed!',
+                                'Your service has been removed.',
+                                'success'
+                            ).then(()=>{
+                                window.location.reload()
+                            })
+                        } else {
+                            toast.error('Something error')
+                        }
+                    })
+                } catch (error) {
+                    console.log(error);
+                }
+            }
+        })
     }
 
     const openStageCategory = async () => {
@@ -46,7 +85,7 @@ function Services() {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
     const closeStageModal = async () => {
@@ -58,35 +97,35 @@ function Services() {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
     const closeDecorateModal = async () => {
         setOpenDecorateModal(false)
     }
 
-    const openAudioCategory = async () => {
-        setOpenAudioModal(true)
+    const openPhotographyCategory = async () => {
+        setOpenPhotographyModal(true)
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
-    const closeAudioModal = async () => {
-        setOpenAudioModal(false)
+    const closePhotographyModal = async () => {
+        setOpenPhotographyModal(false)
     }
 
-    const openVideoCategory = async () => {
-        setOpenVideoModal(true)
+    const openvehiclesCategory = async () => {
+        setOpenvehiclesModal(true)
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
-    const closeVideoModal = async () => {
-        setOpenVideoModal(false)
+    const closevehiclesModal = async () => {
+        setOpenvehiclesModal(false)
     }
 
 
@@ -96,7 +135,7 @@ function Services() {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
     const closeEditFoodModal = async () => {
@@ -109,7 +148,7 @@ function Services() {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
     const closeEditStageModal = async () => {
@@ -121,39 +160,39 @@ function Services() {
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
     const closeEditDecorateModal = async () => {
         setEditDecorateModal(false)
     }
 
-    const editAudioCategory = async () => {
-        setEditAudioModal(true)
+    const editphotographyCategory = async () => {
+        setEditphotographyModal(true)
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
-    const closeEditAudioModal = async () => {
-        setEditAudioModal(false)
+    const closeEditphotographyModal = async () => {
+        setEditphotographyModal(false)
     }
 
-    const editVideoCategory = async () => {
-        setEditVideoModal(true)
+    const editvehiclesCategory = async () => {
+        setEditvehiclesModal(true)
         window.scrollTo({
             top: 0,
             behavior: "smooth"
-          });
+        });
     }
 
-    const closeEditVideoModal = async () => {
-        setEditVideoModal(false)
+    const closeEditvehiclesModal = async () => {
+        setEditvehiclesModal(false)
     }
 
     const submitCategory = async () => {
-            try {
+        try {
             setModal(false)
             const token = localStorage.getItem('manager-token')
             await axios.post(`${managerUrl}add-services`, formData, {
@@ -168,9 +207,9 @@ function Services() {
                         toast.error('Something error')
                     }
                 })
-            } catch (error) {
-                console.log(error);
-            }
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     const submitService = async () => {
@@ -209,14 +248,16 @@ function Services() {
                             const catering = serviceData.cateringMenu
                             const stage = serviceData.stageMenu
                             const decoration = serviceData.decorationMenu
-                            const audio = serviceData.audioMenu
-                            const video = serviceData.videoMenu
+                            const photography = serviceData.photographyMenu
+                            const data = photography[0]
+                            console.log('photo'+data.category_name);
+                            const vehicles = serviceData.luxuryVehicleMenu
                             setService(serviceData)
                             setCatering(catering)
                             setStage(stage)
                             setDecoration(decoration)
-                            setAudio(audio)
-                            setVideo(video)
+                            setPhotography(photography)
+                            setvehicles(vehicles)
                         }
                     })
             } catch (error) {
@@ -247,455 +288,150 @@ function Services() {
                                             <h2 class="text-xl font-normal mb-6 text-center font-serif">Your Selected Services</h2>
                                             <div className='bg-slate-200 rounded-2xl xl:mx-72 sm:mx-5'>
                                                 <ul role="list" class="p-6 divide-y divide-slate-300">
-                                                    <div className='py-4'>
-                                                        <li class="flex py-6 first:pt-0 last:pb-0">
-                                                            <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                            <div class="ml-3 overflow-hidden">
-                                                                <p class="text-sm font-medium text-slate-900 pt-2">{service.catering_name}</p>
-                                                                {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
-                                                            </div>
-                                                            <div class="mx-auto">
-                                                                {openFoodModal ? (
-                                                                    <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                        <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                            <div class="flex items-center justify-between">
-                                                                                <h3 class="text-2xl">Add Category</h3>
-                                                                                <svg onClick={closeFoodModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                            </div>
-                                                                            <div class="mt-4">
+                                                    {service.catering_status == true &&
+                                                        <div className='py-4'>
+                                                            <li class="flex py-6 first:pt-0 last:pb-0 justify-between">
+                                                                <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                <div class="ml-3 overflow-hidden">
+                                                                    <p class="text-sm font-medium text-slate-900 pt-2">{service.catering_name}</p>
+                                                                    {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
+                                                                </div>
+                                                                {/* <div class="mx-auto">
+                                                                    {openFoodModal ? (
+                                                                        <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
+                                                                            <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
+                                                                                <div class="flex items-center justify-between">
+                                                                                    <h3 class="text-2xl">Add Category</h3>
+                                                                                    <svg onClick={closeFoodModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                        stroke="currentColor">
+                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                                    </svg>
+                                                                                </div>
+                                                                                <div class="mt-4">
 
-                                                                                {catering.map((data) => (
-                                                                                    <form onSubmit={submitCategory} class="">
-                                                                                        <div class="md:flex md:items-center mt-3 ">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5  h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[4rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[3]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 sm:ml-4 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                            <div class="md:w-2/3">
-                                                                                                <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                    Add
-                                                                                                </button>
+                                                                                    {catering.map((data) => (
+                                                                                        <form onSubmit={submitCategory} class="">
+                                                                                            <div class="md:flex md:items-center mt-3 ">
+                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                    <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
+                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                        <div class="ml-3 overflow-hidden">
+                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
+                                                                                                        </div>
+                                                                                                        <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
+                                                                                                        />
+                                                                                                    </li>
+                                                                                                </ul>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                ))}
+                                                                                            <div class="md:flex md:items-center">
+                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                    <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
+                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                        <div class="ml-3 overflow-hidden">
+                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
+                                                                                                        </div>
+                                                                                                        <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5  h-5"
+                                                                                                        />
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                            <div class="md:flex md:items-center">
+                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                    <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[4rem]">
+                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                        <div class="ml-3 overflow-hidden">
+                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
+                                                                                                        </div>
+                                                                                                        <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
+                                                                                                        />
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                            <div class="md:flex md:items-center">
+                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                    <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
+                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                        <div class="ml-3 overflow-hidden">
+                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[3]}</p>
+                                                                                                        </div>
+                                                                                                        <input type="checkbox" class="checked:bg-blue-500 mt-2 sm:ml-4 w-5 h-5"
+                                                                                                        />
+                                                                                                    </li>
+                                                                                                </ul>
+                                                                                            </div>
+                                                                                            <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
+                                                                                                <div class="md:w-1/3"></div>
+                                                                                            </div>
+                                                                                            <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
+                                                                                                <div class="md:w-1/3"></div>
+                                                                                                <div class="md:w-2/3">
+                                                                                                    <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                                                                                                        Add
+                                                                                                    </button>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    ))}
+                                                                                </div>
                                                                             </div>
                                                                         </div>
-                                                                    </div>
-                                                                ) : (
-                                                                    // <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    //     <button onClick={() => openAddCategory(data._id)} class="px-4 py-2 text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                    // </td>
-
-                                                                    <button onClick={openFoodCategory} class="px-4 py-2 ml-28 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                )}
-                                                            </div>
-                                                        </li>
-                                                    </div>
-                                                    <div className='py-4'>
-                                                        <li class="flex py-4 first:pt-0 last:pb-0">
-                                                            <img class="h-10 w-10 rounded-full" src="/pexels-edo.jpg" alt="" />
-                                                            <div class="ml-3 overflow-hidden">
-                                                                <p class="text-sm font-medium text-slate-900 pt-2">{service.stage_name}</p>
-                                                                {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
-                                                            </div>
-                                                            <div class="mx-auto">
-                                                                {openStageModal ? (
-                                                                    <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                        <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                            <div class="flex items-center justify-between">
-                                                                                <h3 class="text-2xl">Add Category</h3>
-                                                                                <svg onClick={closeStageModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                            </div>
-                                                                            <div class="mt-4">
-                                                                                {stage.map((data) => (
-                                                                                    <form onSubmit={submitService} class="">
-                                                                                        <div class="md:flex md:items-center mt-3 ">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[5rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 ml-4 mt-2 w-5  h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                            <div class="md:w-2/3">
-                                                                                                <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                    Add
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                ) : (
-                                                                    // <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    //     <button onClick={() => openAddCategory(data._id)} class="px-4 py-2 text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                    // </td>
-
-                                                                    <button onClick={openStageCategory} class="px-4 py-2 ml-28 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                )}
-                                                            </div>
-                                                        </li>
-                                                    </div>
-                                                    <div className='py-4'>
-                                                        <li class="flex py-4 first:pt-0 last:pb-0">
-                                                            <img class="h-10 w-10 rounded-full" src="/evnt3.jpeg" alt="" />
-                                                            <div class="ml-3 overflow-hidden">
-                                                                <p class="text-sm font-medium text-slate-900 pt-2">{service.decoration_name}</p>
-                                                                {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
-                                                            </div>
-                                                            <div class="mx-auto">
-                                                                {openDecorateModal ? (
-                                                                    <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                        <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                            <div class="flex items-center justify-between">
-                                                                                <h3 class="text-2xl">Add Category</h3>
-                                                                                <svg onClick={closeDecorateModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                            </div>
-                                                                            <div class="mt-4">
-                                                                                {decoration.map((data) => (
-                                                                                    <form onSubmit={submitService} class="">
-                                                                                        <div class="md:flex md:items-center mt-3 ">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-3 mt-2 w-5  h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[5rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                            <div class="md:w-2/3">
-                                                                                                <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                    Add
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                ) : (
-                                                                    // <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    //     <button onClick={() => openAddCategory(data._id)} class="px-4 py-2 text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                    // </td>
-
-                                                                    <button onClick={openDecorateCategory} class="px-4 py-2 ml-32 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                )}
-                                                            </div>
-                                                        </li>
-                                                    </div>
-                                                    <div className='py-4'>
-                                                        <li class="flex py-4 first:pt-0 last:pb-0">
-                                                            <img class="h-10 w-10 rounded-full" src="/stage1.png" alt="" />
-                                                            <div class="ml-3 overflow-hidden">
-                                                                <p class="text-sm font-medium text-slate-900 pt-2">{service.audio_name}</p>
-                                                                {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
-                                                            </div>
-                                                            <div class="mx-auto">
-                                                                {openAudioModal ? (
-                                                                    <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                        <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                            <div class="flex items-center justify-between">
-                                                                                <h3 class="text-2xl">Add Category</h3>
-                                                                                <svg onClick={closeAudioModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                            </div>
-                                                                            <div class="mt-4">
-                                                                                {audio.map((data) => (
-                                                                                    <form onSubmit={submitService} class="">
-                                                                                        <div class="md:flex md:items-center mt-3 ">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[3rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500  mt-2 w-5  h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[9rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                            <div class="md:w-2/3">
-                                                                                                <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                    Add
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                ) : (
-                                                                    // <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    //     <button onClick={() => openAddCategory(data._id)} class="px-4 py-2 text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                    // </td>
-
-                                                                    <button onClick={openAudioCategory} class="px-4 py-2 ml-40 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                )}
-                                                            </div>
-                                                        </li>
-                                                    </div>
-                                                    <div className='py-4'>
-                                                        <li class="flex py-4 first:pt-0 last:pb-0">
-                                                            <img class="h-10 w-10 rounded-full" src="/stage2.png" alt="" />
-                                                            <div class="ml-3 overflow-hidden">
-                                                                <p class="text-sm font-medium text-slate-900 pt-2">{service.video_name}</p>
-                                                                {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
-                                                            </div>
-                                                            <div class="mx-auto">
-                                                                {openVideoModal ? (
-                                                                    <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                        <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                            <div class="flex items-center justify-between">
-                                                                                <h3 class="text-2xl">Add Category</h3>
-                                                                                <svg onClick={closeVideoModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                                                    stroke="currentColor">
-                                                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                                        d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                </svg>
-                                                                            </div>
-                                                                            <div class="mt-4">
-                                                                                {video.map((data) => (
-                                                                                    <form onSubmit={submitService} class="">
-                                                                                        <div class="md:flex md:items-center mt-3 ">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[3rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5  h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center">
-                                                                                            <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[9rem]">
-                                                                                                    <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                    <div class="ml-3 overflow-hidden">
-                                                                                                        <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
-                                                                                                        {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
-                                                                                                    </div>
-                                                                                                    <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
-                                                                                                    />
-                                                                                                </li>
-                                                                                            </ul>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                        </div>
-                                                                                        <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
-                                                                                            <div class="md:w-1/3"></div>
-                                                                                            <div class="md:w-2/3">
-                                                                                                <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                    Add
-                                                                                                </button>
-                                                                                            </div>
-                                                                                        </div>
-                                                                                    </form>
-                                                                                ))}
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                ) : (
-                                                                    // <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    //     <button onClick={() => openAddCategory(data._id)} class="px-4 py-2 text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                    // </td>
-
-                                                                    <button onClick={openVideoCategory} class="px-4 py-2 ml-40 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                )}
-                                                            </div>
-                                                        </li>
-                                                    </div>
+                                                                    ) : (
+                                                                        <button onClick={openFoodCategory} class="px-4 py-2 lg:ml-28 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
+                                                                    )}
+                                                                </div> */}
+                                                                <button onClick={()=>removeCategory(service.catering_name)} class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded " type="button">Remove</button>
+                                                            </li>
+                                                        </div>
+                                                    }
+                                                    {service.stage_status == true &&
+                                                        <div className='py-4'>
+                                                            <li class="flex py-4 first:pt-0 last:pb-0 justify-between">
+                                                                <img class="h-10 w-10 rounded-full" src="/pexels-edo.jpg" alt="" />
+                                                                <div class="ml-3 overflow-hidden">
+                                                                    <p class="text-sm font-medium text-slate-900 pt-2">{service.stage_name}</p>
+                                                                    {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
+                                                                </div>
+                                                                <button onClick={()=>removeCategory(service.stage_name)} class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded " type="button">Remove</button>
+                                                            </li>
+                                                        </div>
+                                                    }
+                                                    {service.decoration_status == true &&
+                                                        <div className='py-4'>
+                                                            <li class="flex py-4 first:pt-0 last:pb-0 justify-between">
+                                                                <img class="h-10 w-10 rounded-full" src="/evnt3.jpeg" alt="" />
+                                                                <div class="ml-3 overflow-hidden">
+                                                                    <p class="text-sm font-medium text-slate-900 pt-2">{service.decoration_name}</p>
+                                                                    {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
+                                                                </div>
+                                                                <button onClick={()=>removeCategory(service.decoration_name)} class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded " type="button">Remove</button>
+                                                            </li>
+                                                        </div>
+                                                    }
+                                                    {service.photography_status == true &&
+                                                        <div className='py-4'>
+                                                            <li class="flex py-4 first:pt-0 last:pb-0 justify-between">
+                                                                <img class="h-10 w-10 rounded-full" src="/stage1.png" alt="" />
+                                                                <div class="ml-3 overflow-hidden">
+                                                                    <p class="text-sm font-medium text-slate-900 pt-2">{service.photography_name}</p>
+                                                                    {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
+                                                                </div>
+                                                                <button onClick={()=>removeCategory(service.photography_name)} class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded " type="button">Remove</button>
+                                                            </li>
+                                                        </div>
+                                                    }
+                                                    {service.vehicle_status == true &&
+                                                        <div className='py-4'>
+                                                            <li class="flex py-4 first:pt-0 last:pb-0 justify-between">
+                                                                <img class="h-10 w-10 rounded-full" src="/stage2.png" alt="" />
+                                                                <div class="ml-3 overflow-hidden">
+                                                                    <p class="text-sm font-medium text-slate-900 pt-2">{service.vehicle_name}</p>
+                                                                    {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
+                                                                </div>
+                                                                <button onClick={()=>removeCategory(service.vehicle_name)} class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded " type="button">Remove</button>
+                                                            </li>
+                                                        </div>
+                                                    }
                                                 </ul>
                                             </div>
                                             <body className='mt-[6rem] bg-cyan-300'>
@@ -718,6 +454,7 @@ function Services() {
                                                                     </tr>
                                                                 </thead>
                                                                 <tbody class="bg-slate-400 divide-y divide-gray-200">
+                                                                {service.catering_status == true &&
                                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
@@ -843,8 +580,8 @@ function Services() {
                                                                             </td>
                                                                         )}
                                                                     </tr>
-
-
+                                                                    }
+                                                                    {service.stage_status == true &&
                                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
@@ -957,6 +694,8 @@ function Services() {
                                                                             </td>
                                                                         )}
                                                                     </tr>
+                                                                    }
+                                                                    {service.decoration_status == true &&
                                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
@@ -1069,6 +808,8 @@ function Services() {
                                                                             </td>
                                                                         )}
                                                                     </tr>
+                                                                    }
+                                                                    {service.photography_status == true &&
                                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
@@ -1077,7 +818,7 @@ function Services() {
                                                                                 </div>
                                                                                 <div class="ml-4">
                                                                                     <div class="text-sm font-medium text-gray-900">
-                                                                                        {service.audio_name}
+                                                                                        {service.photography_name}
                                                                                     </div>
                                                                                     <div class="text-sm text-gray-500">
                                                                                         {/* {data.name} */}
@@ -1087,7 +828,7 @@ function Services() {
                                                                         </td>
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
-                                                                                {audio.map((data) => (
+                                                                                {photography.map((data) => (
                                                                                     <div class="">
                                                                                         <div class="text-sm font-medium text-gray-900 py-2">
                                                                                             {data.category_name[0]}
@@ -1101,24 +842,27 @@ function Services() {
                                                                                         <div class="text-sm font-medium text-gray-900 py-2">
                                                                                             {data.category_name[3]}
                                                                                         </div>
+                                                                                        <div class="text-sm font-medium text-gray-900 py-2">
+                                                                                            {data.category_name[4]}
+                                                                                        </div>
                                                                                     </div>
                                                                                 ))}
                                                                             </div>
                                                                         </td>
-                                                                        {editAudioModal ? (
+                                                                        {editphotographyModal ? (
 
                                                                             <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
                                                                                 <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
                                                                                     <div class="flex items-center justify-between">
                                                                                         <h3 class="text-2xl">Add Category</h3>
-                                                                                        <svg onClick={closeEditAudioModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                        <svg onClick={closeEditphotographyModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                                                                             stroke="currentColor">
                                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                                                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                         </svg>
                                                                                     </div>
                                                                                     <div class="mt-4">
-                                                                                        {audio.map((data) => (
+                                                                                        {photography.map((data) => (
                                                                                             <form onSubmit={submitService} class="">
                                                                                                 <div class="md:flex md:items-center mt-3 ">
                                                                                                     <ul role="list" class="p-6 divide-y divide-slate-800">
@@ -1177,10 +921,12 @@ function Services() {
                                                                             </div>
                                                                         ) : (
                                                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                                <button onClick={editAudioCategory} class="px-4 py-2 ml-5 text-white bg-blue-600 rounded " type="button">Edit</button>
+                                                                                <button onClick={editphotographyCategory} class="px-4 py-2 ml-5 text-white bg-blue-600 rounded " type="button">Edit</button>
                                                                             </td>
                                                                         )}
                                                                     </tr>
+                                                                    }
+                                                                    {service.vehicle_status == true &&
                                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
@@ -1189,7 +935,7 @@ function Services() {
                                                                                 </div>
                                                                                 <div class="ml-4">
                                                                                     <div class="text-sm font-medium text-gray-900">
-                                                                                        {service.video_name}
+                                                                                        {service.vehicle_name}
                                                                                     </div>
                                                                                     <div class="text-sm text-gray-500">
                                                                                         {/* {data.name} */}
@@ -1199,38 +945,38 @@ function Services() {
                                                                         </td>
                                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                                             <div class="flex items-center">
-                                                                                {video.map((data) => (
-                                                                                    <div class="">
-                                                                                        <div class="text-sm font-medium text-gray-900 py-2">
-                                                                                            {data.category_name[0]}
-                                                                                        </div>
-                                                                                        <div class="text-sm font-medium text-gray-900 py-2">
-                                                                                            {data.category_name[1]}
-                                                                                        </div>
-                                                                                        <div class="text-sm font-medium text-gray-900 py-2">
-                                                                                            {data.category_name[2]}
-                                                                                        </div>
-                                                                                        <div class="text-sm font-medium text-gray-900 py-2">
-                                                                                            {data.category_name[3]}
-                                                                                        </div>
+                                                                                {vehicles.map((data) => (
+                                                                                <div class="">
+                                                                                    <div class="text-sm font-medium text-gray-900 py-2">
+                                                                                        {data.category_name[0]}
                                                                                     </div>
+                                                                                    <div class="text-sm font-medium text-gray-900 py-2">
+                                                                                        {data.category_name[1]}
+                                                                                    </div>
+                                                                                    <div class="text-sm font-medium text-gray-900 py-2">
+                                                                                        {data.category_name[2]}
+                                                                                    </div>
+                                                                                    <div class="text-sm font-medium text-gray-900 py-2">
+                                                                                        {data.category_name[3]}
+                                                                                    </div>
+                                                                                </div>
                                                                                 ))}
                                                                             </div>
                                                                         </td>
-                                                                        {editVideoModal ? (
+                                                                        {editvehiclesModal ? (
 
                                                                             <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
                                                                                 <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
                                                                                     <div class="flex items-center justify-between">
                                                                                         <h3 class="text-2xl">Add Category</h3>
-                                                                                        <svg onClick={closeEditVideoModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                        <svg onClick={closeEditvehiclesModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                                                                             stroke="currentColor">
                                                                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                                                 d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                                                         </svg>
                                                                                     </div>
                                                                                     <div class="mt-4">
-                                                                                        {video.map((data) => (
+                                                                                        {vehicles.map((data) => (
                                                                                             <form onSubmit={submitService} class="">
                                                                                                 <div class="md:flex md:items-center mt-3 ">
                                                                                                     <ul role="list" class="p-6 divide-y divide-slate-800">
@@ -1278,7 +1024,7 @@ function Services() {
                                                                                                     <div class="md:w-1/3"></div>
                                                                                                     <div class="md:w-2/3">
                                                                                                         <button class="shadow bg-red-500 hover:bg-red-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                           Remove
+                                                                                                            Remove
                                                                                                         </button>
                                                                                                     </div>
                                                                                                 </div>
@@ -1289,10 +1035,11 @@ function Services() {
                                                                             </div>
                                                                         ) : (
                                                                             <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                                <button onClick={editVideoCategory} class="px-4 py-2 ml-5 text-white bg-blue-600 rounded " type="button">Edit</button>
+                                                                                <button onClick={editvehiclesCategory} class="px-4 py-2 ml-5 text-white bg-blue-600 rounded " type="button">Edit</button>
                                                                             </td>
                                                                         )}
                                                                     </tr>
+                                                                    }
                                                                 </tbody>
                                                             </table>
                                                         </div>

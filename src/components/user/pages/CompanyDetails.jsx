@@ -50,7 +50,8 @@ function CompanyDetails() {
             <div className='mt-16' style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
                 <div className="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
                     <div className='flex flex-row justify-between w-full department-head mb-8'>
-                        <h1 className='text-leftfont-normal font-serif pt-3 text-2xl'>{companyDetails.company_name}</h1>
+                        <img width='50px' height='10px' src={companyDetails.company_logo} alt="" />
+                        <h1 className='text-center font-normal font-serif pt-3 md:pl-14 text-2xl'>{companyDetails.company_name}</h1>
                         <button onClick={selectService} className='text-right inline-flex items-center px-6 py-3 border border-transparent rounded-md shadow-sm text-base font-medium bg-green-400 hover:bg-green-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-base'>Select</button>
                     </div>
                     <div className="max-w-7xl mx-auto">
@@ -58,7 +59,7 @@ function CompanyDetails() {
                             {/* <h2 className='ml-6 font-normal font-serif italic pt-3 text-2xl'>{companyDetails.company_name}</h2> */}
                             <div className="px-4 py-5 sm:px-6 text-center">
                                 <div className='flex content-center items-center justify-center'>
-                                    <img className='' src={companyDetails.upload_photo} alt="Image not found" />
+                                    <img className='' src={companyDetails.manager_image} alt="Image not found" />
                                 </div>
                                 <h1 className="text-2xl font-medium text-gray-900">
                                     {companyDetails.name}
@@ -204,7 +205,7 @@ function CompanyDetails() {
                                                                 4.
                                                                 <div class="ml-4">
                                                                     <div class="text-sm font-medium text-gray-900">
-                                                                        {serviceDetails?.audio_name}
+                                                                        {serviceDetails?.photography_name}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -221,7 +222,7 @@ function CompanyDetails() {
                                                                 5.
                                                                 <div class="ml-4">
                                                                     <div class="text-sm font-medium text-gray-900">
-                                                                        {serviceDetails?.video_name}
+                                                                        {serviceDetails?.vehicle_name}
                                                                     </div>
                                                                 </div>
                                                             </div>

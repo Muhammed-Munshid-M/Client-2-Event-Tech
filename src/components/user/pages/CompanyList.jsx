@@ -112,6 +112,7 @@ const ExpandMore = styled((props) => {
 export default function CompanyList() {
     const [expanded, setExpanded] = React.useState([]);
     const [manager, setManager] = React.useState([])
+    const [details, setDetails] = React.useState(false)
 
     const dispatch = useDispatch(setCompany)
     const navigate = useNavigate()
@@ -128,6 +129,14 @@ export default function CompanyList() {
             dispatch(setCompany({ managerDetails }))
             navigate('/company-details')
         })
+    }
+
+    const viewCompany = () => {
+        setDetails(true)
+    }
+
+    const closeModal = () => {
+        setDetails(false)
     }
 
     React.useEffect(() => {
@@ -175,33 +184,56 @@ export default function CompanyList() {
                     </div>
                     <div className='grid md:grid-cols-3'>
                         {manager.map((data, index) => (
-                            <Card key={index} sx={{ maxWidth: 300, backgroundColor: 'lightskyblue', marginTop: 6, mx: 3 }}>
+                            <Card key={index} sx={{ maxWidth: 300, backgroundColor: 'lightskyblue', marginTop: 6, pt: 1, mx: 3 }}>
                                 <CardMedia
                                     component="img"
                                     height="10"
                                     sx={{ borderRadius: '50%', maxWidth: 180, mx: 'auto', display: 'block' }}
-                                    image="/catering.png"
+                                    image={data.company_logo}
                                     alt="catering icon"
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="text.secondary" sx={{ textTransform: 'uppercase', textAlign: 'center', fontFamily: 'initial', fontSize: '18px', fontWeight: 'bold' }}>
                                         {data.company_name}
                                     </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontFamily: 'initial', fontSize: '18px', fontWeight: 'semibold' }}>
+                                        {data.place}, {data.district}
+                                    </Typography>
+                                    <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontFamily: 'initial', fontSize: '18px', fontWeight: 'semibold' }}>
+                                        {data.state}
+                                    </Typography>
+                                    {/* <div className='flex content-center items-center justify-center'>
+                                        {details ? (
+                                            <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10 ml-44">
+                                                <div class="max-w-xl p-6 bg-white divide-y divide-gray-500">
+                                                    <div class="flex items-center justify-between">
+                                                        <h3 class="text-2xl">View Details</h3>
+                                                        <svg onClick={closeModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                            stroke="currentColor">
+                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                        </svg>
+                                                    </div>
+                                                    <div class="mt-4">
+                                            
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <Button onClick={viewCompany} sx={{ mx: 12, mt: 2, backgroundColor: 'green' }} variant="contained">
+                                                <RemoveRedEyeIcon />
+                                            </Button>
+                                        )}
+                                    </div> */}
 
-                                    <Button onClick={()=> selectCompany(data._id) } sx={{ mx: 11, mt: 2 }} variant="contained">
+                                    <Button onClick={() => selectCompany(data._id)} sx={{ mx: 11, mt: 2 }} variant="contained">
                                         Select
                                     </Button>
                                 </CardContent>
-                                <CardActions disableSpacing>
-                                    {/* <IconButton aria-label="to see details">
-                                        <RemoveRedEyeIcon />
-                                    </IconButton>
-                                    <IconButton aria-label="share">
-                                        <ShareIcon />
-                                    </IconButton> */}
+                                {/* <CardActions disableSpacing>
                                     <ExpandMore
                                         expand={expanded[index]}
-                                        onClick={()=> handleExpandClick(index)}
+                                        onClick={() => handleExpandClick(index)}
                                         aria-expanded={expanded[index]}
                                         aria-label="show more"
                                     >
@@ -222,7 +254,7 @@ export default function CompanyList() {
                                             Set aside off of the heat to let rest for 10 minutes, and then serve.
                                         </Typography>
                                     </CardContent>
-                                </Collapse>
+                                </Collapse> */}
                             </Card>
                         ))}
                     </div>

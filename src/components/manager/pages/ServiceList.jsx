@@ -9,11 +9,11 @@ function ServiceList() {
     const [foodChecked, setFoodChecked] = useState(false);
     const [stageChecked, setStageChecked] = useState(false);
     const [decorateChecked, setDecorateChecked] = useState(false);
-    const [audioChecked, setAudioChecked] = useState(false);
-    const [videoChecked, setVideoChecked] = useState(false);
+    const [photographyChecked, setPhotographyChecked] = useState(false);
+    const [vehicleChecked, setVehicleChecked] = useState(false);
 
     const navigate = useNavigate()
-    const serviceData = { foodChecked, stageChecked, decorateChecked, audioChecked,videoChecked }
+    const serviceData = { foodChecked, stageChecked, decorateChecked, photographyChecked,vehicleChecked }
     console.log(serviceData);
     const selectService = async () => {
         try {
@@ -96,11 +96,11 @@ function ServiceList() {
                                     <li class="flex py-4 first:pt-0 last:pb-0">
                                         <img class="h-10 w-10 rounded-full" src="/stage1.png" alt="" />
                                         <div class="ml-3 overflow-hidden">
-                                            <p class="text-sm font-medium text-slate-900 pt-2">Audio Menu</p>
+                                            <p class="text-sm font-medium text-slate-900 pt-2">Photography</p>
                                             {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                         </div>
-                                        <input type="checkbox" class="checked:bg-blue-400 mt-2 w-5 ml-48 h-5"
-                                          checked={audioChecked} onChange={() => setAudioChecked(!audioChecked)} />
+                                        <input type="checkbox" class="checked:bg-blue-400 mt-2 w-5 ml-44 h-5"
+                                          checked={photographyChecked} onChange={() => setPhotographyChecked(!photographyChecked)} />
                                     </li>
                                 </ul>
                             </div>
@@ -109,11 +109,11 @@ function ServiceList() {
                                     <li class="flex py-4 first:pt-0 last:pb-0">
                                         <img class="h-10 w-10 rounded-full" src="/stage2.png" alt="" />
                                         <div class="ml-3 overflow-hidden">
-                                            <p class="text-sm font-medium text-slate-900 pt-2">Video Menu</p>
+                                            <p class="text-sm font-medium text-slate-900 pt-2">Luxury Vehicles</p>
                                             {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                         </div>
-                                        <input type="checkbox" class="checked:bg-blue-400 mt-2 w-5 ml-48 h-5"
-                                        checked={videoChecked} onChange={() => setVideoChecked(!videoChecked)} />
+                                        <input type="checkbox" class="checked:bg-blue-400 mt-2 w-5 ml-40 h-5"
+                                        checked={vehicleChecked} onChange={() => setVehicleChecked(!vehicleChecked)} />
                                     </li>
                                 </ul>
                             </div>
