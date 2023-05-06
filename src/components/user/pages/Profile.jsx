@@ -93,7 +93,8 @@ function Profile() {
 
     return (
         <div className='mt-16 pb-16' style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
-            <Navbar />
+            
+            <Navbar profileImage = {userDetails}/>
             <div className="max-w-full mx-auto py-12 sm:px-6 lg:px-8">
                 <div className=' sm:py-5 sm:grid sm:grid-cols-2 sm:gap-20 sm:px-96'>
                     {modal ? (

@@ -6,22 +6,36 @@ import Swal from 'sweetalert2'
 import Layout from '../Layout'
 function Services() {
     const [loading, setLoading] = useState(true)
-    const [openFoodModal, setOpenFoodModal] = useState(false)
-    const [openStageModal, setOpenStageModal] = useState(false)
-    const [openDecorateModal, setOpenDecorateModal] = useState(false)
-    const [openPhotographyModal, setOpenPhotographyModal] = useState(false)
-    const [openvehiclesModal, setOpenvehiclesModal] = useState(false)
-    const [editFoodModal, setEditFoodModal] = useState(false)
-    const [editStageModal, setEditStageModal] = useState(false)
-    const [editDecorateModal, setEditDecorateModal] = useState(false)
-    const [editphotographyModal, setEditphotographyModal] = useState(false)
-    const [editvehiclesModal, setEditvehiclesModal] = useState(false)
     const [service, setService] = useState([])
     const [catering, setCatering] = useState([])
     const [stage, setStage] = useState([])
     const [decoration, setDecoration] = useState([])
     const [photography, setPhotography] = useState([])
     const [vehicles, setvehicles] = useState([])
+    const [editFoodModal, setEditFoodModal] = useState(false)
+    const [editStageModal, setEditStageModal] = useState(false)
+    const [editDecorateModal, setEditDecorateModal] = useState(false)
+    const [editphotographyModal, setEditphotographyModal] = useState(false)
+    const [editvehiclesModal, setEditvehiclesModal] = useState(false)
+    const [starters, setStarters] = useState(false)
+    const [main, setMain] = useState(false)
+    const [desserts, setDesserts] = useState(false)
+    const [salads, setSalads] = useState(false)
+    const [stagePhoto, setStagePhoto] = useState(false)
+    const [stageBudget, setStageBudget] = useState(false)
+    const [stageSize, setStageSize] = useState(false)
+    const [decoratePhoto, setDecoratePhoto] = useState(false)
+    const [includePhotos, setIncludePhotos] = useState(false)
+    const [decorationBudget, setDecorationBudget] = useState(false)
+    const [recentPhotos, setRecentPhotos] = useState(false)
+    const [shopName, setShopName] = useState(false)
+    const [mobile, setMobile] = useState(false)
+    const [address, setAddress] = useState(false)
+    const [budget, setBudget] = useState(false)
+    const [vehicle, setVehicle] = useState(false)
+    const [ownerName, setOwnerName] = useState(false)
+    const [mobileNumber, setMobileNumber] = useState(false)
+    const [rentPrice, setRentPrice] = useState(false)
 
 
     useEffect(() => {
@@ -29,18 +43,6 @@ function Services() {
             setLoading(false)
         }, 1000);
     }, [])
-
-    const openFoodCategory = async () => {
-        setOpenFoodModal(true)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    const closeFoodModal = async () => {
-        setOpenFoodModal(false)
-    }
 
     const removeCategory = (name) => {
         console.log('name',name);
@@ -80,54 +82,9 @@ function Services() {
         })
     }
 
-    const openStageCategory = async () => {
-        setOpenStageModal(true)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
+    const submitService = () => {
 
-    const closeStageModal = async () => {
-        setOpenStageModal(false)
     }
-
-    const openDecorateCategory = async () => {
-        setOpenDecorateModal(true)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    const closeDecorateModal = async () => {
-        setOpenDecorateModal(false)
-    }
-
-    const openPhotographyCategory = async () => {
-        setOpenPhotographyModal(true)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    const closePhotographyModal = async () => {
-        setOpenPhotographyModal(false)
-    }
-
-    const openvehiclesCategory = async () => {
-        setOpenvehiclesModal(true)
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    }
-
-    const closevehiclesModal = async () => {
-        setOpenvehiclesModal(false)
-    }
-
 
 
     const editFoodCategory = async () => {
@@ -191,48 +148,6 @@ function Services() {
         setEditvehiclesModal(false)
     }
 
-    const submitCategory = async () => {
-        try {
-            setModal(false)
-            const token = localStorage.getItem('manager-token')
-            await axios.post(`${managerUrl}add-services`, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            })
-                .then((response) => {
-                    if (response.data.success) {
-                        toast.success(response.data.message)
-                    } else {
-                        toast.error('Something error')
-                    }
-                })
-        } catch (error) {
-            console.log(error);
-        }
-    }
-
-    const submitService = async () => {
-        //     try {
-        //     setModal(false)
-        //     const token = localStorage.getItem('manager-token')
-        //     await axios.post(`${managerUrl}add-services`, formData, {
-        //         headers: {
-        //             Authorization: `Bearer ${token}`
-        //         }
-        //     })
-        //         .then((response) => {
-        //             if (response.data.success) {
-        //                 toast.success(response.data.message)
-        //             } else {
-        //                 toast.error('Something error')
-        //             }
-        //         })
-        //     } catch (error) {
-        //         console.log(error);
-        //     }
-    }
-
     useEffect(() => {
         const Services = async () => {
             try {
@@ -275,14 +190,8 @@ function Services() {
                         <div>Please wait...</div>
                     ) : (
                         <>
-                            {/* {showDetails ? ( */}
                             <div className='mt-[7rem]'>
                                 <body class="">
-                                    {/* <header class="bg-gray-800 text-white py-4">
-                                            <div class="container mx-auto px-4">
-                                                <h1 class="text-2xl font-bold">Details Page</h1>
-                                            </div>
-                                        </header> */}
                                     <main class="container mx-auto mt-8 px-4">
                                         <section class="bg-cyan-300 shadow-lg rounded-lg p-8">
                                             <h2 class="text-xl font-normal mb-6 text-center font-serif">Your Selected Services</h2>
@@ -515,7 +424,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={starters} onChange={() => setStarters(!starters)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -528,7 +437,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5  h-5"
-                                                                                                            />
+                                                                                                            checked={main} onChange={() => setMain(!main)}  />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -541,7 +450,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={desserts} onChange={() => setDesserts(!desserts)}  />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -554,7 +463,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 sm:ml-4 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={salads} onChange={() => setSalads(!salads)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -564,7 +473,7 @@ function Services() {
                                                                                                 <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
                                                                                                     <div class="md:w-1/3"></div>
                                                                                                     <div class="md:w-2/3">
-                                                                                                        <button class="shadow bg-red-500 hover:bg-red-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                                                                                                        <button onClick={()=> removeCategory()} class="shadow bg-red-500 hover:bg-red-600 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
                                                                                                             Remove
                                                                                                         </button>
                                                                                                     </div>
@@ -642,7 +551,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={stagePhoto} onChange={() => setStagePhoto(!stagePhoto)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -655,7 +564,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 ml-4 mt-2 w-5  h-5"
-                                                                                                            />
+                                                                                                            checked={stageBudget} onChange={() => setStageBudget(!stageBudget)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -668,7 +577,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={stageSize} onChange={() => setStageSize(!stageSize)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -756,7 +665,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={decoratePhoto} onChange={() => setDecoratePhoto(!decoratePhoto)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -769,7 +678,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-3 mt-2 w-5  h-5"
-                                                                                                            />
+                                                                                                            checked={includePhotos} onChange={() => setIncludePhotos(!includePhotos)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -782,7 +691,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={decorationBudget} onChange={() => setDecorationBudget(!decorationBudget)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -852,8 +761,8 @@ function Services() {
                                                                         {editphotographyModal ? (
 
                                                                             <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                                <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                                    <div class="flex items-center justify-between">
+                                                                                <div class="max-w-full p-6 bg-white divide-y divide-gray-500 md:mt-16 mt-28">
+                                                                                    <div class="flex justify-between md:px-24">
                                                                                         <h3 class="text-2xl">Add Category</h3>
                                                                                         <svg onClick={closeEditphotographyModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                                                                             stroke="currentColor">
@@ -864,42 +773,68 @@ function Services() {
                                                                                     <div class="mt-4">
                                                                                         {photography.map((data) => (
                                                                                             <form onSubmit={submitService} class="">
-                                                                                                <div class="md:flex md:items-center mt-3 ">
+                                                                                                <div class="mt-3 ">
                                                                                                     <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                        <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[3rem]">
+                                                                                                        <li class="flex  first:pt-0 last:pb-0 justify-between">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
                                                                                                                 <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={recentPhotos} onChange={() => setRecentPhotos(!recentPhotos)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
-                                                                                                <div class="md:flex md:items-center">
+                                                                                                <div class="">
                                                                                                     <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                        <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
+                                                                                                        <li class="flex  first:pt-0 last:pb-0  justify-between">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
                                                                                                                 <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500  mt-2 w-5  h-5"
-                                                                                                            />
+                                                                                                            checked={shopName} onChange={() => setShopName(!shopName)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
-                                                                                                <div class="md:flex md:items-center">
+                                                                                                <div class="">
                                                                                                     <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                        <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[9rem]">
+                                                                                                        <li class="flex  first:pt-0 last:pb-0 justify-between">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
                                                                                                                 <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={mobile} onChange={() => setMobile(!mobile)} />
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                <div class="">
+                                                                                                    <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                        <li class="flex  first:pt-0 last:pb-0 justify-between">
+                                                                                                            <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                            <div class="ml-3 overflow-hidden">
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[3]}</p>
+                                                                                                                {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
+                                                                                                            </div>
+                                                                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
+                                                                                                            checked={address} onChange={() => setAddress(!address)} />
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                <div class="">
+                                                                                                    <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                        <li class="flex  first:pt-0 last:pb-0 justify-between">
+                                                                                                            <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                            <div class="ml-3 overflow-hidden">
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[4]}</p>
+                                                                                                                {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
+                                                                                                            </div>
+                                                                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
+                                                                                                            checked={budget} onChange={() => setBudget(!budget)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -987,7 +922,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={vehicle} onChange={() => setVehicle(!vehicle)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -1000,7 +935,7 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5  h-5"
-                                                                                                            />
+                                                                                                            checked={ownerName} onChange={() => setOwnerName(!ownerName)} />
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>
@@ -1013,7 +948,20 @@ function Services() {
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
-                                                                                                            />
+                                                                                                            checked={mobileNumber} onChange={() => setMobileNumber(!mobileNumber)}/>
+                                                                                                        </li>
+                                                                                                    </ul>
+                                                                                                </div>
+                                                                                                <div class="md:flex md:items-center">
+                                                                                                    <ul role="list" class="p-6 divide-y divide-slate-800">
+                                                                                                        <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[9rem]">
+                                                                                                            <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                                                                                                            <div class="ml-3 overflow-hidden">
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[3]}</p>
+                                                                                                                {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
+                                                                                                            </div>
+                                                                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-1 mt-2 w-5 h-5"
+                                                                                                            checked={rentPrice} onChange={() => setRentPrice(!rentPrice)}/>
                                                                                                         </li>
                                                                                                     </ul>
                                                                                                 </div>

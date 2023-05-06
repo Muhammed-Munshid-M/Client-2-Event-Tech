@@ -20,7 +20,9 @@ import { Link, useNavigate } from 'react-router-dom';
 const pages = [''];
 const settings = [{ label: 'Profile', path: '/profile' }, { label: 'Logout', path: '/' }];
 
-function Navbar() {
+function Navbar(userDetails) {
+  const profilePhoto = userDetails.profileImage
+  console.log('profile:',profilePhoto);
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -172,8 +174,8 @@ function Navbar() {
               <MenuItem onClick={handleClose}>Catering service</MenuItem>
               <MenuItem onClick={handleClose}>Stage service</MenuItem>
               <MenuItem onClick={handleClose}>Decoraion Service</MenuItem>
-              <MenuItem onClick={handleClose}>Audio Service</MenuItem>
-              <MenuItem onClick={handleClose}>Video Service</MenuItem>
+              <MenuItem onClick={handleClose}>Photography Service</MenuItem>
+              <MenuItem onClick={handleClose}>Luxury Vehicle Service</MenuItem>
             </Menu>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (

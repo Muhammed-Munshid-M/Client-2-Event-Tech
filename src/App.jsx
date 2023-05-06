@@ -25,7 +25,6 @@ import Services from './components/manager/pages/Services';
 import CompanyList from './components/user/pages/CompanyList';
 import UserProtectedRoute from './components/user/UserProtectedRoute';
 import MenuList from './components/manager/pages/MenuList';
-import SelectService from './components/user/pages/SelectService';
 import CompanyDetails from './components/user/pages/CompanyDetails';
 import ManagerProfile from './components/manager/pages/ManagerProfile';
 import Profile from './components/user/pages/Profile';
@@ -33,6 +32,8 @@ import ServiceList from './components/manager/pages/ServiceList';
 import CartList from './components/user/pages/CartList';
 import Checkout from './components/user/pages/Checkout';
 import CheckoutPage from './components/user/pages/CheckoutPage';
+import UserMenuList from './components/user/pages/UserMenuList';
+import SelectService from './components/user/pages/SelectService';
 
 function App() {
 
@@ -81,6 +82,11 @@ function App() {
           <Route path='/select-service' element={
             <UserProtectedRoute>
               <SelectService />
+            </UserProtectedRoute>
+          } />
+          <Route path='/select-menu-list' element={
+            <UserProtectedRoute>
+              <UserMenuList />
             </UserProtectedRoute>
           } />
           <Route path='/cart-list' element={

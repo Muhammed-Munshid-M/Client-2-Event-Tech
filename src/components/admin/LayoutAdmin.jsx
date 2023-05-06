@@ -1,9 +1,3 @@
-
-// <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/dashboard'>Dashboard</Link></li>
-// <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/users'>Users</Link></li>
-// <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/managers'>Managers</Link></li>
-// <li class="py-2 px-8 hover:bg-gray-700 cursor-pointer"><Link to='/admin/companies'>Approval List</Link></li>
-
 import * as React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { styled, useTheme } from '@mui/material/styles';
@@ -22,14 +16,13 @@ import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon from '@mui/material/ListItemIcon';
-// import ListItemmenu from '@mui/material/ListItemmenu';
-// import InboxIcon from '@mui/icons-material/MoveToInbox';
-// import MailIcon from '@mui/icons-material/Mail';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import EditCalendarIcon from '@mui/icons-material/EditCalendar';
-import ListAltIcon from '@mui/icons-material/ListAlt';
-import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
+import GroupIcon from '@mui/icons-material/Group';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ApprovalIcon from '@mui/icons-material/Approval';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Link, ListItemText } from '@mui/material';
 
@@ -208,7 +201,11 @@ export default function Layout({ children }) {
                         <ListItem key={index} disablePadding>
                             <ListItemButton component={Link} to={menu.path}>
                                 <ListItemIcon>
-                                    {menu.name == 'Dashboard' ? <DashboardIcon /> : <EditCalendarIcon />}
+                                    {menu.name == 'Dashboard' && <DashboardIcon />}
+                                    {menu.name == 'Users' && <GroupIcon />}
+                                    {menu.name == 'Managers' && <ManageAccountsIcon />}
+                                    {menu.name == 'Approval List' && <ApprovalIcon />}
+                                    {menu.name == 'Sales Report' && <AssessmentIcon />}
                                 </ListItemIcon>
                                 <ListItemText className='text-xl text-black font-normal underline-offset-0' primary={menu.name} />
                             </ListItemButton>
@@ -239,7 +236,11 @@ export default function Layout({ children }) {
                                 <ListItem key={index} disablePadding>
                                     <ListItemButton component={Link} to={menu.path}>
                                         <ListItemIcon>
-                                            {menu.name == 'Dashboard' ? <DashboardIcon /> : <EditCalendarIcon />}
+                                            {menu.name == 'Dashboard' && <DashboardIcon />}
+                                            {menu.name == 'Users' && <GroupIcon />}
+                                            {menu.name == 'Managers' && <ManageAccountsIcon />}
+                                            {menu.name == 'Approval List' && <ApprovalIcon />}
+                                            {menu.name == 'Sales Report' && <AssessmentIcon />}
                                         </ListItemIcon>
                                         <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
                                     </ListItemButton>
