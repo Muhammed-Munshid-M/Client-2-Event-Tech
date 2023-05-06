@@ -26,9 +26,15 @@ function MenuList() {
   const [cateringMenu, setCateringMenu] = useState([])
   const [stageData, setStageData] = useState([])
   const [stageDataMenu, setStageDataMenu] = useState([])
-  const [stagePhoto, setStagePhoto ] = useState()
-  const [stageBudget, setBudget] = useState('')
+  const [decorateData, setDecorateData] = useState([])
+  const [decorateDataMenu, setDecorateDataMenu] = useState([])
+  const [stagePhoto, setStagePhoto] = useState()
+  const [stageBudget, setStageBudget] = useState('')
   const [stageSize, setStageSize] = useState('')
+  const [budget,setBudget] = useState('')
+  const [decoratePhoto, setDecoratePhoto] = useState()
+  const [includingPhotos, setIncludingPhotos] = useState()
+  
 
   const cateringData = { starterName, starterPrice, mainName, mainPrice, dessertsName, dessertsPrice, saladsName, saladsPrice }
   const stageDatas = { stageBudget, stageSize }
@@ -69,7 +75,7 @@ function MenuList() {
     setDecoration(false)
   }
 
-    const openPhotography = async () => {
+  const openPhotography = async () => {
     setPhotography(true)
     window.scrollTo({
       top: 0,
@@ -81,12 +87,12 @@ function MenuList() {
     setPhotography(false)
   }
 
-    const openVehicles = async () => {
-      setVehicles(true)
-      window.scrollTo({
-        top: 0,
-        behavior: "smooth"
-      });
+  const openVehicles = async () => {
+    setVehicles(true)
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
+    });
   }
 
   const closeVehicles = async () => {
@@ -98,8 +104,6 @@ function MenuList() {
   const submitCatering = async () => {
     try {
       setModal(false)
-      // window.location.reload()
-
       const uploadImage = async (image, name) => {
         const data = new FormData();
         data.append("file", image);
@@ -110,14 +114,14 @@ function MenuList() {
 
 
       await Promise.all([uploadImage(starterImage, "starterImage"), uploadImage(mainImage, "mainImage"),
-       uploadImage(dessertsImage, "dessertsImage"),uploadImage(saladsImage, "saladsImage")]).then(async(response) => {
-        console.log('response image',response)
+      uploadImage(dessertsImage, "dessertsImage"), uploadImage(saladsImage, "saladsImage")]).then(async (response) => {
+        console.log('response image', response)
         const imageUpload1 = response[0]
         const imageUpload2 = response[1]
         const imageUpload3 = response[2]
         const imageUpload4 = response[3]
-        const managerData = {cateringData, imageUpload1, imageUpload2, imageUpload3, imageUpload4 }
-        console.log('managerdaaarttaaaaaa:'+imageUpload1);
+        const managerData = { cateringData, imageUpload1, imageUpload2, imageUpload3, imageUpload4 }
+        console.log('managerdaaarttaaaaaa:' + imageUpload1);
         const token = localStorage.getItem('manager-token')
         await axios.post(`${managerUrl}add-catering`, managerData, {
           headers: {
@@ -132,27 +136,28 @@ function MenuList() {
                 icon: 'success',
                 title: 'Catering Menu Added',
                 showConfirmButton: true
+              }).then(() => {
+                window.location.reload()
               })
             } else {
               toast.error('something error')
-              navigate('/add-event')
             }
           })
           .catch((err) => {
             console.log(err);
           })
-        })
+      })
     } catch (error) {
       console.log(error)
       toast.error('something error')
     }
   }
 
-  // Submit Stage
+  // Submit Decorate
 
-  const submitStage = async () => {
+  const submitDecorate = async () => {
     try {
-      setStage(false)
+      setDecoration(false)
       // window.location.reload()
 
       const uploadImage = async (image, name) => {
@@ -164,11 +169,11 @@ function MenuList() {
       };
 
 
-      await Promise.all([uploadImage(stagePhoto, "stagePhoto")]).then(async(response) => {
-        console.log('response image',response)
+      await Promise.all([uploadImage(stagePhoto, "stagePhoto")]).then(async (response) => {
+        console.log('response image', response)
         const imageUpload1 = response[0]
-        const managerData = {stageData, imageUpload1 }
-        console.log('managerdaaarttaaaaaa:'+imageUpload1);
+        const managerData = { stageDatas, imageUpload1 }
+        console.log('managerdaaarttaaaaaa:' + managerData.stageDatas.stageBudget);
         const token = localStorage.getItem('manager-token')
         await axios.post(`${managerUrl}add-stage`, managerData, {
           headers: {
@@ -183,21 +188,74 @@ function MenuList() {
                 icon: 'success',
                 title: 'Stage Menu Added',
                 showConfirmButton: true
+              }).then(() => {
+                window.location.reload()
               })
             } else {
               toast.error('something error')
-              navigate('/add-event')
             }
           })
           .catch((err) => {
             console.log(err);
           })
-        })
+      })
     } catch (error) {
       console.log(error)
       toast.error('something error')
     }
   }
+
+    // Submit Stage
+
+    const submitStage = async () => {
+      try {
+        setStage(false)
+        // window.location.reload()
+  
+        const uploadImage = async (image, name) => {
+          const data = new FormData();
+          data.append("file", image);
+          data.append("upload_preset", "Event_Tech");
+          const response = await axios.post("https://api.cloudinary.com/v1_1/dnrcd8rxl/image/upload", data);
+          return response.data.url
+        };
+  
+  
+        await Promise.all([uploadImage(stagePhoto, "stagePhoto")]).then(async (response) => {
+          console.log('response image', response)
+          const imageUpload1 = response[0]
+          const managerData = { stageDatas, imageUpload1 }
+          console.log('managerdaaarttaaaaaa:' + managerData.stageDatas.stageBudget);
+          const token = localStorage.getItem('manager-token')
+          await axios.post(`${managerUrl}add-stage`, managerData, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
+            .then((response) => {
+              console.log('Hi');
+              if (response.data.success) {
+                Swal.fire({
+                  position: 'center',
+                  icon: 'success',
+                  title: 'Stage Menu Added',
+                  showConfirmButton: true
+                }).then(() => {
+                  window.location.reload()
+                })
+              } else {
+                toast.error('something error')
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            })
+        })
+      } catch (error) {
+        console.log(error)
+        toast.error('something error')
+      }
+    }
 
   useEffect(() => {
     const MenuList = async () => {
@@ -266,12 +324,6 @@ function MenuList() {
                       <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.salad_name}</dd>
                     </div>
                   ))}
-                  {/* {cateringMenu.map((data) => (
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
-                  ))}
-                  {cateringMenu.map((data) => (
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.salad_name}</dd>
-                  ))} */}
                 </dl>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
@@ -510,29 +562,23 @@ function MenuList() {
             <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
               <div className="px-4 py-5 sm:px-6">
                 <h1 className="text-2xl font-medium text-gray-900">
-                  {/* {managerDetails?.name} */}
                   Stage Menu
                 </h1>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  {/* {managerDetails?.email} */}
-                </p>
               </div>
               <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
                 <dl className="sm:divide-y sm:divide-gray-200">
                   <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                  {stageData.map((data) => (
-                    <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                    {stageData.map((data) => (
+                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
                     ))}
-                    {/* <dt className="text-sm font-medium text-gray-500">Stage Budget</dt>
-                    <dt className="text-sm font-medium text-gray-500">Stage Size</dt> */}
                   </div>
-                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">fdkh
-                    </dd>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0">
-                      {/* {managerDetails?.company_name} */}hgd
-                    </dd>
-                  </div>
+                  {stageDataMenu.map((data) => (
+                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <img width='230px' src={data.stage_photo} className="mt-1 text-sm text-gray-900 sm:mt-0 " />
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                    </div>
+                  ))}
                 </dl>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
@@ -557,7 +603,7 @@ function MenuList() {
                             </div>
                             <div class="md:w-2/3">
                               <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="file" accept='image/*'
-                              onChange={(e) => setStagePhoto(e.target.files[0])} />
+                                onChange={(e) => setStagePhoto(e.target.files[0])} />
                             </div>
                           </div>
                           <div class="md:flex md:items-center mb-6">
@@ -568,7 +614,7 @@ function MenuList() {
                             </div>
                             <div class="md:w-2/3">
                               <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="number" placeholder='Price' value={stageBudget}
-                               onChange={(e) => setBudget(e.target.value)} />
+                                onChange={(e) => setStageBudget(e.target.value)} />
                             </div>
                           </div>
                           <div class="md:flex md:items-center mb-6">
@@ -579,7 +625,7 @@ function MenuList() {
                             </div>
                             <div class="md:w-2/3">
                               <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" placeholder='Stage Size' value={stageSize}
-                              onChange={(e) => setStageSize(e.target.value)} />
+                                onChange={(e) => setStageSize(e.target.value)} />
                             </div>
                           </div>
                           <div class="md:flex md:items-center">
@@ -618,17 +664,17 @@ function MenuList() {
               <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
                 <dl className="sm:divide-y sm:divide-gray-200">
                   <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Decoration Photo</dt>
-                    <dt className="text-sm font-medium text-gray-500">Including Photos</dt>
-                    <dt className="text-sm font-medium text-gray-500">Decoration Budget</dt>
+                    {stageData.map((data) => (
+                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                    ))}
                   </div>
-                  <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">fdkh
-                    </dd>
-                    <dd className="mt-1 text-sm text-gray-900 sm:mt-0">
-                      {/* {managerDetails?.company_name} */}hgd
-                    </dd>
-                  </div>
+                  {stageDataMenu.map((data) => (
+                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                      <img width='230px' src={data.stage_photo} className="mt-1 text-sm text-gray-900 sm:mt-0 " />
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
+                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                    </div>
+                  ))}
                 </dl>
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
@@ -648,50 +694,40 @@ function MenuList() {
                           <div class="md:flex md:items-center mb-6 mt-5">
                             <div class="md:w-1/3">
                               <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                                Stage Photo
+                              Decoration  Photo
                               </label>
                             </div>
                             <div class="md:w-2/3">
                               <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="file" accept='image/*'
-                              />
-                            </div>
-                          </div>
-                          <div class="md:flex md:items-center mb-6">
-                            <div class="md:w-1/3">
-                              <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
-                                Stage Budget
-                              </label>
-                            </div>
-                            <div class="md:w-2/3">
-                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="number" placeholder='Price' value={price}
-                                onChange={(e) => setPrice(e.target.value)} />
+                              onChange={(e) => setDecoratePhoto(e.target.files[0])}/>
                             </div>
                           </div>
                           <div class="md:flex md:items-center mb-6">
                             <div class="md:w-1/3">
                               <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-full-name">
-                                Included Things
+                                Including Photos
                               </label>
                             </div>
                             <div class="md:w-2/3">
-                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" placeholder='Add Item' />
+                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-full-name" type="text" accept='image/*'
+                              onChange={(e) => setIncludingPhotos(e.target.files[0])} />
                             </div>
                           </div>
-                          {/* <div>
-                            {[...Array(inputCount)].map((value, index) => (
-                              <input
-                                key={index}
-                                type="text"
-                                className="form-control mt-3"
-                                name="image"
-                              />
-                            ))}
-                            <button onClick={addMore}>Add more</button>
-                          </div> */}
+                          <div class="md:flex md:items-center mb-6">
+                            <div class="md:w-1/3">
+                              <label class="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" for="inline-password">
+                              Decoration Budget
+                              </label>
+                            </div>
+                            <div class="md:w-2/3">
+                              <input class="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500" id="inline-password" type="number" placeholder='Price' value={budget}
+                                onChange={(e) => setBudget(e.target.value)} />
+                            </div>
+                          </div>
                           <div class="md:flex md:items-center">
                             <div class="md:w-1/3"></div>
                             <div class="md:w-2/3">
-                              <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                              <button onClick={submitDecorate} class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
                                 Add
                               </button>
                             </div>
@@ -725,7 +761,7 @@ function MenuList() {
               <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
                 <dl className="sm:divide-y sm:divide-gray-200">
                   <div className="py-4 sm:py-5 sm:grid lg:grid-cols-5 sm:grid-cols-5 sm:gap-4 sm:px-6">
-                    <dt className="text-sm font-medium text-gray-500">Recent Photography Photos</dt>
+                    <dt className="text-sm font-medium text-gray-500">Recent Photos</dt>
                     <dt className="text-sm font-medium text-gray-500">Shop Name</dt>
                     <dt className="text-sm font-medium text-gray-500">Mobile Number</dt>
                     <dt className="text-sm font-medium text-gray-500">Address</dt>

@@ -4,6 +4,7 @@ import axios from 'axios';
 import { userUrl } from '../../../API/Api';
 import { useDispatch, useSelector } from 'react-redux';
 import { setService } from '../../redux/services';
+import { useNavigate } from 'react-router-dom';
 
 function SelectService() {
     const [loading, setLoading] = useState(true)
@@ -16,6 +17,7 @@ function SelectService() {
     const managerDetails = useSelector((state) => state.company);
     const managerId = managerDetails.company.managerDetails._id
     const dispatch = useDispatch(setService)
+    const navigate = useNavigate()
     const serviceData = { foodChecked, stageChecked, decorateChecked, photographyChecked,vehicleChecked }
 
     useEffect(()=>{
@@ -23,13 +25,33 @@ function SelectService() {
             setLoading(false)
         }, 1000);
     })
+    
+    const submitService = async() => {
+        try {
+            console.log('Hey');
+            const token = localStorage.getItem('token')
+            await axios.post(`${userUrl}select-services/${managerId}`, serviceData, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            })
+                .then((response) => {
+                    if (response.data.success) {
+                        navigate('/select-menu-list')
+                    } else {
+                        toast.error('Something error')
+                    }
+                })
+        } catch (error) {
+            console.log(error);
+        }
+    }
 
     useEffect(()=>{
         const Services = async () => {
             try {
-                console.log('Hey');
                 const token = localStorage.getItem('token')
-                await axios.post(`${userUrl}services/${managerId}`, serviceData, {
+                await axios.post(`${userUrl}services/${managerId}`, {}, {
                     headers: {
                         Authorization: `Bearer ${token}`
                     }
@@ -37,10 +59,8 @@ function SelectService() {
                     .then((response) => {
                         if (response.data.success) {
                             const serviceData = response.data.data
-                            console.log(serviceData,'service');
                             setServices(serviceData)
                             dispatch(setService({serviceData}))
-                            navigate('/select-menu-list')
                         } else {
                             toast.error('Something error')
                         }
@@ -140,7 +160,7 @@ function SelectService() {
                             </div>
                             }
                             <div className='flex items-center'>
-                                <button className="inline-flex items-center px-5 mt-4 my-10 mx-auto py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-300 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
+                                <button onClick={submitService} className="inline-flex items-center px-5 mt-4 my-10 mx-auto py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-300 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
                                     Next
                                 </button>
                             </div>
