@@ -28,7 +28,7 @@ import EditCalendarIcon from '@mui/icons-material/EditCalendar';
 import ListAltIcon from '@mui/icons-material/ListAlt';
 import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices';
 import LogoutIcon from '@mui/icons-material/Logout';
-import { ListItemText } from '@mui/material';
+import { Checkbox, ListItemText, Radio } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const drawerWidth = 280;
@@ -85,6 +85,7 @@ export default function Layout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [selectedValue, setSelectedValue] = React.useState('a');
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -289,10 +290,21 @@ export default function Layout({ children }) {
                 <List>
                     {menuList.map((menu, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton component={Link} to={menu.path}>
-                                {/* <ListItemIcon>
-                                    {menu.name == 'Dashboard' ? <DashboardIcon /> : <EditCalendarIcon />}
-                                </ListItemIcon> */}
+                            <ListItemButton>
+                                {/* <Radio
+                                    checked={selectedValue === 'a'}
+                                    onChange={(e) => setSelectedValue(e.target.value)}
+                                    value="a"
+                                    name="radio-buttons"
+                                    inputProps={{ 'aria-label': 'A' }}
+                                />
+                                <Radio
+                                    checked={selectedValue === 'b'}
+                                    onChange={(e) => setSelectedValue(e.target.value)}
+                                    value="b"
+                                    name="radio-buttons"
+                                    inputProps={{ 'aria-label': 'B' }}
+                                /> */}
                                 <ListItemText className='text-xl text-black font-normal underline-offset-0' primary={menu.name} />
                             </ListItemButton>
                         </ListItem>
@@ -302,10 +314,21 @@ export default function Layout({ children }) {
                 <List>
                     {locationList.map((menu, index) => (
                         <ListItem key={index} disablePadding>
-                            <ListItemButton component={Link} to={menu.path}>
-                                {/* <ListItemIcon>
-                                            {menu.name == 'Dashboard' ? <DashboardIcon /> : <EditCalendarIcon />}
-                                        </ListItemIcon> */}
+                            <ListItemButton>
+                                <Radio
+                                    checked={selectedValue === 'a'}
+                                    onChange={(e) => setSelectedValue(e.target.value)}
+                                    value="a"
+                                    name="radio-buttons"
+                                    inputProps={{ 'aria-label': 'A' }}
+                                />
+                                <Radio
+                                    checked={selectedValue === 'b'}
+                                    onChange={(e) => setSelectedValue(e.target.value)}
+                                    value="b"
+                                    name="radio-buttons"
+                                    inputProps={{ 'aria-label': 'B' }}
+                                />
                                 <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
                             </ListItemButton>
                         </ListItem>
@@ -326,10 +349,8 @@ export default function Layout({ children }) {
                         <List>
                             {menuList.map((menu, index) => (
                                 <ListItem key={index} disablePadding>
-                                    <ListItemButton component={Link} to={menu.path}>
-                                        {/* <ListItemIcon>
-                                            {menu.name == 'Dashboard' ? <DashboardIcon /> : <EditCalendarIcon />}
-                                        </ListItemIcon> */}
+                                    <ListItemButton>
+                                        <Checkbox />
                                         <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
                                     </ListItemButton>
                                 </ListItem>
@@ -339,10 +360,8 @@ export default function Layout({ children }) {
                         <List>
                             {locationList.map((menu, index) => (
                                 <ListItem key={index} disablePadding>
-                                    <ListItemButton component={Link} to={menu.path}>
-                                        {/* <ListItemIcon>
-                                            {menu.name == 'Dashboard' ? <DashboardIcon /> : <EditCalendarIcon />}
-                                        </ListItemIcon> */}
+                                    <ListItemButton>
+                                        <Checkbox/>
                                         <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
                                     </ListItemButton>
                                 </ListItem>

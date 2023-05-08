@@ -9,7 +9,13 @@ function CompanyDetails() {
     const [companyDetails, setCompanyDetails] = useState('')
     const [serviceDetails, setServiceDetails] = useState('')
     const [showServices, setShowServices] = useState(false)
-    const [cateringMenu,setCateringMenu] = useState([])
+    const [stage, setStage] = useState(false)
+    const [decorate, setDecorate] = useState(false)
+    const [cateringMenu, setCateringMenu] = useState([])
+    const [stageMenu, setStageMenu] = useState([])
+    const [decorateMenu, setDecorateMenu] = useState([])
+    const [photographyMenu, setphotographyMenu] = useState([])
+    const [vehicleMenu, setVehicleMenu] = useState([])
     const managerDetails = useSelector((state) => state.company);
     console.log('managerDetails:', serviceDetails);
     const navigate = useNavigate()
@@ -29,6 +35,54 @@ function CompanyDetails() {
     const closeServiceModal = () => {
         setShowServices(false)
     }
+
+    const openStageService = () => {
+        setStage(true)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    }
+
+    const closeStageModal = () => {
+        setStage(false)
+    }
+
+    const openDecorateService = () => {
+        setDecorate(true)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    }
+
+    const closeDecorateModal = () => {
+        setDecorate(false)
+    }
+
+    const openPhotographyService = () => {
+        setphotographyMenu(true)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    }
+
+    const closePhotographyModal = () => {
+        setphotographyMenu(false)
+    }
+
+    const openVehicleService = () => {
+        setVehicleMenu(true)
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        })
+    }
+
+    const closeVehicleModal = () => {
+        setVehicleMenu(false)
+    }
     useEffect(() => {
         setCompanyDetails(managerDetails.company.managerDetails)
         const token = localStorage.getItem('token')
@@ -40,7 +94,15 @@ function CompanyDetails() {
             const services = response.data.data
             setServiceDetails(services)
             const menu = services.cateringMenu
+            const stageMenuData = services.stageMenu
+            const decorateMenu = services.decorationMenu
+            const photographyMenu = services.photographyMenu
+            const vehicleMenu = services.vehicleMenu
             setCateringMenu(menu)
+            setStageMenu(stageMenuData)
+            setDecorateMenu(decorateMenu)
+            setphotographyMenu(photographyMenu)
+            setVehicleMenu(vehicleMenu)
         })
     }, [managerDetails])
 
@@ -59,7 +121,7 @@ function CompanyDetails() {
                             {/* <h2 className='ml-6 font-normal font-serif italic pt-3 text-2xl'>{companyDetails.company_name}</h2> */}
                             <div className="px-4 py-5 sm:px-6 text-center">
                                 <div className='flex content-center items-center justify-center'>
-                                    <img className='' src={companyDetails.manager_image} alt="Image not found" />
+                                    <img width='150px' src={companyDetails.manager_image} alt="Image not found" />
                                 </div>
                                 <h1 className="text-2xl font-medium text-gray-900">
                                     {companyDetails.name}
@@ -131,11 +193,11 @@ function CompanyDetails() {
                                                                                 <dl className="sm:divide-y sm:divide-gray-200">
                                                                                     <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
                                                                                         {/* {catering.map((data) => ( */}
-                                                                                            <dt className="text-sm font-medium text-gray-500">Startes</dt>
-                                                                                            <dt className="text-sm font-medium text-gray-500">Main</dt>
-                                                                                            <dt className="text-sm font-medium text-gray-500">Desserts</dt>
-                                                                                            <dt className="text-sm font-medium text-gray-500">Salads</dt>
-                                                                                      
+                                                                                        <dt className="text-sm font-medium text-gray-500">Startes</dt>
+                                                                                        <dt className="text-sm font-medium text-gray-500">Main</dt>
+                                                                                        <dt className="text-sm font-medium text-gray-500">Desserts</dt>
+                                                                                        <dt className="text-sm font-medium text-gray-500">Salads</dt>
+
                                                                                     </div>
                                                                                     {cateringMenu.map((data) => (
                                                                                         <div className="py-4 sm:py-5 sm:grid sm:grid-cols-8 sm:gap-8 sm:px-6">
@@ -177,9 +239,42 @@ function CompanyDetails() {
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <button class="custom-select font-weight-bold bg-transparent text-lg text-blue-700 hover:text-blue-500 border-0" name="orderStatus">
-                                                                View
-                                                            </button>
+                                                            {stage ? (
+                                                                <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                                                    <div class="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                                                        <div class="flex items-center justify-between">
+                                                                            <h3 class="text-2xl">Stage Menu Details</h3>
+                                                                            <svg onClick={closeStageModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                            </svg>
+                                                                        </div>
+                                                                        <div class="mt-4">
+                                                                            <div className="border-b border-gray-200 py-5 sm:p-0">
+                                                                                <dl className="sm:divide-y sm:divide-gray-200">
+                                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                                        <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                                                                    </div>
+                                                                                    {stageMenu.map((data) => (
+                                                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                                                            <img src={data.stage_photo} alt="" />
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </dl>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    onClick={openStageService}
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                     <tr class="hover:bg-slate-200 transition duration-300">
@@ -194,9 +289,42 @@ function CompanyDetails() {
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <button class="custom-select font-weight-bold bg-transparent text-lg text-blue-700 hover:text-blue-500 border-0" name="orderStatus">
-                                                                View
-                                                            </button>
+                                                            {decorate ? (
+                                                                <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                                                    <div class="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                                                        <div class="flex items-center justify-between">
+                                                                            <h3 class="text-2xl">Stage Menu Details</h3>
+                                                                            <svg onClick={closeDecorateModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                            </svg>
+                                                                        </div>
+                                                                        <div class="mt-4">
+                                                                            <div className="border-b border-gray-200 py-5 sm:p-0">
+                                                                                <dl className="sm:divide-y sm:divide-gray-200">
+                                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                                        <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                                                                    </div>
+                                                                                    {decorateMenu.map((data) => (
+                                                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                                                            {/* <img src={data.decoration_photo} alt="" /> */}
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </dl>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    onClick={openDecorateService}
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            )}
                                                         </td>
                                                     </tr>
                                                     <tr class="hover:bg-slate-200 transition duration-300">
@@ -211,6 +339,7 @@ function CompanyDetails() {
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
+
                                                             <button class="custom-select font-weight-bold bg-transparent text-lg text-blue-700 hover:text-blue-500 border-0" name="orderStatus">
                                                                 View
                                                             </button>

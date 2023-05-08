@@ -175,7 +175,7 @@ function MenuList() {
         const managerData = { stageDatas, imageUpload1 }
         console.log('managerdaaarttaaaaaa:' + managerData.stageDatas.stageBudget);
         const token = localStorage.getItem('manager-token')
-        await axios.post(`${managerUrl}add-stage`, managerData, {
+        await axios.post(`${managerUrl}add-decorate`, managerData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

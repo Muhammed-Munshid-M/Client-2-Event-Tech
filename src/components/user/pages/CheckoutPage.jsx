@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useSelector } from 'react-redux';
-// import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2'
 
 function CheckoutPage() {
   const [name, setName] = useState('')
@@ -21,22 +21,22 @@ function CheckoutPage() {
   const [place, setPlace] = useState('')
   const userData = { name, email, mobile, company, date, time, count, type, pin, place }
   const navigate = useNavigate()
-  let {user} = useSelector((state) => state.user)
+  let { user } = useSelector((state) => state.user)
 
   const addEvent = async (e) => {
     e.preventDefault()
     try {
       const token = localStorage.getItem('token')
-      await axios.post(`${userUrl}add-event`,userData,{
-        headers :{
-          Authorization : `Bearer ${token}`,
+      await axios.post(`${userUrl}add-event`, userData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
         },
       })
-      .then((response) => {
+        .then((response) => {
           console.log('Hi');
           if (response.data.success) {
             toast.success(response.data.message)
-          } else if (response.data.noAcc){
+          } else if (response.data.noAcc) {
             toast.error(response.data.message)
             navigate('/login')
           } else {
@@ -52,21 +52,71 @@ function CheckoutPage() {
       toast.error('something error')
     }
   }
+
+  const handleOpenRazorpay = (data) => {
+    const options = {
+      key : 'rzp_test_z85gRD1oIkrshQ',
+      amount : Number(data.amount),
+      currency : data.currency,
+      name: 'EVENT TECH',
+      description: 'Nothing',
+      order_id: data.id,
+      handler: (response) => {
+        console.log(response, "34")
+        const token = localStorage.getItem('token')
+        axios.post(`${userUrl}verify`, {response: response}, {
+          headers: {
+              Authorization: `Bearer ${token}`,
+          },
+        }).then((response)=>{
+          console.log(response,'48');
+          if (response.data.status) {
+            Swal.fire(
+              'Success',
+              'Your payment Successfully',
+              'success'
+            )
+          } else {
+            toast.error(response.data.message)
+          }
+        })
+      }
+      }
+    const rzp = new window.Razorpay(options)
+    rzp.open()
+  }
+
+  const handlePayment = (amount) => {
+    const data = { amount: amount }
+    console.log(data);
+    const token = localStorage.getItem('token')
+    axios.post(`${userUrl}orders`, data, {
+      headers: {
+          Authorization: `Bearer ${token}`,
+      },
+    }).then((res) => {
+        console.log(res.data, "29");
+        handleOpenRazorpay(res.data.data)
+      })
+      .catch(err => {
+        console.log(err);
+      })
+  }
   return (
     <div>
       <Navbar />
-      <div className='w-full h-full mt-10 bg-orange-500'>
+      <div className='w-full h-full mt-10'>
         <div className='z-50 w-full h-full top-0'>
           <form onSubmit={addEvent}>
             <div>
               <div className="container mx-auto px-4">
-                <div className="flex content-center">
-                  <div className="w-full lg:w-6/12 px-4">
-                    <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 mt-20 ">
+                <div className="">
+                  <div className="w-full lg:w-7/12 px-4">
+                    <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 mt-28 bg-slate-300">
                       <div className="rounded-t mb-0 px-6 py-6">
                         <div className="ml-8 mb-3">
                           <h6 className="text-blueGray-500 text-xl font-bold">
-                            Checkout Page
+                            Your Details
                           </h6>
                         </div>
                         {/* <hr className="mt-6 border-b-1 border-black" /> */}
@@ -106,39 +156,6 @@ function CheckoutPage() {
                               placeholder="Mobile"
                               onChange={(e) => setMobile(e.target.value)}
                             />
-                          </div>
-
-
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            >
-                              Event Date
-                            </label>
-                            <input
-                              type="date"
-                              value={date}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Date"
-                              onChange={(e) => setDate(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            >
-                              Count of people
-                            </label>
-                            <input
-                              type="number"
-                              value={count}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Count of people"
-                              onChange={(e) => setCount(e.target.value)}
-                            />
-
                           </div>
                           <div className="relative w-full mb-3">
                             <label
@@ -215,40 +232,6 @@ function CheckoutPage() {
                               onChange={(e) => setCompany(e.target.value)}
                             />
                           </div>
-
-
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Event Time
-                            </label>
-                            <input
-                              type="time"
-                              value={time}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Time"
-                              onChange={(e) => setTime(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            >
-                              Event Type
-                            </label>
-                            <input
-                              type="text"
-                              value={type}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Wedding/Nikah"
-                              onChange={(e) => setType(e.target.value)}
-                            />
-
-                          </div>
                           <div className="relative w-full mb-3">
                             <label
                               className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
@@ -287,6 +270,95 @@ function CheckoutPage() {
                           Pay Now
                         </button>
                       </div> */}
+                    </div>
+                  </div>
+                  <div className="w-full lg:w-7/12 px-4">
+                    <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 bg-slate-300">
+                      <div className="rounded-t mb-0 px-6 py-6">
+                        <div className="ml-8 mb-3">
+                          <h6 className="text-blueGray-500 text-xl font-bold">
+                            Booking Details
+                          </h6>
+                        </div>
+                        {/* <hr className="mt-6 border-b-1 border-black" /> */}
+                      </div>
+                      <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
+                        <div className='w-1/2 px-4'>
+                          <div className="relative w-full mb-3">
+                            <label
+                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            >
+                              Event Date
+                            </label>
+                            <input
+                              type="date"
+                              value={date}
+                              required
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              placeholder="Date"
+                              onChange={(e) => setDate(e.target.value)}
+                            />
+                          </div>
+                          <div className="relative w-full mb-3">
+                            <label
+                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            >
+                              Count of people
+                            </label>
+                            <input
+                              type="number"
+                              value={count}
+                              required
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              placeholder="Count of people"
+                              onChange={(e) => setCount(e.target.value)}
+                            />
+
+                          </div>
+                        </div>
+                        <div className='w-1/2 px-4'>
+                          <div className="relative w-full mb-3">
+                            <label
+                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                              htmlFor="grid-password"
+                            >
+                              Event Time
+                            </label>
+                            <input
+                              type="time"
+                              value={time}
+                              required
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              placeholder="Time"
+                              onChange={(e) => setTime(e.target.value)}
+                            />
+                          </div>
+                          <div className="relative w-full mb-3">
+                            <label
+                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            >
+                              Event Type
+                            </label>
+                            <input
+                              type="text"
+                              value={type}
+                              required
+                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                              placeholder="Wedding/Nikah"
+                              onChange={(e) => setType(e.target.value)}
+                            />
+
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
+                        <button onClick={()=>handlePayment(count)}
+                          className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                          type="button"
+                        >
+                          Pay Now
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>

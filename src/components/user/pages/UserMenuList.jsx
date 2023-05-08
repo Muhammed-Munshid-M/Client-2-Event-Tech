@@ -24,6 +24,13 @@ function UserMenuList() {
         return <p>Loading..</p>
     }
 
+    const handleChecked = (index) => {
+        const newCatering = [...catering];
+        console.log(index)
+        newCatering[index].checked = !newCatering[index].checked
+        setCatering(newCatering)
+    }
+
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
@@ -52,6 +59,7 @@ function UserMenuList() {
     }, [])
 
     const openCart = () => {
+
         navigate('/cart-list')
     }
     return (
@@ -87,11 +95,12 @@ function UserMenuList() {
                                                             <dt className="text-sm font-medium text-gray-500 ml-5">Select</dt>
                                                         </div>
 
-                                                        {catering.map((data) => (
+                                                        {catering.map((data, index) => (
                                                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_price}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" checked={data.checked}
+                                                                    onChange={() => handleChecked(index)} />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5" />
@@ -208,14 +217,14 @@ function UserMenuList() {
                                         </div>
                                     </div>
                                 }
-                                {serviceDetails.user_decoration_status == true &&
+                                {serviceDetails.user_photography_status == true &&
                                     <div className="px-4 py-1 sm:px-6">
                                         <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
                                             {serviceDetails.photography_name}
                                         </h1>
                                     </div>
                                 }
-                                {serviceDetails.user_decoration_status == true &&
+                                {serviceDetails.user_photography_status == true &&
                                     <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
                                         <div className="mx-auto">
                                             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -241,14 +250,14 @@ function UserMenuList() {
                                         </div>
                                     </div>
                                 }
-                                {serviceDetails.user_decoration_status == true &&
+                                {serviceDetails.user_vehicle_status == true &&
                                     <div className="px-4 py-1 sm:px-6">
                                         <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
                                             {serviceDetails.vehicle_name}
                                         </h1>
                                     </div>
                                 }
-                                {serviceDetails.user_decoration_status == true &&
+                                {serviceDetails.user_vehicle_status == true &&
                                     <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
                                         <div className="mx-auto">
                                             <div className="bg-white shadow overflow-hidden sm:rounded-lg">

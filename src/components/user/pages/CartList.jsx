@@ -64,10 +64,10 @@ function CartList() {
                                                                     <div class="text-sm font-medium text-gray-900">
                                                                         {services.catering_name}
                                                                     </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        sjhdbf
+                                                                    </div>
                                                                 </div>
-                                                                {/* <div key={index} class="text-sm text-gray-500"> */}
-                                                                {/* {data.email} */}
-                                                                {/* </div> */}
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
@@ -135,15 +135,15 @@ function CartList() {
                                         </table>
                                     </div>
                                     <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
-                                <button
-                                    type="button"
-                                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:mt-5 sm:text-sm"
-                                onClick={submitCheckout}
-                                >
-                                    Continue to Checkout
-                                </button>
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:mt-5 sm:text-sm"
+                                            onClick={submitCheckout}
+                                        >
+                                            Continue to Checkout
+                                        </button>
 
-                            </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
