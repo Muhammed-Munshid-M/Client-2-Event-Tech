@@ -34,6 +34,7 @@ import Checkout from './components/user/pages/Checkout';
 import CheckoutPage from './components/user/pages/CheckoutPage';
 import UserMenuList from './components/user/pages/UserMenuList';
 import SelectService from './components/user/pages/SelectService';
+import SalesReport from './components/admin/pages/SalesReport';
 
 function App() {
 
@@ -95,9 +96,7 @@ function App() {
             </UserProtectedRoute>
           } />
           <Route path='/checkout' element={
-            <UserProtectedRoute>
-              <Checkout />
-            </UserProtectedRoute>
+            <Checkout />
           } />
           <Route path='/checkout-page' element={
             <CheckoutPage />
@@ -165,6 +164,9 @@ function App() {
           } />
           <Route path='/admin/approval-list' element={
             <ApprovalList />
+          } />
+          <Route path='/admin/sales-report' element={
+            <SalesReport/>
           } />
         </Routes>
       </BrowserRouter>

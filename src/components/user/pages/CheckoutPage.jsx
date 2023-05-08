@@ -55,21 +55,21 @@ function CheckoutPage() {
 
   const handleOpenRazorpay = (data) => {
     const options = {
-      key : 'rzp_test_z85gRD1oIkrshQ',
-      amount : Number(data.amount),
-      currency : data.currency,
+      key: 'rzp_test_z85gRD1oIkrshQ',
+      amount: Number(data.amount),
+      currency: data.currency,
       name: 'EVENT TECH',
       description: 'Nothing',
       order_id: data.id,
       handler: (response) => {
         console.log(response, "34")
         const token = localStorage.getItem('token')
-        axios.post(`${userUrl}verify`, {response: response}, {
+        axios.post(`${userUrl}verify`, { response: response }, {
           headers: {
-              Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
-        }).then((response)=>{
-          console.log(response,'48');
+        }).then((response) => {
+          console.log(response, '48');
           if (response.data.status) {
             Swal.fire(
               'Success',
@@ -81,7 +81,7 @@ function CheckoutPage() {
           }
         })
       }
-      }
+    }
     const rzp = new window.Razorpay(options)
     rzp.open()
   }
@@ -92,12 +92,12 @@ function CheckoutPage() {
     const token = localStorage.getItem('token')
     axios.post(`${userUrl}orders`, data, {
       headers: {
-          Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     }).then((res) => {
-        console.log(res.data, "29");
-        handleOpenRazorpay(res.data.data)
-      })
+      console.log(res.data, "29");
+      handleOpenRazorpay(res.data.data)
+    })
       .catch(err => {
         console.log(err);
       })
@@ -107,162 +107,161 @@ function CheckoutPage() {
       <Navbar />
       <div className='w-full h-full mt-10'>
         <div className='z-50 w-full h-full top-0'>
-          <form onSubmit={addEvent}>
-            <div>
-              <div className="container mx-auto px-4">
-                <div className="">
-                  <div className="w-full lg:w-7/12 px-4">
-                    <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 mt-28 bg-slate-300">
-                      <div className="rounded-t mb-0 px-6 py-6">
-                        <div className="ml-8 mb-3">
-                          <h6 className="text-blueGray-500 text-xl font-bold">
-                            Your Details
-                          </h6>
-                        </div>
-                        {/* <hr className="mt-6 border-b-1 border-black" /> */}
+          <div className='flex flex-row'>
+            <div className="container px-4">
+              <div className="">
+                <div className="w-full px-4">
+                  <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 mt-28 bg-slate-300">
+                    <div className="rounded-t mb-0 px-6 py-6">
+                      <div className="ml-8 mb-3">
+                        <h6 className="text-blueGray-500 text-xl font-bold">
+                          Your Details
+                        </h6>
                       </div>
-                      <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
-                        <div className='w-1/2 px-4'>
-                          {/* <form onSubmit={sendOtp}> */}
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Name
-                            </label>
-                            <input
-                              type="name"
-                              value={name}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Name"
-                              onChange={(e) => setName(e.target.value)}
-                            />
-                          </div>
-
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Mobile
-                            </label>
-                            <input
-                              type="number"
-                              value={mobile}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Mobile"
-                              onChange={(e) => setMobile(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Pin code
-                            </label>
-                            <input
-                              type="number"
-                              value={pin}
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Pin Code"
-                              onChange={(e) => setPin(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              District
-                            </label>
-                            <select name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
-                              <option value="Kerala">Kasargod</option>
-                              <option value="Kerala">Kannur</option>
-                              <option value="Kerala">Wayanad</option>
-                              <option value="Kerala">Kozhikode</option>
-                              <option value="Kerala">Malappuram</option>
-                              <option value="Kerala">Thrissur</option>
-                              <option value="Kerala">Palakkad</option>
-                              <option value="Kerala">Ernakulam</option>
-                              <option value="Kerala">Idukki</option>
-                              <option value="Kerala">Kottayam</option>
-                              <option value="Kerala">Alappuzha</option>
-                              <option value="Kerala">Pathanamthitta</option>
-                              <option value="Kerala">Kollam</option>
-                              <option value="Kerala">Thiruvananthapuram</option>
-                            </select>
-                          </div>
+                      {/* <hr className="mt-6 border-b-1 border-black" /> */}
+                    </div>
+                    <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
+                      <div className='w-1/2 px-4'>
+                        {/* <form onSubmit={sendOtp}> */}
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Name
+                          </label>
+                          <input
+                            type="name"
+                            value={name}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Name"
+                            onChange={(e) => setName(e.target.value)}
+                          />
                         </div>
-                        <div className='w-1/2 px-4'>
-                          {/* <form onSubmit={sendOtp}> */}
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Email
-                            </label>
-                            <input
-                              type="email"
-                              value={email}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Email"
-                              onChange={(e) => setEmail(e.target.value)}
-                            />
-                          </div>
 
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Address
-                            </label>
-                            <input
-                              type="text"
-                              value={company}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Address"
-                              onChange={(e) => setCompany(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              State
-                            </label>
-                            <select name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
-                              <option value="Kerala">Kerala</option>
-                              <option value="Kerala">Tamilnadu</option>
-                              <option value="Kerala">Karnataka</option>
-                            </select>
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              place
-                            </label>
-                            <input
-                              type="text"
-                              value={place}
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Place"
-                              onChange={(e) => setPlace(e.target.value)}
-                            />
-                          </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Mobile
+                          </label>
+                          <input
+                            type="number"
+                            value={mobile}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Mobile"
+                            onChange={(e) => setMobile(e.target.value)}
+                          />
+                        </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Pin code
+                          </label>
+                          <input
+                            type="number"
+                            value={pin}
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Pin Code"
+                            onChange={(e) => setPin(e.target.value)}
+                          />
+                        </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            District
+                          </label>
+                          <select name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
+                            <option value="Kerala">Kasargod</option>
+                            <option value="Kerala">Kannur</option>
+                            <option value="Kerala">Wayanad</option>
+                            <option value="Kerala">Kozhikode</option>
+                            <option value="Kerala">Malappuram</option>
+                            <option value="Kerala">Thrissur</option>
+                            <option value="Kerala">Palakkad</option>
+                            <option value="Kerala">Ernakulam</option>
+                            <option value="Kerala">Idukki</option>
+                            <option value="Kerala">Kottayam</option>
+                            <option value="Kerala">Alappuzha</option>
+                            <option value="Kerala">Pathanamthitta</option>
+                            <option value="Kerala">Kollam</option>
+                            <option value="Kerala">Thiruvananthapuram</option>
+                          </select>
                         </div>
                       </div>
-                      {/* <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
+                      <div className='w-1/2 px-4'>
+                        {/* <form onSubmit={sendOtp}> */}
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            value={email}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Email"
+                            onChange={(e) => setEmail(e.target.value)}
+                          />
+                        </div>
+
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Address
+                          </label>
+                          <input
+                            type="text"
+                            value={company}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Address"
+                            onChange={(e) => setCompany(e.target.value)}
+                          />
+                        </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            State
+                          </label>
+                          <select name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
+                            <option value="Kerala">Kerala</option>
+                            <option value="Kerala">Tamilnadu</option>
+                            <option value="Kerala">Karnataka</option>
+                          </select>
+                        </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            place
+                          </label>
+                          <input
+                            type="text"
+                            value={place}
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Place"
+                            onChange={(e) => setPlace(e.target.value)}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                    {/* <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
                         <button
                           className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                           type="submit"
@@ -270,101 +269,140 @@ function CheckoutPage() {
                           Pay Now
                         </button>
                       </div> */}
-                    </div>
                   </div>
-                  <div className="w-full lg:w-7/12 px-4">
-                    <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 bg-slate-300">
-                      <div className="rounded-t mb-0 px-6 py-6">
-                        <div className="ml-8 mb-3">
-                          <h6 className="text-blueGray-500 text-xl font-bold">
-                            Booking Details
-                          </h6>
-                        </div>
-                        {/* <hr className="mt-6 border-b-1 border-black" /> */}
+                </div>
+                <div className="w-full px-4">
+                  <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 bg-slate-300">
+                    <div className="rounded-t mb-0 px-6 py-6">
+                      <div className="ml-8 mb-3">
+                        <h6 className="text-blueGray-500 text-xl font-bold">
+                          Booking Details
+                        </h6>
                       </div>
-                      <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
-                        <div className='w-1/2 px-4'>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            >
-                              Event Date
-                            </label>
-                            <input
-                              type="date"
-                              value={date}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Date"
-                              onChange={(e) => setDate(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            >
-                              Count of people
-                            </label>
-                            <input
-                              type="number"
-                              value={count}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Count of people"
-                              onChange={(e) => setCount(e.target.value)}
-                            />
-
-                          </div>
+                      {/* <hr className="mt-6 border-b-1 border-black" /> */}
+                    </div>
+                    <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
+                      <div className='w-1/2 px-4'>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          >
+                            Event Date
+                          </label>
+                          <input
+                            type="date"
+                            value={date}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Date"
+                            onChange={(e) => setDate(e.target.value)}
+                          />
                         </div>
-                        <div className='w-1/2 px-4'>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                              htmlFor="grid-password"
-                            >
-                              Event Time
-                            </label>
-                            <input
-                              type="time"
-                              value={time}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Time"
-                              onChange={(e) => setTime(e.target.value)}
-                            />
-                          </div>
-                          <div className="relative w-full mb-3">
-                            <label
-                              className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
-                            >
-                              Event Type
-                            </label>
-                            <input
-                              type="text"
-                              value={type}
-                              required
-                              className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                              placeholder="Wedding/Nikah"
-                              onChange={(e) => setType(e.target.value)}
-                            />
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          >
+                            Count of people
+                          </label>
+                          <input
+                            type="number"
+                            value={count}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Count of people"
+                            onChange={(e) => setCount(e.target.value)}
+                          />
 
-                          </div>
                         </div>
                       </div>
-                      <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
-                        <button onClick={()=>handlePayment(count)}
-                          className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                          type="button"
-                        >
-                          Pay Now
-                        </button>
+                      <div className='w-1/2 px-4'>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            htmlFor="grid-password"
+                          >
+                            Event Time
+                          </label>
+                          <input
+                            type="time"
+                            value={time}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Time"
+                            onChange={(e) => setTime(e.target.value)}
+                          />
+                        </div>
+                        <div className="relative w-full mb-3">
+                          <label
+                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                          >
+                            Event Type
+                          </label>
+                          <input
+                            type="text"
+                            value={type}
+                            required
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            placeholder="Wedding/Nikah"
+                            onChange={(e) => setType(e.target.value)}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
-          </form>
+            <div className='container mx-auto px-4'>
+              <div className="w-full px-4">
+                <div className=" relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0 mt-28 bg-slate-300">
+                  <div className="rounded-t mb-0 px-6 py-6">
+                    <div class="max-w-md mx-auto my-8">
+                      <div class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+                        <div class="mb-4 flex items-center justify-between">
+                          <label class="block text-gray-700 font-bold mb-2" for="subtotal">
+                            Subtotal
+                          </label>
+                            <p class="text-gray-700 text-sm">₹100</p>
+                        </div>
+                        <div class="mb-4 flex items-center justify-between">
+                          <label class="block text-gray-700 font-bold mb-2" for="subtotal">
+                            Gst
+                          </label>
+                            <p class="text-gray-700 text-sm">₹10</p>
+                        </div>
+                        <div class="mb-4 flex items-center justify-between">
+                          <label class="block text-gray-700 font-bold mb-2" for="total">
+                            Total
+                          </label>
+                          <div class="">
+                            <p class="text-gray-700 font-bold">₹1000</p>
+                          </div>
+                        </div>
+                        <div class="mb-4">
+                          <label class="block text-gray-700 font-bold mb-2">
+                            About Payment
+                          </label>
+                          <div class="">
+                            <p>For Booking time, Your Advance Payment have to only paying 50% of the total amount.</p>
+                            <p>And you must need payment after the event programme.</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
+                      <button onClick={() => handlePayment(count)}
+                        className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
+                        type="button"
+                      >
+                        Pay Now
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <Footer />

@@ -1,77 +1,3 @@
-// import axios from 'axios';
-// import React, { useEffect, useState } from 'react'
-// import { userUrl } from '../../../API/Api';
-// import Navbar from '../Navbar';
-// import Footer from '../Footer';
-// import { useDispatch,useSelector } from 'react-redux'
-// import { toast } from 'react-hot-toast';
-// import { useNavigate } from 'react-router-dom';
-// import { setCompany } from '../../redux/companyDetails';
-
-// function CompanyList() {
-//     const [manager, setManager] = useState([])
-
-//     const dispatch = useDispatch(setCompany)
-//     const navigate = useNavigate()
-//     const arrow = '>'
-
-//     const selectCompany = async (id) => {
-//         const token = localStorage.getItem('token')
-//         await axios.post(`${userUrl}company-list/${id}`,{}, {
-//             headers: {
-//                 Authorization: `Bearer ${token}`,
-//             },
-//         }).then((response) => {
-//             console.log(response.data.data)
-//             const managerDetails = response.data.data
-//             dispatch(setCompany({managerDetails}))
-//             navigate('/company-details')
-//           })
-//     }
-
-//     useEffect(() => {
-//         try {
-//             const token = localStorage.getItem('token')
-//             axios.post(`${userUrl}company-list`, {}, {
-//                 headers: {
-//                     Authorization: `Bearer ${token}`,
-//                 },
-//             }).then((response) => {
-//                 console.log('response: ' + response.data)
-//                 if (response.data.noToken) {
-//                     toast.error(response.data.message)
-//                 }
-//                 setManager(response.data.data)
-//             })
-//         } catch (err) {
-//             console.log(err);
-
-//         }
-//     }, [])
-//     return (
-//         <div>
-//             <Navbar />
-//             <div className=''>
-//             <video className='top-0 left-0 w-full h-auto' autoPlay loop muted src="/indian-wedding-reception_AdobeExpress.mp4"></video>
-//                 <div className='mt-20 z-50 absolute w-full h-full top-0 ml-4'>
-//                     <h1 className='font-serif py-8 font-bold text-purple-700 text-5xl ml-1'>Select your Company</h1>
-//                     {manager.map((data) => (
-//                         <div>
-//                             <button onClick={() => selectCompany(data._id)} className="inline-flex items-center px-6 pr-10 py-4 mt-6 border text-white border-stone-950 rounded-md shadow-2xl shadow-black text-xl font-medium bg-purple-500 hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-2xl">{data.company_name} <span>{arrow}</span></button>
-//                         </div>
-//                     )
-//                     )}
-//                 </div>
-//                 <div className=''>
-//                     <Footer />
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default CompanyList
-
 import * as React from 'react';
 import { styled } from '@mui/material/styles';
 import Card from '@mui/material/Card';
@@ -113,6 +39,22 @@ export default function CompanyList() {
     const [expanded, setExpanded] = React.useState([]);
     const [manager, setManager] = React.useState([])
     const [details, setDetails] = React.useState(false)
+    const [currentPage, setCurrentPage] = React.useState(1);
+    const [itemsPerPage, setItemsPerPage] = React.useState(10);
+
+    const data = []
+
+    function paginate(data) {
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+        return data.slice(startIndex, endIndex);
+      }
+
+      const paginatedData = paginate(data);
+
+      function handlePageChange(event, value) {
+        setCurrentPage(value);
+      }
 
     const dispatch = useDispatch(setCompany)
     const navigate = useNavigate()
@@ -188,9 +130,9 @@ export default function CompanyList() {
                                 <CardMedia
                                     component="img"
                                     height="10"
-                                    sx={{ borderRadius: '50%', maxWidth: 180, mx: 'auto', display: 'block' }}
+                                    sx={{ borderRadius: '50%', maxWidth: 180, minHeight:180, mx: 'auto', display: 'block' }}
                                     image={data.company_logo}
-                                    alt="catering icon"
+                                    alt="No company icon"
                                 />
                                 <CardContent>
                                     <Typography variant="body2" color="text.secondary" sx={{ textTransform: 'uppercase', textAlign: 'center', fontFamily: 'initial', fontSize: '18px', fontWeight: 'bold' }}>
@@ -230,33 +172,11 @@ export default function CompanyList() {
                                         Select
                                     </Button>
                                 </CardContent>
-                                {/* <CardActions disableSpacing>
-                                    <ExpandMore
-                                        expand={expanded[index]}
-                                        onClick={() => handleExpandClick(index)}
-                                        aria-expanded={expanded[index]}
-                                        aria-label="show more"
-                                    >
-                                        <RemoveRedEyeIcon />
-                                    </ExpandMore>
-                                </CardActions>
-                                <Collapse in={expanded[index]} timeout="auto" unmountOnExit>
-                                    <CardContent>
-                                        <Typography paragraph>Manager Name :</Typography>
-                                        <Typography paragraph>Mobile : </Typography>
-                                        <Typography paragraph>
-                                            Heat
-                                        </Typography>
-                                        <Typography paragraph>
-                                            Add
-                                        </Typography>
-                                        <Typography>
-                                            Set aside off of the heat to let rest for 10 minutes, and then serve.
-                                        </Typography>
-                                    </CardContent>
-                                </Collapse> */}
                             </Card>
                         ))}
+                    </div>
+                    <div>
+                        <button >1</button>
                     </div>
                 </div>
             </Layout>

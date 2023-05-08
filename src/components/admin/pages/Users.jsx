@@ -70,9 +70,6 @@ function Users() {
                           <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                             Access
                           </th>
-                          {/* <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Details
-                          </th> */}
                         </tr>
                       </thead>
                       <tbody class="bg-slate-400 divide-y divide-gray-200">
@@ -110,9 +107,6 @@ function Users() {
                                 </button>
                               )}
                             </td>
-                            {/* <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                              <a href="#" class="text-indigo-600 hover:text-indigo-900">View</a>
-                            </td> */}
                           </tr>
                         ))}
                       </tbody>
