@@ -9,25 +9,60 @@ import Swal from 'sweetalert2'
 function CartList() {
     const [services, setService] = useState('')
     const [categories, setCategories] = useState('')
+    const [datas1, setDatas1] = useState([])
+    const [datas2, setDatas2] = useState([])
     const [categoryName, setCategoryName] = useState([])
     const navigate = useNavigate()
 
+    const managerDetails = useSelector((state) => state.company)
+    console.log('serviceDetails:', datas1)
     const serviceDetails = useSelector((state) => state.services);
-    const managerDetails = useSelector((state)=> state.company)
-    console.log('managerDetails:', managerDetails.company.managerDetails._id)
     const managerId = managerDetails.company.managerDetails._id
 
     useEffect(() => {
+        console.log('Hello useEfffffffeeecctttttttttttt', serviceDetails.checked1);
+        setDatas1(serviceDetails.checked1)
+        setDatas2(serviceDetails.checked2)
         setService(serviceDetails.service.serviceData)
         setCategoryName(serviceDetails.service.serviceData.cateringMenu)
         setCategories(serviceDetails.service.serviceData.cateringMenu[0])
-    }, [])
-
+        const datas = { datas1, datas2 }
+        const details = () => {
+            try {
+                const token = localStorage.getItem('token')
+                axios.post(`${userUrl}cart-list/${managerId}`, datas, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }).then((response) => {
+                    // console.log(response);
+                    // if (response.data.success) {
+                    //     Swal.fire(
+                    //         'Removed!',
+                    //         'Your service has been removed.',
+                    //         'success'
+                    //     ).then(()=>{
+                    //         window.location.reload()
+                    //     })
+                    // } else {
+                    //     toast.error('Something error')
+                    // }
+                })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+        details()
+    }, [datas1, datas2])
+    const total1 = datas1.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.starter_price), 0);
+    const total2 = datas2.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.main_price), 0);
+    const total = total1 + total2
+    console.log('total', total);
     const submitCheckout = () => {
-        navigate('/checkout-page')
+        navigate('/checkout-page', { state: { totalPrice: total } })
     }
 
-    const removeItem = (data) => {
+    const removeItem = (index) => {
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -39,30 +74,28 @@ function CartList() {
         }).then(async (result) => {
             if (result.isConfirmed) {
                 try {
-                    const token = localStorage.getItem('token')
-                    await axios.post(`${userUrl}remove-item/${managerId}`,data, {
-                        headers: {
-                            Authorization: `Bearer ${token}`
-                        }
-                    }).then((response) => {
-                        if (response.data.success) {
-                            Swal.fire(
-                                'Removed!',
-                                'Your service has been removed.',
-                                'success'
-                            ).then(()=>{
-                                window.location.reload()
-                            })
-                        } else {
-                            toast.error('Something error')
-                        }
-                    })
+                    if (datas1) {
+                        const newData = datas1.filter((data, i) => i !== index);
+                        console.log(newData);
+                        setDatas1(newData);
+                    } else if (datas2) {
+                        const newData = datas2.filter((data, i) => i !== index);
+                        console.log(newData);
+                        setDatas2(newData);
+                    }
+                    Swal.fire(
+                        'Removed!',
+                        'Your service has been removed.',
+                        'success'
+                    )
                 } catch (error) {
                     console.log(error);
                 }
             }
         })
     }
+
+
     return (
         <div>
             <Navbar />
@@ -89,19 +122,19 @@ function CartList() {
                                                 </tr>
                                             </thead>
                                             <tbody class=" divide-y bg-slate-300 divide-gray-200">
-                                                {categoryName.map((data, index) => (
+                                                {datas1.map((data, index) => (
                                                     <tr class="hover:bg-slate-300 transition duration-300">
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
-                                                                {/* <div class="flex-shrink-0 h-10 w-10">
-                                                                    <img class="h-10 w-10 rounded-full" src='/pexels-kseniia.jpg' alt="" />
-                                                                </div> */}
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.starter_image} alt="" />
+                                                                </div>
                                                                 <div class="ml-4">
                                                                     <div class="text-sm font-medium text-gray-900">
                                                                         {data.starter_name}
                                                                     </div>
                                                                     <div class="text-sm text-gray-500">
-                                                                        {services.catering_name},
+                                                                        {/* {services.catering_name}, */}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -110,15 +143,43 @@ function CartList() {
                                                             <div key={index} class="text-sm text-gray-900">{data.starter_price}</div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <svg onClick={()=>removeItem(data._id)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                                                 stroke="currentColor">
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                     d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                             </svg>
                                                             {/* <div key={index} class="text-sm text-gray-900">{data.email}</div> */}
                                                         </td>
-
-
+                                                    </tr>
+                                                ))}
+                                                {datas2.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.main_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.main_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {/* {services.catering_name}, */}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.main_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                            {/* <div key={index} class="text-sm text-gray-900">{data.email}</div> */}
+                                                        </td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -135,6 +196,7 @@ function CartList() {
                                     </button>
 
                                 </div>
+                                {/* <p>total:{total}</p> */}
                             </div>
                         </div>
                     </div>

@@ -4,31 +4,62 @@ import axios from 'axios'
 import { userUrl } from '../../../API/Api'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setService } from '../../redux/services';
+import { setCheckedArray1, setCheckedArray2 } from '../../redux/services';
 
 function UserMenuList() {
     const [loading, setLoading] = useState(true)
-    const [services, setServices] = useState('')
+    const [service, setService] = useState('')
+    const [starter, setStarter] = useState([])
+    const [main, setMain] = useState([])
     const [catering, setCatering] = useState([])
     const [stage, setStage] = useState([])
     const [decoration, setDecoration] = useState([])
-    const [audio, setAudio] = useState([])
-    const [video, setVideo] = useState([])
+    const [photography, setPhotography] = useState([])
+    const [vehicle, setVehicle] = useState([])
     const [cateringMenu, setCateringMenu] = useState('')
+    const managerDetails = useSelector((state) => state.company)
     const Services = useSelector((state) => state.services || {});
+    const managerId = managerDetails.company.managerDetails._id
     console.log('serviceDetails:', Services);
     const serviceDetails = Services.service.serviceData || {}
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     if (Object.keys(Services, serviceDetails).length === 0) {
         return <p>Loading..</p>
     }
 
-    const handleChecked = (index) => {
-        const newCatering = [...catering];
-        console.log(index)
-        newCatering[index].checked = !newCatering[index].checked
-        setCatering(newCatering)
+    const starterChecked = async (image,name,price, event) => {
+        if (event == true) {
+            // check
+            setStarter([...starter, {starter_image:image,starter_name:name,starter_price:price}])
+            console.log(starter, 'arr');
+        } else {
+            // uncheck
+            for (let i = 0; i < starter.length; i++) {
+                console.log(i);
+                if (starter[i] == name) {
+                    starter.splice(i)
+                }
+            }
+        }
+    }
+
+    const mainChecked = async (image,name,price, event) => {
+        if (event == true) {
+            console.log('Hiiiiiiiiiiii');
+            // check
+            setMain([...main,{main_image:image,main_name:name,main_price:price}])
+            console.log(main, 'arr');
+        } else {
+            // uncheck
+            for (let i = 0; i < main.length; i++) {
+                console.log(i);
+                if (main[i] == name) {
+                    main.splice(i)
+                }
+            }
+        }
     }
 
     useEffect(() => {
@@ -42,25 +73,32 @@ function UserMenuList() {
             setService(serviceDetails)
             setCatering(serviceDetails.cateringMenu)
             setCateringMenu(serviceDetails.cateringMenu[0])
-            // const token = localStorage.getItem('token')
-            // await axios.post(`${userUrl}view-menu-list/${managerId}`, {},
-            //     {
-            //         headers: {
-            //             Authorization: `Bearer ${token}`
-            //         }
-            //     }).then((response) => {
-            //         if (response.data.success) {
-            //             const serviceData = response.data.data
-            //         }
-            //     })
+            setStage(serviceDetails.stageMenu)
+            setDecoration(serviceDetails.decorationMenu)
+            setPhotography(serviceDetails.photographyMenu)
+            setVehicle(serviceDetails.luxuryVehicleMenu)
         } catch (error) {
             console.log('err', error);
         }
     }, [])
 
     const openCart = () => {
-
-        navigate('/cart-list')
+        try {
+            dispatch(setCheckedArray1(starter))
+            dispatch(setCheckedArray2(main))
+            navigate('/cart-list')
+            // const token = localStorage.getItem('token')
+            // axios.post(`${userUrl}cart-list/${managerId}`, arr, {
+            //     headers: {
+            //         Authorization: `Bearer ${token}`
+            //     }
+            // })
+            // .then((response) => {
+            //     console.log('response',response.data);
+            // })
+        } catch (error) {
+            console.log(error);
+        }
     }
     return (
         <div>
@@ -100,10 +138,11 @@ function UserMenuList() {
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" checked={data.checked}
-                                                                    onChange={() => handleChecked(index)} />
+                                                                    onChange={(event) => starterChecked(data.starter_image,data.starter_name,data.starter_price, event.target.checked)} />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_price}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
+                                                                    onChange={(event) => mainChecked(data.main_image,data.main_name,data.main_price, event.target.checked)} />
                                                             </div>
                                                         ))}
 
@@ -119,10 +158,12 @@ function UserMenuList() {
                                                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_price}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" checked={data.checked}
+                                                                    onChange={(event) => dessertChecked(data.dessert_name,data.dessert_price, event.target.checked)} />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_price}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
+                                                                    onChange={(event) => saladChecked(data.salad_name,data.salad_price, event.target.checked)} />
                                                             </div>
                                                         ))}
                                                     </dl>
@@ -151,12 +192,14 @@ function UserMenuList() {
                                                             <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Select</dt>
                                                         </div>
-                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                            <img width='200px' height='auto' src="/stage1.png" alt="" />
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">20</dd>
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">50 sq.km</dd>
-                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
-                                                        </div>
+                                                        {stage.filter(data => data.stage_budget > 15000).map((data) => (
+                                                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                <img width='200px' height='auto' src={data.stage_photo} alt="" />
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                            </div>
+                                                        ))}
                                                     </dl>
                                                 </div>
                                             </div>
@@ -176,12 +219,14 @@ function UserMenuList() {
                                                             <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Select</dt>
                                                         </div>
-                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                            <img width='200px' height='auto' src="/stage1.png" alt="" />
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">20</dd>
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">50 sq.km</dd>
-                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
-                                                        </div>
+                                                        {stage.filter(data => data.stage_budget < 15000).map((data) => (
+                                                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                <img width='200px' height='auto' src={data.stage_photo} alt="" />
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                            </div>
+                                                        ))}
                                                     </dl>
                                                 </div>
                                             </div>
@@ -206,11 +251,13 @@ function UserMenuList() {
                                                             <dt className="text-sm font-medium text-gray-500">Decoration Budget</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Select</dt>
                                                         </div>
-                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                            <img width='200px' height='auto' src="/dec2.png" alt="" />
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">20</dd>
-                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
-                                                        </div>
+                                                        {decoration.map((data) => (
+                                                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                                                <img width='200px' height='auto' src={data.decoration_photo} alt="" />
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.decoration_budget}</dd>
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                            </div>
+                                                        ))}
                                                     </dl>
                                                 </div>
                                             </div>
@@ -237,13 +284,15 @@ function UserMenuList() {
                                                             <dt className="text-sm font-medium text-gray-500">Budget</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Select</dt>
                                                         </div>
-                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
-                                                            <img width='200px' height='auto' src="/wedding_photo.png" alt="" />
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">Zoom Photography</dd>
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">Mattayi House Manjeri</dd>
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">10,000</dd>
-                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
-                                                        </div>
+                                                        {photography.map((data) => (
+                                                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
+                                                                <img width='200px' height='auto' src={data.recent_photos} alt="" />
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.shop_name}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.address}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.budget}</dd>
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                            </div>
+                                                        ))}
                                                     </dl>
                                                 </div>
                                             </div>
@@ -263,18 +312,20 @@ function UserMenuList() {
                                             <div className="bg-white shadow overflow-hidden sm:rounded-lg">
                                                 <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
                                                     <dl className="sm:divide-y sm:divide-gray-200">
-                                                        <div className="py-4 sm:py-5 sm:grid lg:grid-cols-5 sm:grid-cols-5 lg:gap-4 sm:px-6">
+                                                        <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 lg:gap-4 sm:px-6">
                                                             <dt className="text-sm font-medium text-gray-500">Vehicle</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Owner Name</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Rent Price</dt>
                                                             <dt className="text-sm font-medium text-gray-500">Select</dt>
                                                         </div>
-                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
-                                                            <img width='200px' height='auto' src="/bmw.png" alt="" />
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">Ajas</dd>
-                                                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">8,000</dd>
-                                                            <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
-                                                        </div>
+                                                        {vehicle.map((data) => (
+                                                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                <img width='200px' height='auto' src={data.vehicle_image} alt="" />
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.owner_name}</dd>
+                                                                <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.rent_price}</dd>
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                            </div>
+                                                        ))}
                                                     </dl>
                                                 </div>
                                             </div>

@@ -9,7 +9,7 @@ const companySlice=createSlice({
     reducers:{
         setCompany: (state,action)=>{
             state.company=action.payload
-        },
+        }
     }   
 })
 

@@ -1,57 +1,42 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { userUrl } from '../../../API/Api';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useSelector } from 'react-redux';
+// import { useRoute } from '@react-navigation/native';
 import Swal from 'sweetalert2'
 
 function CheckoutPage() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [mobile, setMobile] = useState('')
-  const [company, setCompany] = useState('')
+  const [address, setAddress] = useState('')
   const [date, setDate] = useState('')
   const [time, setTime] = useState('')
   const [count, setCount] = useState('')
-  const [type, setType] = useState('')
+  const [type, setType] = useState('Wedding')
   const [pin, setPin] = useState('')
+  const [state, setState] = useState('Kerala')
+  const [district, setDistrict] = useState('Kasargod')
   const [place, setPlace] = useState('')
-  const userData = { name, email, mobile, company, date, time, count, type, pin, place }
+  const [grandTotal, setGrandTotal] = useState()
+  const userData = { name, email, mobile, address, date, time, count, type, pin, state, district, place, grandTotal }
   const navigate = useNavigate()
-  let { user } = useSelector((state) => state.user)
+  const location = useLocation()
 
-  const addEvent = async (e) => {
-    e.preventDefault()
-    try {
-      const token = localStorage.getItem('token')
-      await axios.post(`${userUrl}add-event`, userData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => {
-          console.log('Hi');
-          if (response.data.success) {
-            toast.success(response.data.message)
-          } else if (response.data.noAcc) {
-            toast.error(response.data.message)
-            navigate('/login')
-          } else {
-            toast.error('something error')
-            navigate('/add-event')
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        })
-    } catch (error) {
-      console.log(error)
-      toast.error('something error')
-    }
-  }
+  const total = location.state.totalPrice;
+  console.log('total:' + total);
+  const gst = 10;
+  const GrandTotal = total + gst
+
+  useEffect(() => {
+    setGrandTotal(GrandTotal)
+  }, [])
+
+  let { user } = useSelector((state) => state.user)
 
   const handleOpenRazorpay = (data) => {
     const options = {
@@ -75,7 +60,34 @@ function CheckoutPage() {
               'Success',
               'Your payment Successfully',
               'success'
-            )
+            ).then(() => {
+              try {
+                const token = localStorage.getItem('token')
+                axios.post(`${userUrl}add-event`, userData, {
+                  headers: {
+                    Authorization: `Bearer ${token}`,
+                  },
+                })
+                  .then((response) => {
+                    console.log('Hi');
+                    if (response.data.success) {
+                      toast.success(response.data.message)
+                    } else if (response.data.noAcc) {
+                      toast.error(response.data.message)
+                      navigate('/login')
+                    } else {
+                      toast.error('something error')
+                      navigate('/add-event')
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  })
+              } catch (error) {
+                console.log(error)
+                toast.error('something error')
+              }
+            })
           } else {
             toast.error(response.data.message)
           }
@@ -178,21 +190,22 @@ function CheckoutPage() {
                           >
                             District
                           </label>
-                          <select name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
-                            <option value="Kerala">Kasargod</option>
-                            <option value="Kerala">Kannur</option>
-                            <option value="Kerala">Wayanad</option>
-                            <option value="Kerala">Kozhikode</option>
-                            <option value="Kerala">Malappuram</option>
-                            <option value="Kerala">Thrissur</option>
-                            <option value="Kerala">Palakkad</option>
-                            <option value="Kerala">Ernakulam</option>
-                            <option value="Kerala">Idukki</option>
-                            <option value="Kerala">Kottayam</option>
-                            <option value="Kerala">Alappuzha</option>
-                            <option value="Kerala">Pathanamthitta</option>
-                            <option value="Kerala">Kollam</option>
-                            <option value="Kerala">Thiruvananthapuram</option>
+                          <select name="" value={district} onChange={(e) => setDistrict(e.target.value)}
+                            className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
+                            <option value="Kasargod">Kasargod</option>
+                            <option value="Kannur">Kannur</option>
+                            <option value="Wayanad">Wayanad</option>
+                            <option value="Kozhikode">Kozhikode</option>
+                            <option value="Malappuram">Malappuram</option>
+                            <option value="Thrissur">Thrissur</option>
+                            <option value="Palakkad">Palakkad</option>
+                            <option value="Ernakulam">Ernakulam</option>
+                            <option value="Idukki">Idukki</option>
+                            <option value="Kottayam">Kottayam</option>
+                            <option value="Alappuzha">Alappuzha</option>
+                            <option value="Pathanamthitta">Pathanamthitta</option>
+                            <option value="Kollam">Kollam</option>
+                            <option value="Thiruvananthapuram">Thiruvananthapuram</option>
                           </select>
                         </div>
                       </div>
@@ -224,11 +237,11 @@ function CheckoutPage() {
                           </label>
                           <input
                             type="text"
-                            value={company}
+                            value={address}
                             required
                             className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                             placeholder="Address"
-                            onChange={(e) => setCompany(e.target.value)}
+                            onChange={(e) => setAddress(e.target.value)}
                           />
                         </div>
                         <div className="relative w-full mb-3">
@@ -238,7 +251,8 @@ function CheckoutPage() {
                           >
                             State
                           </label>
-                          <select name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
+                          <select value={state} onChange={(e) => setState(e.target.value)}
+                            name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
                             <option value="Kerala">Kerala</option>
                             <option value="Kerala">Tamilnadu</option>
                             <option value="Kerala">Karnataka</option>
@@ -338,14 +352,12 @@ function CheckoutPage() {
                           >
                             Event Type
                           </label>
-                          <input
-                            type="text"
-                            value={type}
-                            required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            placeholder="Wedding/Nikah"
-                            onChange={(e) => setType(e.target.value)}
-                          />
+                          <select value={type} onChange={(e) => setType(e.target.value)}
+                            name="" className='border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150' id="">
+                            <option value="Wedding">Wedding</option>
+                            <option value="Nikah">Nikah</option>
+                            {/* <option value="Kerala">House Warming</option> */}
+                          </select>
                         </div>
                       </div>
                     </div>
@@ -363,20 +375,20 @@ function CheckoutPage() {
                           <label class="block text-gray-700 font-bold mb-2" for="subtotal">
                             Subtotal
                           </label>
-                            <p class="text-gray-700 text-sm">₹100</p>
+                          <p class="text-gray-700 text-sm">₹{total}</p>
                         </div>
                         <div class="mb-4 flex items-center justify-between">
                           <label class="block text-gray-700 font-bold mb-2" for="subtotal">
                             Gst
                           </label>
-                            <p class="text-gray-700 text-sm">₹10</p>
+                          <p class="text-gray-700 text-sm">₹{gst}</p>
                         </div>
                         <div class="mb-4 flex items-center justify-between">
                           <label class="block text-gray-700 font-bold mb-2" for="total">
                             Total
                           </label>
                           <div class="">
-                            <p class="text-gray-700 font-bold">₹1000</p>
+                            <p class="text-gray-700 font-bold">₹{grandTotal}</p>
                           </div>
                         </div>
                         <div class="mb-4">
@@ -391,7 +403,7 @@ function CheckoutPage() {
                       </div>
                     </div>
                     <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
-                      <button onClick={() => handlePayment(count)}
+                      <button onClick={() => handlePayment(grandTotal)}
                         className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
                         type="button"
                       >

@@ -30,6 +30,9 @@ import MiscellaneousServicesIcon from '@mui/icons-material/MiscellaneousServices
 import LogoutIcon from '@mui/icons-material/Logout';
 import { Checkbox, ListItemText, Radio } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import CheckIcon from '@mui/icons-material/Check';
+import axios from 'axios';
+import { userUrl } from '../../API/Api';
 
 const drawerWidth = 280;
 
@@ -86,6 +89,12 @@ export default function Layout({ children }) {
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const [selectedValue, setSelectedValue] = React.useState('a');
+    const [foodChecked, setFoodChecked] = React.useState(false)
+    const [stageChecked, setStageChecked] = React.useState(false)
+    const [decorateChecked, setDecorateChecked] = React.useState(false)
+    const [photographyChecked, setPhotographyChecked] = React.useState(false)
+    const [vehicleChecked, setVehicleChecked] = React.useState(false)
+
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -108,71 +117,89 @@ export default function Layout({ children }) {
             localStorage.clear()
         }
     }
+    const checkService = (name) => {
+        console.log(name);
+        // {name === 'Food Service'&& (
+        //     console.log(foodChecked)
+        // )}
+        // {name === 'Stage Service'&& setStageChecked(stageChecked => !stageChecked)}
+        // {name === 'Decoration Service'&& setDecorateChecked(decorateChecked => !decorateChecked)}
+        // {name === 'Photography Service'&& setPhotographyChecked(photographyChecked => !photographyChecked)}
+        // {name === 'Vehicle Service'&& setVehicleChecked(vehicleChecked => !vehicleChecked)}
+        // const checkedData = {foodChecked,stageChecked,decorateChecked,photographyChecked,vehicleChecked}
+        // console.log(checkedData);
+        const token = localStorage.getItem('token')
+        axios.post(`${userUrl}filter-service`, { name }, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        })
+    }
 
     const [activeMenu, setActiveMenu] = React.useState(null);
 
     const menuList = [
         {
             name: 'Food Service',
-            path: '/manager/dashboard'
+            // checked: false
         }, {
             name: 'Stage Service',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Decoration Service',
-            path: '/manager/bookings'
+            // checked: false
         }, {
-            name: 'Audio Service',
-            path: '/manager/bookings'
+            name: 'Photography Service',
+            // checked: false
         }, {
-            name: 'Video Service',
-            path: '/manager/bookings'
+            name: 'Vehicle Service',
+            // checked: false
         },
     ]
 
     const locationList = [
         {
             name: 'Kasargod',
-            path: '/manager/dashboard'
+            // checked: false
         }, {
             name: 'Kannur',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Wayanad',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Kozhikode',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Malappuram',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Palakkad',
-            path: '/manager/dashboard'
+            // checked: false
         }, {
             name: 'Thrissur',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Ernakulam',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Idukki',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Kottayam',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Alappuzha',
-            path: '/manager/dashboard'
+            // checked: false
         }, {
             name: 'Pathanamthitta',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Kollam',
-            path: '/manager/bookings'
+            // checked: false
         }, {
             name: 'Thiruvananthapuram',
-            path: '/manager/bookings'
+            // checked: false
         }
     ]
 
@@ -291,7 +318,20 @@ export default function Layout({ children }) {
                     {menuList.map((menu, index) => (
                         <ListItem key={index} disablePadding>
                             <ListItemButton>
-                                {/* <Radio
+                                <Checkbox
+                                    checked={menu.checked}
+                                    onChange={() => checkService(menu.name)}
+                                />
+                                <ListItemText className='text-xl text-black font-normal underline-offset-0' primary={menu.name} />
+                            </ListItemButton>
+                        </ListItem>
+                    ))}
+                </List>
+                <h1 className='mt-5 mb-2 ml-4 text-xl font-semibold'>Filter by Location</h1>
+                <List>
+                    {locationList.map((menu, index) => (
+                        <ListItem key={index} disablePadding>
+                            {/* <Radio
                                     checked={selectedValue === 'a'}
                                     onChange={(e) => setSelectedValue(e.target.value)}
                                     value="a"
@@ -305,31 +345,12 @@ export default function Layout({ children }) {
                                     name="radio-buttons"
                                     inputProps={{ 'aria-label': 'B' }}
                                 /> */}
-                                <ListItemText className='text-xl text-black font-normal underline-offset-0' primary={menu.name} />
-                            </ListItemButton>
-                        </ListItem>
-                    ))}
-                </List>
-                <h1 className='mt-5 mb-2 ml-4 text-xl font-semibold'>Filter by Location</h1>
-                <List>
-                    {locationList.map((menu, index) => (
-                        <ListItem key={index} disablePadding>
                             <ListItemButton>
-                                <Radio
-                                    checked={selectedValue === 'a'}
-                                    onChange={(e) => setSelectedValue(e.target.value)}
-                                    value="a"
-                                    name="radio-buttons"
-                                    inputProps={{ 'aria-label': 'A' }}
+                                <Checkbox
+                                    checked={menu.checked}
+                                    onChange={() => checkService(menu.name)}
                                 />
-                                <Radio
-                                    checked={selectedValue === 'b'}
-                                    onChange={(e) => setSelectedValue(e.target.value)}
-                                    value="b"
-                                    name="radio-buttons"
-                                    inputProps={{ 'aria-label': 'B' }}
-                                />
-                                <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
+                                <ListItemText className='text-xl text-black font-normal underline-offset-0' primary={menu.name} />
                             </ListItemButton>
                         </ListItem>
                     ))}
@@ -350,8 +371,14 @@ export default function Layout({ children }) {
                             {menuList.map((menu, index) => (
                                 <ListItem key={index} disablePadding>
                                     <ListItemButton>
-                                        <Checkbox />
-                                        <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
+                                        <Checkbox
+                                            checked={menu.checked}
+                                            onChange={() => checkService(menu.name)}
+                                        />
+                                        <ListItemText
+                                            className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`}
+                                            primary={menu.name}
+                                        />
                                     </ListItemButton>
                                 </ListItem>
                             ))}
@@ -361,8 +388,14 @@ export default function Layout({ children }) {
                             {locationList.map((menu, index) => (
                                 <ListItem key={index} disablePadding>
                                     <ListItemButton>
-                                        <Checkbox/>
-                                        <ListItemText className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`} primary={menu.name} />
+                                        <Checkbox
+                                            checked={menu.checked}
+                                            onChange={() => checkService(menu.name)}
+                                        />
+                                        <ListItemText
+                                            className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`}
+                                            primary={menu.name}
+                                        />
                                     </ListItemButton>
                                 </ListItem>
                             ))}

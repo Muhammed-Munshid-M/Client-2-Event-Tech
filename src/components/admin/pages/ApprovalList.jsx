@@ -95,21 +95,21 @@ function ApprovalList() {
                           </div>
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">Aadhar</dt>
-                            <img src="/driving-licence.jpeg" alt="" />
+                            <img src={managerDetails?.adhaar} alt="" />
                           </div>
                           <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                             <dt className="text-sm font-medium text-gray-500">License or VoterId</dt>
-                            <img src="/driving-licence.jpeg" alt="" />
+                            <img src={managerDetails?.license_or_voterId} alt="" />
                           </div>
                         </dl>
                       </div>
                       <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
                     <button
                       type="button"
-                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-mainColor hover:bg-secColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={()=>navigate('/doctor/profile')}
+                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-mainColor hover:bg-secColor focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                    onClick={()=>setShowDetails(false)}
                    >
-                        Go to your profile
+                        Go to Back
                     </button>
                    
                   </div>
@@ -149,7 +149,7 @@ function ApprovalList() {
                               <td class="px-6 py-4 whitespace-nowrap">
                                 <div class="flex items-center">
                                   <div class="flex-shrink-0 h-10 w-10">
-                                    <img class="h-10 w-10 rounded-full" src={data.upload_photo} alt="" />
+                                    <img class="h-10 w-10 rounded-full" src={data.manager_image} alt="" />
                                   </div>
                                   <div class="ml-4">
                                     <div key={index} class="text-sm font-medium text-gray-900">

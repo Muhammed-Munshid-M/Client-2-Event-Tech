@@ -163,9 +163,6 @@ function Managers() {
                                   <tr className="hover:bg-slate-200 transition duration-300">
                                     <td className="px-6 py-4 whitespace-nowrap">
                                       <div className="flex items-center">
-                                        <div className="flex-shrink-0 h-10 w-10">
-                                          <img className="h-10 w-10 rounded-full" src={data.upload_photo} alt="can't get image image" hidden />
-                                        </div>
                                         <div className="ml-4">
                                           <div key={index} className="text-sm font-medium text-gray-900">
                                             {data.name}

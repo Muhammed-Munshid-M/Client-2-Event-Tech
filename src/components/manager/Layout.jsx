@@ -130,7 +130,7 @@ export default function Layout({ children }) {
         }, {
             name: 'Sales Report',
             icon: 'fa-solid fa-calendar-lines-pen',
-            path: '/admin/sales-report'
+            path: '/sales-report'
         },
     ]
 

@@ -3,11 +3,18 @@ import React, { useEffect, useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { managerUrl } from '../../../API/Api'
 import Layout from '../Layout'
+import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 function Bookings() {
-    const [form, setForm] = useState()
+    const [orderDetails, setOrderDetails] = useState()
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
-    const [bookingDetails, setBookingDetails] = useState()
+    const [bookingDetails, setBookingDetails] = useState([])
+    const [user, setUser] = useState()
+    const [bookingId, setBookingId] = useState()
+    // let userData = useSelector((state) => state.user)
+    // const userId = user._id
+    // console.log('user',userData.user);
 
     useEffect(() => {
         setTimeout(() => {
@@ -18,9 +25,9 @@ function Bookings() {
     const viewDetails = async (id) => {
         console.log(id);
         setShowDetails(true)
-        await axios.post(`${managerUrl}bookings/${id}`).then((response) => {
+        await axios.post(`${managerUrl}bookings/${id}`, { user, bookingId }).then((response) => {
             const forms = response.data.data
-            console.log(forms);
+            console.log('forms', forms);
             const form = forms.form
             setBookingDetails(form)
         })
@@ -30,22 +37,27 @@ function Bookings() {
         const bookings = async () => {
             try {
                 const token = localStorage.getItem('manager-token')
-                await axios.post(`${managerUrl}bookings`,{},
-                {
-                    headers :{
-                        Authorization : `Bearer ${token}`
-                    },
-                }).then((response) => {
-                    const forms = response.data[0]
-                    const form = forms.form
-                    setForm(form)
-                })
+                await axios.post(`${managerUrl}bookings`, {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        },
+                    }).then((response) => {
+                        const bookings = response.data[0]
+                        const userId = bookings.user_id
+                        const id = bookings._id
+                        console.log('userId', id);
+                        setUser(userId)
+                        setBookingId(id)
+                        const details = bookings.orderDetails
+                        setOrderDetails(details)
+                    })
             } catch (error) {
                 console.log(error);
             }
         }
         bookings()
-    }, [])
+    }, [user])
     return (
         <div>
             <Layout>
@@ -64,20 +76,25 @@ function Bookings() {
                                         </header>
                                         <main class="container mx-auto mt-8 px-4">
                                             <section class="bg-white shadow-lg rounded-lg p-8">
-                                                <h2 class="text-xl font-bold mb-4">Manager Details</h2>
-                                                <p>Customer Name : {bookingDetails?.formName}</p>
-                                                <p>Customer Email : {bookingDetails?.formEmail}</p>
-                                                <p>Customer Mobile : {bookingDetails?.formMobile}</p>
-                                                <p className='mb-4'>Company Name : {bookingDetails?.company}</p>
-                                                <h3 className='text-lg font-semibold mt-4'>1. Services</h3>
-                                                <h4 className='text-base font-semibold mt-4'>Catering service</h4>
-                                                <p>Leader of worker : sufiyan</p>
-                                                <p>Mobile Number : 9072065394</p>
-                                                <p>Total workers : 30 workers</p>
-                                                <h5 className='text-sm font-medium mt-4'>Starters</h5>
-                                                <p>Spicy lemon</p>
-                                                <p>got in soup</p>
-                                                <h3 className='text-lg font-semibold mt-4'>2. Stage service</h3>
+                                                <h2 class="text-xl font-bold mb-4">User Details</h2>
+                                                {bookingDetails.map((data) => (
+                                                    <div>
+                                                        <p>Name : {data?.formName}</p>
+                                                        <p>Email : {data?.formEmail}</p>
+                                                        <p>Mobile : {data?.formMobile}</p>
+                                                        <p>Address : {data?.address}</p>
+                                                        <p>Pin code : {data?.pin}</p>
+                                                        <p>State : {data?.state}</p>
+                                                        <p>District : {data?.district}</p>
+                                                        <p className='mb-4'>Place : {data?.company}</p>
+                                                        <h2 className='text-xl font-semibold mt-4'>Services</h2>
+                                                        <h3 className='text-lg font-semibold mt-4'>1. Catering service</h3>
+                                                        <h4 className='text-base font-semibold mt-4'>Starters</h4>
+                                                        <p>Spicy lemon</p>
+                                                        <p>got in soup</p>
+                                                        <h3 className='text-lg font-semibold mt-4'>2. Stage service</h3>
+                                                    </div>
+                                                ))}
                                             </section>
                                         </main>
                                     </body>
@@ -95,49 +112,49 @@ function Bookings() {
                                                                 Event Type
                                                             </th>
                                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Company Name
+                                                                Event Date
+                                                            </th>
+                                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                                                Event Time
                                                             </th>
                                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                                 Count of people
                                                             </th>
                                                             <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Place
-                                                            </th>
-                                                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                                Details
+                                                                User Details
                                                             </th>
                                                         </tr>
                                                     </thead>
                                                     <tbody class="bg-slate-400 divide-y divide-gray-200">
 
-                                                        {form.map((data) => (
+                                                        {orderDetails.map((data) => (
                                                             <tr class="hover:bg-slate-200 transition duration-300">
                                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                                     <div class="flex items-center">
-                                                                        <div class="flex-shrink-0 h-10 w-10">
+                                                                        {/* <div class="flex-shrink-0 h-10 w-10">
                                                                             <img class="h-10 w-10 rounded-full" src="https://via.placeholder.com/150" alt="" />
-                                                                        </div>
+                                                                        </div> */}
                                                                         <div class="ml-4">
                                                                             <div class="text-sm font-medium text-gray-900">
                                                                                 {data.type}
                                                                             </div>
-                                                                            <div class="text-sm text-gray-500">
+                                                                            {/* <div class="text-sm text-gray-500">
                                                                                 {data.company}
-                                                                            </div>
+                                                                            </div> */}
                                                                         </div>
                                                                     </div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                                    <div class="text-sm text-gray-900">{data.company}</div>
+                                                                    <div class="text-sm text-gray-900">{data.date}</div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-900">{data.time}</div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                                     <div class="text-sm text-gray-900">{data.count}</div>
                                                                 </td>
-                                                                <td class="px-6 py-4 whitespace-nowrap">
-                                                                    <div class="text-sm text-gray-900">{data.place}</div>
-                                                                </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    <a onClick={() => viewDetails(data._id)} class="text-indigo-600 hover:text-indigo-900">View</a>
+                                                                    <Link onClick={() => viewDetails(data._id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
                                                                 </td>
                                                             </tr>
                                                         ))}

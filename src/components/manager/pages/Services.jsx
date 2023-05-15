@@ -8,6 +8,7 @@ function Services() {
     const [loading, setLoading] = useState(true)
     const [service, setService] = useState([])
     const [catering, setCatering] = useState([])
+    const [cateringCategory,setCateringCategory] = useState()
     const [stage, setStage] = useState([])
     const [decoration, setDecoration] = useState([])
     const [photography, setPhotography] = useState([])
@@ -161,6 +162,7 @@ function Services() {
                         if (response.data.success) {
                             const serviceData = response.data.data
                             const catering = serviceData.cateringMenu
+                            const cateringCategories = catering[0]
                             const stage = serviceData.stageMenu
                             const decoration = serviceData.decorationMenu
                             const photography = serviceData.photographyMenu
@@ -169,6 +171,7 @@ function Services() {
                             const vehicles = serviceData.luxuryVehicleMenu
                             setService(serviceData)
                             setCatering(catering)
+                            setCateringCategory(cateringCategories)
                             setStage(stage)
                             setDecoration(decoration)
                             setPhotography(photography)
@@ -413,14 +416,14 @@ function Services() {
                                                                                     </div>
                                                                                     <div class="mt-4">
 
-                                                                                        {catering.map((data) => (
+                                                                                        {/* {catering.map((data) => ( */}
                                                                                             <form onSubmit={submitService} class="">
                                                                                                 <div class="md:flex md:items-center mt-3 ">
                                                                                                     <ul role="list" class="p-6 divide-y divide-slate-800">
                                                                                                         <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
-                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{cateringCategory.category_name[0]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
@@ -433,7 +436,7 @@ function Services() {
                                                                                                         <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
-                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{cateringCategory.category_name[1]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5  h-5"
@@ -446,7 +449,7 @@ function Services() {
                                                                                                         <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[4rem]">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
-                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{cateringCategory.category_name[2]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
@@ -459,7 +462,7 @@ function Services() {
                                                                                                         <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
                                                                                                             <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                                                             <div class="ml-3 overflow-hidden">
-                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[3]}</p>
+                                                                                                                <p class="text-sm font-medium text-slate-900 pt-2">{cateringCategory.category_name[3]}</p>
                                                                                                                 {/* <p class="text-sm text-slate-900 truncate">hdbghgd</p> */}
                                                                                                             </div>
                                                                                                             <input type="checkbox" class="checked:bg-blue-500 mt-2 sm:ml-4 w-5 h-5"
@@ -479,7 +482,7 @@ function Services() {
                                                                                                     </div>
                                                                                                 </div>
                                                                                             </form>
-                                                                                        ))}
+                                                                                        {/* ))} */}
                                                                                     </div>
                                                                                 </div>
                                                                             </div>

@@ -4,14 +4,14 @@ import Banner from '../Banner'
 import Paragraph from './Paragraph'
 import Footer from '../Footer'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch,useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { userUrl } from '../../../API/Api'
+import { setUser } from '../../redux/userSlice'
 
 function Home() {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  let {updated} = useSelector((state) => state.user)
   const userData=async()=>{
     try {
       const token = localStorage.getItem('token')
@@ -21,6 +21,7 @@ function Home() {
           Authorization : `Bearer ${token}`,
         },
       })
+      console.log('data:',data.data);
       dispatch(setUser(data.data))
     } catch (error) {
 
@@ -29,9 +30,11 @@ function Home() {
   useEffect(()=>{
     userData()
   },[])
+
   const addEvent = () =>{
     navigate('/company-list')
   }
+
   return (
     <div>
       <Navbar />

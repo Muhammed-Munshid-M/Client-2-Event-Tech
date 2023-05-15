@@ -23,6 +23,7 @@ import { setCompany } from '../../redux/companyDetails';
 import axios from 'axios';
 import { userUrl } from '../../../API/Api';
 import { useNavigate } from 'react-router-dom';
+import Pagination from '../Pagination';
 
 const ExpandMore = styled((props) => {
     const { expand, ...other } = props;
@@ -39,22 +40,9 @@ export default function CompanyList() {
     const [expanded, setExpanded] = React.useState([]);
     const [manager, setManager] = React.useState([])
     const [details, setDetails] = React.useState(false)
-    const [currentPage, setCurrentPage] = React.useState(1);
-    const [itemsPerPage, setItemsPerPage] = React.useState(10);
-
-    const data = []
-
-    function paginate(data) {
-        const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-        return data.slice(startIndex, endIndex);
-      }
-
-      const paginatedData = paginate(data);
-
-      function handlePageChange(event, value) {
-        setCurrentPage(value);
-      }
+    const [page, setPage] = React.useState(1);
+    const [limit, setLimit] = React.useState(3);
+    const [totalPages, setTotalPages] = React.useState(1);
 
     const dispatch = useDispatch(setCompany)
     const navigate = useNavigate()
@@ -84,30 +72,25 @@ export default function CompanyList() {
     React.useEffect(() => {
         try {
             const token = localStorage.getItem('token')
-            axios.post(`${userUrl}company-list`, {}, {
+            axios.post(`${userUrl}company-list?limit=${limit}&page=${page}`, {}, {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             }).then((response) => {
                 console.log('response: ' + response.data)
-                if (response.data.noToken) {
-                    toast.error(response.data.message)
-                }
-                setManager(response.data.data)
+                setManager(response.data.data.managerList)
+                setTotalPages(response.data.data.totalPages);
             })
         } catch (err) {
             console.log(err);
 
         }
-    }, [])
+    }, [limit, page])
 
-    const handleExpandClick = (index) => {
-        setExpanded((prevExpanded) => {
-            const newExpanded = [...prevExpanded];
-            newExpanded[index] = !newExpanded[index];
-            return newExpanded;
-        });
-    };
+    const pageNumbers = [];
+    for (let i = 1; i <= totalPages; i++) {
+        pageNumbers.push(i);
+    }
 
     return (
         <div>
@@ -116,13 +99,6 @@ export default function CompanyList() {
                 <div className='mt-24 top-0 ml-10'>
                     <div className=''>
                         <h1 className='font-serif font-bold text-purple-700 text-4xl ml-1 md:mr-[37rem]'>Select your Company</h1>
-                        {/* <div className='float-right text font-normal text-xl ml-1'> */}
-                        {/* <h5 className='sm:py-2'>Filter : </h5>
-                    <select className='inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 sm:ml-3 sm:w-auto sm:text-sm' name="" id="">
-                        <option className='py-4' value="">Select</option>
-                        <option className='py-4' value="">Filter</option>
-                    </select> */}
-                        {/* </div> */}
                     </div>
                     <div className='grid md:grid-cols-3'>
                         {manager.map((data, index) => (
@@ -130,7 +106,7 @@ export default function CompanyList() {
                                 <CardMedia
                                     component="img"
                                     height="10"
-                                    sx={{ borderRadius: '50%', maxWidth: 180, minHeight:180, mx: 'auto', display: 'block' }}
+                                    sx={{ borderRadius: '50%', maxWidth: 180, minHeight: 180, mx: 'auto', display: 'block' }}
                                     image={data.company_logo}
                                     alt="No company icon"
                                 />
@@ -144,29 +120,6 @@ export default function CompanyList() {
                                     <Typography variant="body2" color="text.secondary" sx={{ textAlign: 'center', fontFamily: 'initial', fontSize: '18px', fontWeight: 'semibold' }}>
                                         {data.state}
                                     </Typography>
-                                    {/* <div className='flex content-center items-center justify-center'>
-                                        {details ? (
-                                            <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10 ml-44">
-                                                <div class="max-w-xl p-6 bg-white divide-y divide-gray-500">
-                                                    <div class="flex items-center justify-between">
-                                                        <h3 class="text-2xl">View Details</h3>
-                                                        <svg onClick={closeModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                            stroke="currentColor">
-                                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                        </svg>
-                                                    </div>
-                                                    <div class="mt-4">
-                                            
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ) : (
-                                            <Button onClick={viewCompany} sx={{ mx: 12, mt: 2, backgroundColor: 'green' }} variant="contained">
-                                                <RemoveRedEyeIcon />
-                                            </Button>
-                                        )}
-                                    </div> */}
 
                                     <Button onClick={() => selectCompany(data._id)} sx={{ mx: 11, mt: 2 }} variant="contained">
                                         Select
@@ -175,8 +128,12 @@ export default function CompanyList() {
                             </Card>
                         ))}
                     </div>
-                    <div>
-                        <button >1</button>
+                    <div className='lg:mx-96 mt-7'>
+                        {pageNumbers.map((pageNumber) => (
+                            <button className='lg:mx-5 mx-7' key={pageNumber} onClick={() => setPage(pageNumber)}>
+                                {pageNumber}
+                            </button>
+                        ))}
                     </div>
                 </div>
             </Layout>

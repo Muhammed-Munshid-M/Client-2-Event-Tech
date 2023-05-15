@@ -73,12 +73,6 @@ function Profile() {
         }
     }, [])
 
-    // useEffect(() => {
-    //     setTimeout(() => {
-    //       setLoading(false)
-    //     }, 1000);
-    //   }, [])
-
     const openModal = async () => {
         setModal(true)
     }

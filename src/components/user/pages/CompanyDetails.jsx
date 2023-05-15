@@ -11,13 +11,15 @@ function CompanyDetails() {
     const [showServices, setShowServices] = useState(false)
     const [stage, setStage] = useState(false)
     const [decorate, setDecorate] = useState(false)
+    const [photography,setPhotography] = useState(false)
+    const [vehicle,setVehicle] = useState(false)
     const [cateringMenu, setCateringMenu] = useState([])
     const [stageMenu, setStageMenu] = useState([])
     const [decorateMenu, setDecorateMenu] = useState([])
     const [photographyMenu, setphotographyMenu] = useState([])
     const [vehicleMenu, setVehicleMenu] = useState([])
     const managerDetails = useSelector((state) => state.company);
-    console.log('managerDetails:', serviceDetails);
+    const managerId = managerDetails.company.managerDetails._id
     const navigate = useNavigate()
 
     const selectService = () => {
@@ -61,7 +63,7 @@ function CompanyDetails() {
     }
 
     const openPhotographyService = () => {
-        setphotographyMenu(true)
+        setPhotography(true)
         window.scrollTo({
             top: 0,
             behavior: "smooth"
@@ -69,11 +71,11 @@ function CompanyDetails() {
     }
 
     const closePhotographyModal = () => {
-        setphotographyMenu(false)
+        setPhotography(false)
     }
 
     const openVehicleService = () => {
-        setVehicleMenu(true)
+        setVehicle(true)
         window.scrollTo({
             top: 0,
             behavior: "smooth"
@@ -81,23 +83,24 @@ function CompanyDetails() {
     }
 
     const closeVehicleModal = () => {
-        setVehicleMenu(false)
+        setVehicle(false)
     }
     useEffect(() => {
         setCompanyDetails(managerDetails.company.managerDetails)
         const token = localStorage.getItem('token')
-        axios.post(`${userUrl}service-details`, {}, {
+        axios.post(`${userUrl}service-details/${managerId}`, {}, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
         }).then((response) => {
             const services = response.data.data
             setServiceDetails(services)
+            console.log('menu:',services);
             const menu = services.cateringMenu
             const stageMenuData = services.stageMenu
             const decorateMenu = services.decorationMenu
             const photographyMenu = services.photographyMenu
-            const vehicleMenu = services.vehicleMenu
+            const vehicleMenu = services.luxuryVehicleMenu
             setCateringMenu(menu)
             setStageMenu(stageMenuData)
             setDecorateMenu(decorateMenu)
@@ -165,6 +168,7 @@ function CompanyDetails() {
                                                     </tr>
                                                 </thead>
                                                 <tbody class="bg-slate-400 divide-y divide-gray-200">
+                                                    {serviceDetails.catering_status == true && 
                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
@@ -227,6 +231,8 @@ function CompanyDetails() {
                                                             )}
                                                         </td>
                                                     </tr>
+                                                    }
+                                                    {serviceDetails.stage_status == true && 
                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
@@ -277,6 +283,8 @@ function CompanyDetails() {
                                                             )}
                                                         </td>
                                                     </tr>
+                                                    }
+                                                    {serviceDetails.decoration_status == true && 
                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
@@ -293,7 +301,7 @@ function CompanyDetails() {
                                                                 <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
                                                                     <div class="max-w-sm p-6 bg-white divide-y divide-gray-500">
                                                                         <div class="flex items-center justify-between">
-                                                                            <h3 class="text-2xl">Stage Menu Details</h3>
+                                                                            <h3 class="text-2xl">Decoration Menu Details</h3>
                                                                             <svg onClick={closeDecorateModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
                                                                                 stroke="currentColor">
                                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -308,7 +316,7 @@ function CompanyDetails() {
                                                                                     </div>
                                                                                     {decorateMenu.map((data) => (
                                                                                         <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
-                                                                                            {/* <img src={data.decoration_photo} alt="" /> */}
+                                                                                            <img src={data.decoration_photo} alt="" />
                                                                                         </div>
                                                                                     ))}
                                                                                 </dl>
@@ -327,6 +335,8 @@ function CompanyDetails() {
                                                             )}
                                                         </td>
                                                     </tr>
+                                                    }
+                                                    {serviceDetails.photography_status == true && 
                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
@@ -339,12 +349,46 @@ function CompanyDetails() {
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-
-                                                            <button class="custom-select font-weight-bold bg-transparent text-lg text-blue-700 hover:text-blue-500 border-0" name="orderStatus">
-                                                                View
-                                                            </button>
+                                                        {photography ? (
+                                                                <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                                                    <div class="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                                                        <div class="flex items-center justify-between">
+                                                                            <h3 class="text-2xl">Photography Menu Details</h3>
+                                                                            <svg onClick={closePhotographyModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                            </svg>
+                                                                        </div>
+                                                                        <div class="mt-4">
+                                                                            <div className="border-b border-gray-200 py-5 sm:p-0">
+                                                                                <dl className="sm:divide-y sm:divide-gray-200">
+                                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                                        <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                                                                    </div>
+                                                                                    {photographyMenu.map((data) => (
+                                                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                                                            <img src={data.recent_photos} alt="" />
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </dl>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    onClick={openPhotographyService}
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            )}
                                                         </td>
                                                     </tr>
+                                                    }
+                                                    {serviceDetails.vehicle_status == true && 
                                                     <tr class="hover:bg-slate-200 transition duration-300">
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div class="flex items-center">
@@ -357,11 +401,45 @@ function CompanyDetails() {
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
-                                                            <button class="custom-select font-weight-bold bg-transparent text-lg text-blue-700 hover:text-blue-500 border-0" name="orderStatus">
-                                                                View
-                                                            </button>
+                                                        {vehicle ? (
+                                                                <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                                                    <div class="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                                                        <div class="flex items-center justify-between">
+                                                                            <h3 class="text-2xl">Luxury Vehicle Menu Details</h3>
+                                                                            <svg onClick={closeVehicleModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                                stroke="currentColor">
+                                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                                            </svg>
+                                                                        </div>
+                                                                        <div class="mt-4">
+                                                                            <div className="border-b border-gray-200 py-5 sm:p-0">
+                                                                                <dl className="sm:divide-y sm:divide-gray-200">
+                                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                                                        <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                                                                    </div>
+                                                                                    {vehicleMenu.map((data) => (
+                                                                                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                                                            <img src={data.vehicle_image} alt="" />
+                                                                                        </div>
+                                                                                    ))}
+                                                                                </dl>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            ) : (
+                                                                <button
+                                                                    type="button"
+                                                                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                                                    onClick={openVehicleService}
+                                                                >
+                                                                    View
+                                                                </button>
+                                                            )}
                                                         </td>
                                                     </tr>
+                                                    }
                                                 </tbody>
                                             </table>
                                         </div>
