@@ -6,12 +6,12 @@ import Layout from '../Layout'
 import { Link } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 function Bookings() {
-    const [orderDetails, setOrderDetails] = useState()
+    const [booking, setBooking] = useState([])
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
     const [bookingDetails, setBookingDetails] = useState([])
-    const [user, setUser] = useState()
-    const [bookingId, setBookingId] = useState()
+    // const [user, setUser] = useState()
+    // const [bookingId, setBookingId] = useState()
     // let userData = useSelector((state) => state.user)
     // const userId = user._id
     // console.log('user',userData.user);
@@ -25,7 +25,7 @@ function Bookings() {
     const viewDetails = async (id) => {
         console.log(id);
         setShowDetails(true)
-        await axios.post(`${managerUrl}bookings/${id}`, { user, bookingId }).then((response) => {
+        await axios.post(`${managerUrl}bookings/${id}`).then((response) => {
             const forms = response.data.data
             console.log('forms', forms);
             const form = forms.form
@@ -43,21 +43,15 @@ function Bookings() {
                             Authorization: `Bearer ${token}`
                         },
                     }).then((response) => {
-                        const bookings = response.data[0]
-                        const userId = bookings.user_id
-                        const id = bookings._id
-                        console.log('userId', id);
-                        setUser(userId)
-                        setBookingId(id)
-                        const details = bookings.orderDetails
-                        setOrderDetails(details)
+                        const bookings = response.data
+                        setBooking(bookings)
                     })
             } catch (error) {
                 console.log(error);
             }
         }
         bookings()
-    }, [user])
+    },[])
     return (
         <div>
             <Layout>
@@ -86,7 +80,7 @@ function Bookings() {
                                                         <p>Pin code : {data?.pin}</p>
                                                         <p>State : {data?.state}</p>
                                                         <p>District : {data?.district}</p>
-                                                        <p className='mb-4'>Place : {data?.company}</p>
+                                                        <p className='mb-4'>Place : {data?.place}</p>
                                                         <h2 className='text-xl font-semibold mt-4'>Services</h2>
                                                         <h3 className='text-lg font-semibold mt-4'>1. Catering service</h3>
                                                         <h4 className='text-base font-semibold mt-4'>Starters</h4>
@@ -125,9 +119,9 @@ function Bookings() {
                                                             </th>
                                                         </tr>
                                                     </thead>
+                                                    {booking.map((orderDatas) => (
                                                     <tbody class="bg-slate-400 divide-y divide-gray-200">
-
-                                                        {orderDetails.map((data) => (
+                                                        {orderDatas.form.map((data) => (
                                                             <tr class="hover:bg-slate-200 transition duration-300">
                                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                                     <div class="flex items-center">
@@ -145,7 +139,7 @@ function Bookings() {
                                                                     </div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap">
-                                                                    <div class="text-sm text-gray-900">{data.date}</div>
+                                                                    <div class="text-sm text-gray-900">{data.event_date}</div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap">
                                                                     <div class="text-sm text-gray-900">{data.time}</div>
@@ -154,11 +148,12 @@ function Bookings() {
                                                                     <div class="text-sm text-gray-900">{data.count}</div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    <Link onClick={() => viewDetails(data._id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
+                                                                    <Link onClick={() => viewDetails(orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
                                                                 </td>
                                                             </tr>
                                                         ))}
                                                     </tbody>
+                                                     ))}
                                                 </table>
                                             </div>
                                         </div>

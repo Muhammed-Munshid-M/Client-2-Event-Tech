@@ -87,7 +87,10 @@ const settings = [{ label: 'Profile', path: '/profile' }, { label: 'Logout', pat
 export default function Layout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
+    const [activeMenu, setActiveMenu] = React.useState(null);
+    const [manager,setManager] = React.useState([])
     const [anchorElUser, setAnchorElUser] = React.useState(null);
+    const [selectedLocations, setSelectedLocations] = React.useState([]);
     const [selectedValue, setSelectedValue] = React.useState('a');
     const [foodChecked, setFoodChecked] = React.useState(false)
     const [stageChecked, setStageChecked] = React.useState(false)
@@ -95,6 +98,22 @@ export default function Layout({ children }) {
     const [photographyChecked, setPhotographyChecked] = React.useState(false)
     const [vehicleChecked, setVehicleChecked] = React.useState(false)
 
+    React.useEffect(() => {
+        try {
+            const token = localStorage.getItem('token')
+            axios.post(`${userUrl}company-list`, {}, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }).then((response) => {
+                console.log('response: ' + response.data)
+                setManager(response.data.data.managerList)
+                // setTotalPages(response.data.data.totalPages);
+            })
+        } catch (err) {
+            console.log(err);
+        }
+    }, [])
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -136,7 +155,23 @@ export default function Layout({ children }) {
         })
     }
 
-    const [activeMenu, setActiveMenu] = React.useState(null);
+    const handleLocationChange = (event, location) => {
+        const isChecked = event.target.checked;
+        if (isChecked) {
+            setSelectedLocations([...selectedLocations, location]);
+        } else {
+            setSelectedLocations(selectedLocations.filter((loc) => loc !== location));
+        }
+    };
+
+    //   console.log('childrens',children.manager);
+
+    const filteredData = manager.filter((data) =>
+        selectedLocations.some((loc) => data.place === loc.name)
+    );
+
+    console.log('filterdData', filteredData);
+
 
     const menuList = [
         {
@@ -160,46 +195,46 @@ export default function Layout({ children }) {
     const locationList = [
         {
             name: 'Kasargod',
-            // checked: false
+            checked: false
         }, {
             name: 'Kannur',
-            // checked: false
+            checked: false
         }, {
             name: 'Wayanad',
-            // checked: false
+            checked: false
         }, {
             name: 'Kozhikode',
-            // checked: false
+            checked: false
         }, {
             name: 'Malappuram',
-            // checked: false
+            checked: false
         }, {
             name: 'Palakkad',
-            // checked: false
+            checked: false
         }, {
             name: 'Thrissur',
-            // checked: false
+            checked: false
         }, {
             name: 'Ernakulam',
-            // checked: false
+            checked: false
         }, {
             name: 'Idukki',
-            // checked: false
+            checked: false
         }, {
             name: 'Kottayam',
-            // checked: false
+            checked: false
         }, {
             name: 'Alappuzha',
-            // checked: false
+            checked: false
         }, {
             name: 'Pathanamthitta',
-            // checked: false
+            checked: false
         }, {
             name: 'Kollam',
-            // checked: false
+            checked: false
         }, {
             name: 'Thiruvananthapuram',
-            // checked: false
+            checked: false
         }
     ]
 
@@ -390,7 +425,7 @@ export default function Layout({ children }) {
                                     <ListItemButton>
                                         <Checkbox
                                             checked={menu.checked}
-                                            onChange={() => checkService(menu.name)}
+                                            onChange={(e) => handleLocationChange(e, menu)}
                                         />
                                         <ListItemText
                                             className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`}

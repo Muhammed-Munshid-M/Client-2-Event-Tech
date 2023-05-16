@@ -35,6 +35,7 @@ import CheckoutPage from './components/user/pages/CheckoutPage';
 import UserMenuList from './components/user/pages/UserMenuList';
 import SelectService from './components/user/pages/SelectService';
 import SalesReport from './components/admin/pages/SalesReport';
+import SalesManager from './components/manager/pages/SalesManager';
 
 function App() {
 
@@ -145,6 +146,11 @@ function App() {
               <Services />
             </ProtectedRoute>
           } />
+          <Route path='/manager/sales-report' element={
+            <ProtectedRoute>
+              <SalesManager />
+            </ProtectedRoute>
+          } />
           <Route path='/manager/profile' element={
             <ProtectedRoute>
               <ManagerProfile />
@@ -166,7 +172,7 @@ function App() {
             <ApprovalList />
           } />
           <Route path='/admin/sales-report' element={
-            <SalesReport/>
+            <SalesReport />
           } />
         </Routes>
       </BrowserRouter>

@@ -1,14 +1,12 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react'
-import LayoutAdmin from '../LayoutAdmin'
 import { adminUrl } from '../../../API/Api';
 import axios from 'axios';
+import Layout from '../Layout';
 
-function SalesReport() {
+function SalesManager() {
     const [loading, setLoading] = useState(true)
     const [order, setOrder] = useState([])
-    const [startDate, setStartDate] = useState('');
-    const [endDate, setEndDate] = useState('');
 
 
     useEffect(() => {
@@ -17,30 +15,23 @@ function SalesReport() {
         }, 1000);
     }, [])
 
-    const filteredOrders = order.filter((order) => {
-        const orderDate = new Date(order.date).getTime();
-        const start = startDate ? new Date(startDate).getTime() : 0;
-        const end = endDate ? new Date(endDate).getTime() : new Date().getTime();
-        return orderDate >= start && orderDate <= end;
-    });
-
     useEffect(() => {
         const sales = async () => {
             console.log('Hi');
             // try {
-            await axios.post(`${adminUrl}sales-report`).then((response) => {
-                console.log(response);
-                const orderDetails = response.data
-                console.log('orders', orderDetails);
-                setOrder(orderDetails)
-                // const userId = bookings.user_id
-                // const id = bookings._id
-                // console.log('userId', id);
-                // setUser(userId)
-                // setBookingId(id)
-                // const details = bookings.orderDetails
-                // setOrderDetails(details)
-            })
+                await axios.post(`${adminUrl}sales-report`).then((response) => {
+                    console.log(response);
+                    const orderDetails = response.data
+                    console.log('orders',orderDetails);
+                    setOrder(orderDetails)
+                    // const userId = bookings.user_id
+                    // const id = bookings._id
+                    // console.log('userId', id);
+                    // setUser(userId)
+                    // setBookingId(id)
+                    // const details = bookings.orderDetails
+                    // setOrderDetails(details)
+                })
             // } catch (error) {
             //     console.log(error);
             // }
@@ -50,7 +41,7 @@ function SalesReport() {
 
     return (
         <div>
-            <LayoutAdmin>
+            <Layout>
                 {
                     loading ? (
                         <div className='mt-[18rem] ms-64' ><CircularProgress variant="soft" color="info" /></div>
@@ -61,19 +52,6 @@ function SalesReport() {
                                     <div class="inline-block min-w-full">
                                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                             <h1 className='font-bold text-xl mb-5'>Sales Report</h1>
-                                            <div className='flex justify-end mr-5 mb-4'>
-                                                <input
-                                                    type="date"
-                                                    value={startDate}
-                                                    onChange={(e) => setStartDate(e.target.value)}
-                                                />
-                                                <input
-                                                    type="date"
-                                                    value={endDate}
-                                                    onChange={(e) => setEndDate(e.target.value)}
-                                                />
-                                                <button onClick={() => console.log(filteredOrders)}>Apply</button>
-                                            </div>
                                             <table class="min-w-full divide-y divide-gray-200">
                                                 <thead class="bg-slate-300">
                                                     <tr>
@@ -143,9 +121,9 @@ function SalesReport() {
                         </>
                     )
                 }
-            </LayoutAdmin>
+            </Layout>
         </div>
     )
 }
 
-export default SalesReport
+export default SalesManager
