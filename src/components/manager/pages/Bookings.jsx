@@ -10,7 +10,8 @@ function Bookings() {
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
     const [bookingDetails, setBookingDetails] = useState([])
-
+    const [starters, setStarters] = useState([])
+    
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
@@ -20,9 +21,13 @@ function Bookings() {
     const viewDetails = async (id) => {
         setShowDetails(true)
         await axios.post(`${managerUrl}bookings/${id}`).then((response) => {
-            const forms = response.data.data
+            const datas = response.data
+            const forms = datas.forms
             const form = forms.form
+            const cartList = datas.cartData
+            console.log('cartDetails',cartList);
             setBookingDetails(form)
+            setCartDetails(cartList)
         })
     }
 
@@ -74,7 +79,7 @@ function Bookings() {
                                                         <p>State : {data?.state}</p>
                                                         <p>District : {data?.district}</p>
                                                         <p className='mb-4'>Place : {data?.place}</p>
-                                                        <h2 className='text-xl font-semibold mt-4'>Services</h2>
+                                                        <h2 className='text-xl font-semibold mt-4'>Selected Services</h2>
                                                         <h3 className='text-lg font-semibold mt-4'>1. Catering service</h3>
                                                         <h4 className='text-base font-semibold mt-4'>Starters</h4>
                                                         <p>Spicy lemon</p>

@@ -20,7 +20,6 @@ function SalesManager() {
             // try {
                 await axios.post(`${adminUrl}sales-report`).then((response) => {
                     const orderDetails = response.data
-                    console.log('orders',orderDetails);
                     setOrder(orderDetails)
                     // const userId = bookings.user_id
                     // const id = bookings._id

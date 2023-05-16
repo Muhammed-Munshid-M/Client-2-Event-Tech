@@ -4,13 +4,15 @@ import axios from 'axios'
 import { userUrl } from '../../../API/Api'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setCheckedArray1, setCheckedArray2 } from '../../redux/services';
+import { setCheckedArray1, setCheckedArray2, setCheckedArray3, setCheckedArray4 } from '../../redux/services';
 
 function UserMenuList() {
     const [loading, setLoading] = useState(true)
     const [service, setService] = useState('')
     const [starter, setStarter] = useState([])
     const [main, setMain] = useState([])
+    const [dessert, setDessert] = useState([])
+    const [salad, setSalad] = useState([])
     const [catering, setCatering] = useState([])
     const [stage, setStage] = useState([])
     const [decoration, setDecoration] = useState([])
@@ -56,6 +58,35 @@ function UserMenuList() {
         }
     }
 
+    const dessertChecked = async (image, name, price, event) => {
+        if (event == true) {
+            // check
+            setDessert([...dessert, { dessert_image: image, dessert_name: name, dessert_price: price }])
+        } else {
+            // uncheck
+            for (let i = 0; i < dessert.length; i++) {
+                if (dessert[i] == name) {
+                    dessert.splice(i)
+                }
+            }
+        }
+    }
+
+    const saladChecked = async (image, name, price, event) => {
+        if (event == true) {
+            // check
+            setSalad([...salad, { salad_image: image, salad_name: name, salad_price: price }])
+        } else {
+            // uncheck
+            for (let i = 0; i < salad.length; i++) {
+                if (salad[i] == name) {
+                    salad.splice(i)
+                }
+            }
+        }
+    }
+
+
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
@@ -80,6 +111,8 @@ function UserMenuList() {
         try {
             dispatch(setCheckedArray1(starter))
             dispatch(setCheckedArray2(main))
+            dispatch(setCheckedArray3(dessert))
+            dispatch(setCheckedArray4(salad))
             navigate('/cart-list')
         } catch (error) {
             console.log(error);
@@ -144,11 +177,11 @@ function UserMenuList() {
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" checked={data.checked}
-                                                                    onChange={(event) => dessertChecked(data.dessert_name, data.dessert_price, event.target.checked)} />
+                                                                    onChange={(event) => dessertChecked(data.dessert_image,data.dessert_name, data.dessert_price, event.target.checked)} />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
-                                                                    onChange={(event) => saladChecked(data.salad_name, data.salad_price, event.target.checked)} />
+                                                                    onChange={(event) => saladChecked(data.salad_image,data.salad_name, data.salad_price, event.target.checked)} />
                                                             </div>
                                                         ))}
                                                     </dl>

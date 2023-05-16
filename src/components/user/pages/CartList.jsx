@@ -11,6 +11,8 @@ function CartList() {
     const [categories, setCategories] = useState('')
     const [datas1, setDatas1] = useState([])
     const [datas2, setDatas2] = useState([])
+    const [datas3, setDatas3] = useState([])
+    const [datas4, setDatas4] = useState([])
     const [categoryName, setCategoryName] = useState([])
     const navigate = useNavigate()
 
@@ -21,10 +23,12 @@ function CartList() {
     useEffect(() => {
         setDatas1(serviceDetails.checked1)
         setDatas2(serviceDetails.checked2)
+        setDatas3(serviceDetails.checked3)
+        setDatas4(serviceDetails.checked4)
         setService(serviceDetails.service.serviceData)
         setCategoryName(serviceDetails.service.serviceData.cateringMenu)
         setCategories(serviceDetails.service.serviceData.cateringMenu[0])
-        const datas = { datas1, datas2 }
+        const datas = { datas1, datas2, datas3, datas4 }
         const details = () => {
             try {
                 const token = localStorage.getItem('token')
@@ -33,7 +37,7 @@ function CartList() {
                         Authorization: `Bearer ${token}`
                     }
                 }).then((response) => {
-                    
+
                 })
             } catch (error) {
                 console.log(error);
@@ -43,8 +47,9 @@ function CartList() {
     }, [datas1, datas2])
     const total1 = datas1.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.starter_price), 0);
     const total2 = datas2.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.main_price), 0);
-    const total = total1 + total2
-    console.log('total', total);
+    const total3 = datas3.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.dessert_price), 0);
+    const total4 = datas4.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.salad_price), 0);
+    const total = total1 + total2 + total3 + total4
     const submitCheckout = () => {
         navigate('/checkout-page', { state: { totalPrice: total } })
     }
@@ -135,7 +140,6 @@ function CartList() {
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                     d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                             </svg>
-                                                            {/* <div key={index} class="text-sm text-gray-900">{data.email}</div> */}
                                                         </td>
                                                     </tr>
                                                 ))}
@@ -150,9 +154,6 @@ function CartList() {
                                                                     <div class="text-sm font-medium text-gray-900">
                                                                         {data.main_name}
                                                                     </div>
-                                                                    <div class="text-sm text-gray-500">
-                                                                        {/* {services.catering_name}, */}
-                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </td>
@@ -165,7 +166,61 @@ function CartList() {
                                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                                     d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                             </svg>
-                                                            {/* <div key={index} class="text-sm text-gray-900">{data.email}</div> */}
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {datas3.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.dessert_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.dessert_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {/* {services.catering_name}, */}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.dessert_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {datas4.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.salad_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.salad_name}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.salad_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
                                                         </td>
                                                     </tr>
                                                 ))}

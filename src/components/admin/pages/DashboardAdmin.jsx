@@ -1,8 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 // import LayoutAdmin from '../LayoutAdmin'
 import LayoutAdmin from '../LayoutAdmin';
+import axios from 'axios';
+import { adminUrl } from '../../../API/Api';
 
 function DashboardAdmin() {
+  const [totalUsers,setTotalUsers] = useState(0)
+  const [totalApproved,setTotalApproved] = useState(0)
+  const [totalmanagers,setTotalManagers] = useState(0)
+
+  useEffect(()=>{
+    try {
+      axios.get(`${adminUrl}dashboard`)
+      .then((response)=>{
+        const total = response.data
+        console.log('total',total);
+        setTotalUsers(total.userLength)
+        setTotalApproved(total.approvedLength)
+        setTotalManagers(total.managerLength)
+      })
+    } catch (error) {
+      console.log(error);
+    }
+  })
   return (
     <div>
       <LayoutAdmin>
@@ -15,18 +35,18 @@ function DashboardAdmin() {
           <div className="flex flex-col w-60 h-20 shadow-xl items-center bg-white opacity-60 border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer">
             {/* <img className=" ml-4 h-14" src={clientIcon} alt="logo" /> */}
             <div>
-              <h1 className="pl-5 text-black font-bold">Totol Users</h1>
+              <h1 className="pl-5 text-black font-bold">Total Users</h1>
               <span className="flex justify-center text-black font-bold">
-                {/* {patients} */}
+                {totalUsers}
               </span>
             </div>
           </div>
           <div className="flex flex-col w-60 h-20 shadow-xl items-center bg-white opacity-60 border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700 cursor-pointer">
             {/* <img className=" ml-4 h-14" src={doctrsImg} alt="logo" /> */}
             <div>
-              <h1 className="pl-3 text-black font-bold">Total Managers</h1>
+              <h1 className="pl-3 text-black font-bold">Total Approved Managers</h1>
               <span className="flex justify-center text-black font-bold">
-                {/* {doctors} */}
+                {totalApproved}
               </span>
             </div>
           </div>
@@ -34,11 +54,11 @@ function DashboardAdmin() {
             {/* <img className=" ml-4 h-14" src={totalAppointment} alt="logo" /> */}
             <div>
               <h1 className="pl-4 pr-2 text-black font-bold">
-                Totol Bookings
+                Total Managers
               </h1>
 
               <span className="flex justify-center text-black font-bold">
-                {/* {totalAppointments} */}
+                {totalmanagers}
               </span>
             </div>
           </div>
