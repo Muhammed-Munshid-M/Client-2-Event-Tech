@@ -28,7 +28,6 @@ function Profile() {
 
             await uploadImage(profile, "profile").then((response) => {
                 const imageUpload = response
-                console.log(imageUpload);
                 const imageData = { imageUpload }
                 const otherData = { name, email, mobile }
                 const profileData = { otherData, imageData }
@@ -62,7 +61,6 @@ function Profile() {
                             Authorization: `Bearer ${token}`,
                         },
                     }).then((response) => {
-                        console.log(response.data.data);
                         setUserDetails(response.data.data)
                     })
                     .catch((err) => {

@@ -20,7 +20,6 @@ function UserMenuList() {
     const managerDetails = useSelector((state) => state.company)
     const Services = useSelector((state) => state.services || {});
     const managerId = managerDetails.company.managerDetails._id
-    console.log('serviceDetails:', Services);
     const serviceDetails = Services.service.serviceData || {}
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -29,15 +28,13 @@ function UserMenuList() {
         return <p>Loading..</p>
     }
 
-    const starterChecked = async (image,name,price, event) => {
+    const starterChecked = async (image, name, price, event) => {
         if (event == true) {
             // check
-            setStarter([...starter, {starter_image:image,starter_name:name,starter_price:price}])
-            console.log(starter, 'arr');
+            setStarter([...starter, { starter_image: image, starter_name: name, starter_price: price }])
         } else {
             // uncheck
             for (let i = 0; i < starter.length; i++) {
-                console.log(i);
                 if (starter[i] == name) {
                     starter.splice(i)
                 }
@@ -45,16 +42,13 @@ function UserMenuList() {
         }
     }
 
-    const mainChecked = async (image,name,price, event) => {
+    const mainChecked = async (image, name, price, event) => {
         if (event == true) {
-            console.log('Hiiiiiiiiiiii');
             // check
-            setMain([...main,{main_image:image,main_name:name,main_price:price}])
-            console.log(main, 'arr');
+            setMain([...main, { main_image: image, main_name: name, main_price: price }])
         } else {
             // uncheck
             for (let i = 0; i < main.length; i++) {
-                console.log(i);
                 if (main[i] == name) {
                     main.splice(i)
                 }
@@ -78,7 +72,7 @@ function UserMenuList() {
             setPhotography(serviceDetails.photographyMenu)
             setVehicle(serviceDetails.luxuryVehicleMenu)
         } catch (error) {
-            console.log('err', error);
+            console.log(error);
         }
     }, [])
 
@@ -87,15 +81,6 @@ function UserMenuList() {
             dispatch(setCheckedArray1(starter))
             dispatch(setCheckedArray2(main))
             navigate('/cart-list')
-            // const token = localStorage.getItem('token')
-            // axios.post(`${userUrl}cart-list/${managerId}`, arr, {
-            //     headers: {
-            //         Authorization: `Bearer ${token}`
-            //     }
-            // })
-            // .then((response) => {
-            //     console.log('response',response.data);
-            // })
         } catch (error) {
             console.log(error);
         }
@@ -138,11 +123,11 @@ function UserMenuList() {
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" checked={data.checked}
-                                                                    onChange={(event) => starterChecked(data.starter_image,data.starter_name,data.starter_price, event.target.checked)} />
+                                                                    onChange={(event) => starterChecked(data.starter_image, data.starter_name, data.starter_price, event.target.checked)} />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
-                                                                    onChange={(event) => mainChecked(data.main_image,data.main_name,data.main_price, event.target.checked)} />
+                                                                    onChange={(event) => mainChecked(data.main_image, data.main_name, data.main_price, event.target.checked)} />
                                                             </div>
                                                         ))}
 
@@ -159,11 +144,11 @@ function UserMenuList() {
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" checked={data.checked}
-                                                                    onChange={(event) => dessertChecked(data.dessert_name,data.dessert_price, event.target.checked)} />
+                                                                    onChange={(event) => dessertChecked(data.dessert_name, data.dessert_price, event.target.checked)} />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_price}</dd>
                                                                 <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
-                                                                    onChange={(event) => saladChecked(data.salad_name,data.salad_price, event.target.checked)} />
+                                                                    onChange={(event) => saladChecked(data.salad_name, data.salad_price, event.target.checked)} />
                                                             </div>
                                                         ))}
                                                     </dl>

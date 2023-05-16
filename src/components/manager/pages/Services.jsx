@@ -46,7 +46,6 @@ function Services() {
     }, [])
 
     const removeCategory = (name) => {
-        console.log('name',name);
         Swal.fire({
             title: 'Are you sure?',
             text: "You won't be able to revert this!",
@@ -167,7 +166,6 @@ function Services() {
                             const decoration = serviceData.decorationMenu
                             const photography = serviceData.photographyMenu
                             const data = photography[0]
-                            console.log('photo'+data.category_name);
                             const vehicles = serviceData.luxuryVehicleMenu
                             setService(serviceData)
                             setCatering(catering)
@@ -206,92 +204,7 @@ function Services() {
                                                                 <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
                                                                 <div class="ml-3 overflow-hidden">
                                                                     <p class="text-sm font-medium text-slate-900 pt-2">{service.catering_name}</p>
-                                                                    {/* <p class="text-sm text-slate-500 truncate">kldhjg</p> */}
                                                                 </div>
-                                                                {/* <div class="mx-auto">
-                                                                    {openFoodModal ? (
-                                                                        <div class="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-12">
-                                                                            <div class="max-w-full p-6 bg-white divide-y divide-gray-500">
-                                                                                <div class="flex items-center justify-between">
-                                                                                    <h3 class="text-2xl">Add Category</h3>
-                                                                                    <svg onClick={closeFoodModal} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
-                                                                                        stroke="currentColor">
-                                                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                                                                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                                                                    </svg>
-                                                                                </div>
-                                                                                <div class="mt-4">
-
-                                                                                    {catering.map((data) => (
-                                                                                        <form onSubmit={submitCategory} class="">
-                                                                                            <div class="md:flex md:items-center mt-3 ">
-                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                    <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
-                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                        <div class="ml-3 overflow-hidden">
-                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[0]}</p>
-                                                                                                        </div>
-                                                                                                        <input type="checkbox" class="checked:bg-blue-500 mt-2 w-5 h-5"
-                                                                                                        />
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div class="md:flex md:items-center">
-                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                    <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[6rem]">
-                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                        <div class="ml-3 overflow-hidden">
-                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[1]}</p>
-                                                                                                        </div>
-                                                                                                        <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5  h-5"
-                                                                                                        />
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div class="md:flex md:items-center">
-                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                    <li class="flex  first:pt-0 last:pb-0  sm:grid sm:grid-cols-3 sm:gap-[4rem]">
-                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                        <div class="ml-3 overflow-hidden">
-                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[2]}</p>
-                                                                                                        </div>
-                                                                                                        <input type="checkbox" class="checked:bg-blue-500 sm:ml-5 mt-2 w-5 h-5"
-                                                                                                        />
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div class="md:flex md:items-center">
-                                                                                                <ul role="list" class="p-6 divide-y divide-slate-800">
-                                                                                                    <li class="flex  first:pt-0 last:pb-0 sm:grid sm:grid-cols-3 sm:gap-[5rem]">
-                                                                                                        <img class="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                                                                                        <div class="ml-3 overflow-hidden">
-                                                                                                            <p class="text-sm font-medium text-slate-900 pt-2">{data.category_name[3]}</p>
-                                                                                                        </div>
-                                                                                                        <input type="checkbox" class="checked:bg-blue-500 mt-2 sm:ml-4 w-5 h-5"
-                                                                                                        />
-                                                                                                    </li>
-                                                                                                </ul>
-                                                                                            </div>
-                                                                                            <div class="md:flex md:items-center mb-6  sm:grid sm:grid-cols-2">
-                                                                                                <div class="md:w-1/3"></div>
-                                                                                            </div>
-                                                                                            <div class="md:flex md:items-center  sm:grid sm:grid-cols-2">
-                                                                                                <div class="md:w-1/3"></div>
-                                                                                                <div class="md:w-2/3">
-                                                                                                    <button class="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                                                                                        Add
-                                                                                                    </button>
-                                                                                                </div>
-                                                                                            </div>
-                                                                                        </form>
-                                                                                    ))}
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    ) : (
-                                                                        <button onClick={openFoodCategory} class="px-4 py-2 lg:ml-28 text-sm font-medium text-white bg-blue-600 rounded " type="button">Add Category</button>
-                                                                    )}
-                                                                </div> */}
                                                                 <button onClick={()=>removeCategory(service.catering_name)} class="px-4 py-2 text-sm font-medium text-white bg-red-600 rounded " type="button">Remove</button>
                                                             </li>
                                                         </div>

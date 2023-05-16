@@ -25,14 +25,13 @@ function ApprovalList() {
       toast.success(response.data.message)
       setBlock(false)
     } else {
-      console.log('error');
+      toast.error('Somthing Problem')
     }
   }
 
   const viewDetails = async (id) => {
     setShowDetails(true)
     await axios.post(`${adminUrl}managers/${id}`).then((response) => {
-      console.log(response.data.data);
       setManagerDetails(response.data.data)
     })
   }

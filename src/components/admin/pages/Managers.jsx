@@ -40,7 +40,6 @@ function Managers() {
   const viewDetails = async (id) => {
     setShowDetails(true)
     await axios.post(`${adminUrl}managers/${id}`).then((response) => {
-      console.log(response.data.data);
       setManagerDetails(response.data.data)
     })
   }

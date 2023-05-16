@@ -32,7 +32,6 @@ function UserLogin() {
 
     const handleGoogleResolve = async (data) => {
         try {
-            console.log('accessssss token:' + data.access_token);
             const googleTokenId = data.access_token
             const response = await axios.post(`${userUrl}google-login/${googleTokenId}`,)
             if (response.data.success) {
@@ -90,8 +89,6 @@ function UserLogin() {
                                         discoveryDocs="claims_supported"
                                         access_type="offline"
                                         onResolve={({ provider, data }) => {
-                                            console.log(provider, data)
-                                            console.log('accessssss tokennnnnnnnnn'+data.access_token);
                                             handleGoogleResolve(data); 
                                         }}
                                         onReject={(err) => {

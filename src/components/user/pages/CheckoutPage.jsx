@@ -28,7 +28,6 @@ function CheckoutPage() {
   const location = useLocation()
 
   const total = location.state.totalPrice;
-  console.log('total:' + total);
   const gst = 10;
   const GrandTotal = total + gst
 
@@ -47,14 +46,12 @@ function CheckoutPage() {
       description: 'Nothing',
       order_id: data.id,
       handler: (response) => {
-        console.log(response, "34")
         const token = localStorage.getItem('token')
         axios.post(`${userUrl}verify`, { response: response }, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         }).then((response) => {
-          console.log(response, '48');
           if (response.data.status) {
             Swal.fire(
               'Success',
@@ -69,7 +66,6 @@ function CheckoutPage() {
                   },
                 })
                   .then((response) => {
-                    console.log('Hi');
                     if (response.data.success) {
                       toast.success(response.data.message)
                     } else if (response.data.noAcc) {
@@ -100,14 +96,12 @@ function CheckoutPage() {
 
   const handlePayment = (amount) => {
     const data = { amount: amount }
-    console.log(data);
     const token = localStorage.getItem('token')
     axios.post(`${userUrl}orders`, data, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     }).then((res) => {
-      console.log(res.data, "29");
       handleOpenRazorpay(res.data.data)
     })
       .catch(err => {

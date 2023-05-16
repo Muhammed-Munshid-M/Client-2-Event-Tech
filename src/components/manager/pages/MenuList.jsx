@@ -130,13 +130,11 @@ function MenuList() {
 
       await Promise.all([uploadImage(starterImage, "starterImage"), uploadImage(mainImage, "mainImage"),
       uploadImage(dessertsImage, "dessertsImage"), uploadImage(saladsImage, "saladsImage")]).then(async (response) => {
-        console.log('response image', response)
         const imageUpload1 = response[0]
         const imageUpload2 = response[1]
         const imageUpload3 = response[2]
         const imageUpload4 = response[3]
         const managerData = { cateringData, imageUpload1, imageUpload2, imageUpload3, imageUpload4 }
-        console.log('managerdaaarttaaaaaa:' + imageUpload1);
         const token = localStorage.getItem('manager-token')
         await axios.post(`${managerUrl}add-catering`, managerData, {
           headers: {
@@ -144,7 +142,6 @@ function MenuList() {
           },
         })
           .then((response) => {
-            console.log('Hi');
             if (response.data.success) {
               Swal.fire({
                 position: 'center',
@@ -163,7 +160,6 @@ function MenuList() {
           })
       })
     } catch (error) {
-      console.log(error)
       toast.error('something error')
     }
   }

@@ -15,12 +15,10 @@ function CartList() {
     const navigate = useNavigate()
 
     const managerDetails = useSelector((state) => state.company)
-    console.log('serviceDetails:', datas1)
     const serviceDetails = useSelector((state) => state.services);
     const managerId = managerDetails.company.managerDetails._id
 
     useEffect(() => {
-        console.log('Hello useEfffffffeeecctttttttttttt', serviceDetails.checked1);
         setDatas1(serviceDetails.checked1)
         setDatas2(serviceDetails.checked2)
         setService(serviceDetails.service.serviceData)
@@ -35,18 +33,7 @@ function CartList() {
                         Authorization: `Bearer ${token}`
                     }
                 }).then((response) => {
-                    // console.log(response);
-                    // if (response.data.success) {
-                    //     Swal.fire(
-                    //         'Removed!',
-                    //         'Your service has been removed.',
-                    //         'success'
-                    //     ).then(()=>{
-                    //         window.location.reload()
-                    //     })
-                    // } else {
-                    //     toast.error('Something error')
-                    // }
+                    
                 })
             } catch (error) {
                 console.log(error);

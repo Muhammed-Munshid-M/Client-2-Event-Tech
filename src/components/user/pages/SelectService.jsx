@@ -28,7 +28,6 @@ function SelectService() {
     
     const submitService = async() => {
         try {
-            console.log('Hey');
             const token = localStorage.getItem('token')
             await axios.post(`${userUrl}select-services/${managerId}`, serviceData, {
                 headers: {

@@ -54,7 +54,6 @@ export default function CompanyList() {
                 Authorization: `Bearer ${token}`,
             },
         }).then((response) => {
-            console.log(response.data.data)
             const managerDetails = response.data.data
             dispatch(setCompany({ managerDetails }))
             navigate('/company-details')
@@ -77,7 +76,6 @@ export default function CompanyList() {
                     Authorization: `Bearer ${token}`,
                 },
             }).then((response) => {
-                console.log('response: ' + response.data)
                 setManager(response.data.data.managerList)
                 setTotalPages(response.data.data.totalPages);
             })

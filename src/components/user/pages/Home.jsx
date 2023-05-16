@@ -21,7 +21,6 @@ function Home() {
           Authorization : `Bearer ${token}`,
         },
       })
-      console.log('data:',data.data);
       dispatch(setUser(data.data))
     } catch (error) {
 

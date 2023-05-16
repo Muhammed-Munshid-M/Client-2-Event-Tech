@@ -24,7 +24,6 @@ function SignUp() {
     const [password, setPassword] = useState('')
     const navigate = useNavigate()
     const managerData = { name, email, state, place, mobile, address, company, pincode, district, password }
-    console.log('managerData'+managerData.name);
 
     function onCaptchVerify() {
         if (!window.recaptchaVerifier) {
@@ -44,7 +43,7 @@ function SignUp() {
 
     const sendOtp = async (e) => {
         e.preventDefault()
-        // try {
+        try {
             const uploadImage = async (image, name) => {
                 const data = new FormData();
                 data.append("file", image);
@@ -54,26 +53,24 @@ function SignUp() {
             };
 
             await Promise.all([uploadImage(aadhar, "aadhar"), uploadImage(licenseVoterId, "license")]).then((response) => {
-                console.log(response)
                 const imageUpload1 = response[0]
                 const imageUpload2 = response[1]
                 const imageData = { imageUpload1, imageUpload2 }
-                console.log('imageData'+managerData);
                 const allData = {managerData, imageData}
                 axios.post(`${managerUrl}signUp`, allData)
                     .then(async (response) => {
                         if (response.data.success) {
-                            // onCaptchVerify()
-                            // const formatPhone = '+91' + mobile
-                            // const appVerifier = window.recaptchaVerifier;
-                            // signInWithPhoneNumber(auth, formatPhone, appVerifier)
-                            //     .then((confirmationResult) => {
-                            //         window.confirmationResult = confirmationResult;
-                            //         toast(response.data.message)
+                            onCaptchVerify()
+                            const formatPhone = '+91' + mobile
+                            const appVerifier = window.recaptchaVerifier;
+                            signInWithPhoneNumber(auth, formatPhone, appVerifier)
+                                .then((confirmationResult) => {
+                                    window.confirmationResult = confirmationResult;
+                                    toast(response.data.message)
                             navigate('/manager/otp')
-                            // }).catch((error) => {
-                            //     console.log(error);
-                            // })
+                            }).catch((error) => {
+                                console.log(error);
+                            })
                         } else if (response.data.exist) {
                             toast(response.data.message)
                             navigate('/manager')
@@ -87,10 +84,10 @@ function SignUp() {
                         console.log(err);
                     })
             })
-        // } catch (error) {
-        //     console.log(error)
-        //     toast.error('something error')
-        // }
+        } catch (error) {
+            console.log(error)
+            toast.error('something error')
+        }
     }
 
     return (

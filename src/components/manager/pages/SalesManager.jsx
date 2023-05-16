@@ -17,10 +17,8 @@ function SalesManager() {
 
     useEffect(() => {
         const sales = async () => {
-            console.log('Hi');
             // try {
                 await axios.post(`${adminUrl}sales-report`).then((response) => {
-                    console.log(response);
                     const orderDetails = response.data
                     console.log('orders',orderDetails);
                     setOrder(orderDetails)

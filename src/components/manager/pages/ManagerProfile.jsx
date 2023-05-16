@@ -21,7 +21,6 @@ function ManagerProfile() {
                 Authorization: `Bearer ${token}`
             },
         }).then((response) => {
-            console.log(response.data);
             setManagerDetails(response.data)
         })
     }, [])
@@ -39,7 +38,6 @@ function ManagerProfile() {
         };
 
         await Promise.all([uploadImage(uploadPhoto, "uploadPhoto"),uploadImage(logo, "logo"), uploadImage(uploadRecentWork, "uploadRecentWork")]).then((response) => {
-            console.log(response)
             const imageUpload1 = response[0]
             const imageUpload2 = response[1]
             const imageUpload3 = response[2]
@@ -51,7 +49,6 @@ function ManagerProfile() {
                         Authorization: `Bearer ${token}`
                     },
                 }).then((response) => {
-                    console.log(response.data);
                     window.location.reload()
                 })
 

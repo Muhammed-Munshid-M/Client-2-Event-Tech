@@ -15,7 +15,6 @@ function ServiceList() {
 
     const navigate = useNavigate()
     const serviceData = { foodChecked, stageChecked, decorateChecked, photographyChecked,vehicleChecked }
-    console.log(serviceData);
     const selectService = async () => {
         try {
             const token = localStorage.getItem('manager-token')

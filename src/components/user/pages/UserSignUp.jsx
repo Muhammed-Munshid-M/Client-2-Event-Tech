@@ -41,7 +41,6 @@ function UserSignUp() {
                     onCaptchVerify()
                     const formatPhone = '+91' + mobile
                     const appVerifier = window.recaptchaVerifier;
-                    console.log(appVerifier);
                     signInWithPhoneNumber(auth, formatPhone, appVerifier)
                         .then((confirmationResult) => {
                             window.confirmationResult = confirmationResult;

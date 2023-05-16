@@ -10,11 +10,6 @@ function Bookings() {
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
     const [bookingDetails, setBookingDetails] = useState([])
-    // const [user, setUser] = useState()
-    // const [bookingId, setBookingId] = useState()
-    // let userData = useSelector((state) => state.user)
-    // const userId = user._id
-    // console.log('user',userData.user);
 
     useEffect(() => {
         setTimeout(() => {
@@ -23,11 +18,9 @@ function Bookings() {
     }, [])
 
     const viewDetails = async (id) => {
-        console.log(id);
         setShowDetails(true)
         await axios.post(`${managerUrl}bookings/${id}`).then((response) => {
             const forms = response.data.data
-            console.log('forms', forms);
             const form = forms.form
             setBookingDetails(form)
         })

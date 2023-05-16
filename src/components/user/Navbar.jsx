@@ -22,7 +22,6 @@ const settings = [{ label: 'Profile', path: '/profile' }, { label: 'Logout', pat
 
 function Navbar(userDetails) {
   const profilePhoto = userDetails.profileImage
-  console.log('profile:',profilePhoto);
   const navigate = useNavigate()
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);

@@ -106,7 +106,6 @@ export default function Layout({ children }) {
                     Authorization: `Bearer ${token}`,
                 },
             }).then((response) => {
-                console.log('response: ' + response.data)
                 setManager(response.data.data.managerList)
                 // setTotalPages(response.data.data.totalPages);
             })

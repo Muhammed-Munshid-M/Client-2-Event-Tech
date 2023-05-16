@@ -95,7 +95,6 @@ function CompanyDetails() {
         }).then((response) => {
             const services = response.data.data
             setServiceDetails(services)
-            console.log('menu:',services);
             const menu = services.cateringMenu
             const stageMenuData = services.stageMenu
             const decorateMenu = services.decorationMenu

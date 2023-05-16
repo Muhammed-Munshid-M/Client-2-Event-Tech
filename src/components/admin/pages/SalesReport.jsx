@@ -1,5 +1,6 @@
 import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react'
+// import { PDFDownloadLink, PDFViewer, Document, Page, Text } from '@react-pdf/renderer';
 import LayoutAdmin from '../LayoutAdmin'
 import { adminUrl } from '../../../API/Api';
 import axios from 'axios';
@@ -48,6 +49,40 @@ function SalesReport() {
         sales()
     }, [])
 
+    // const MyDocument = ({ data }) => (
+    //     <Document>
+    //       <Page>
+    //         <Text>Order Report</Text>
+    //         <Table>
+    //           <TableHeader>
+    //             <TableCell>Order Id</TableCell>
+    //             <TableCell>Customer Name</TableCell>
+    //             <TableCell>Place</TableCell>
+    //             <TableCell>Mobile</TableCell>
+    //             <TableCell>Status</TableCell>
+    //             <TableCell>Date</TableCell>
+    //             <TableCell>Amount</TableCell>
+    //           </TableHeader>
+    //           <TableBody>
+    //             {data.map((order) => (
+    //               <TableRow key={order._id}>
+    //                 <TableCell>{order._id}</TableCell>
+    //                 <TableCell>{order.formName}</TableCell>
+    //                 <TableCell>{order.place}</TableCell>
+    //                 <TableCell>{order.formMobile}</TableCell>
+    //                 <TableCell>Success</TableCell>
+    //                 <TableCell>{order.date}</TableCell>
+    //                 <TableCell>{order.totalPrice}</TableCell>
+    //               </TableRow>
+    //             ))}
+    //           </TableBody>
+    //         </Table>
+    //       </Page>
+    //     </Document>
+    //   );
+      
+
+
     return (
         <div>
             <LayoutAdmin>
@@ -60,6 +95,10 @@ function SalesReport() {
                                 <div class="overflow-x-auto">
                                     <div class="inline-block min-w-full">
                                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                                            {/* <PDFDownloadLink document={<MyDocument data={order} />} fileName="sales-report.pdf">
+                                                {({ blob, url, loading, error }) => (loading ? 'Loading document...' : 'Download PDF')}
+                                            </PDFDownloadLink> */}
+
                                             <h1 className='font-bold text-xl mb-5'>Sales Report</h1>
                                             <div className='flex justify-end mr-5 mb-4'>
                                                 <input
@@ -72,7 +111,7 @@ function SalesReport() {
                                                     value={endDate}
                                                     onChange={(e) => setEndDate(e.target.value)}
                                                 />
-                                                <button onClick={() => console.log(filteredOrders)}>Apply</button>
+                                                <button onClick={() => (filteredOrders)}>Apply</button>
                                             </div>
                                             <table class="min-w-full divide-y divide-gray-200">
                                                 <thead class="bg-slate-300">
