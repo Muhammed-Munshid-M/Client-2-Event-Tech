@@ -36,6 +36,7 @@ import UserMenuList from './components/user/pages/UserMenuList';
 import SelectService from './components/user/pages/SelectService';
 import SalesReport from './components/admin/pages/SalesReport';
 import SalesManager from './components/manager/pages/SalesManager';
+import UserBookings from './components/user/pages/UserBookings';
 
 function App() {
 
@@ -96,11 +97,15 @@ function App() {
               <CartList />
             </UserProtectedRoute>
           } />
-          <Route path='/checkout' element={
-            <Checkout />
-          } />
           <Route path='/checkout-page' element={
-            <CheckoutPage />
+            <UserProtectedRoute>
+              <CheckoutPage />
+            </UserProtectedRoute>
+          } />
+          <Route path='/bookings' element={
+            <UserProtectedRoute>
+              <UserBookings />
+            </UserProtectedRoute>
           } />
           <Route path='/manager' element={
             <ManagerRoute>

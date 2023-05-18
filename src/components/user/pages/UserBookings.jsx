@@ -1,29 +1,28 @@
-import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { managerUrl } from '../../../API/Api'
-import Layout from '../Layout'
+import Navbar from '../Navbar'
+import axios from 'axios'
+import { userUrl } from '../../../API/Api'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-function Bookings() {
+
+function UserBookings() {
     const [booking, setBooking] = useState([])
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
     const [bookingDetails, setBookingDetails] = useState('')
-    const [cartDetails, setCartDetails] = useState([])
-
+    const [cartDetails,setCartDetails] = useState([])
+    
     useEffect(() => {
         setTimeout(() => {
             setLoading(false)
         }, 1000);
     }, [])
 
-    const viewDetails = async (id, userId) => {
+    const viewDetails = async (id,userId) => {
         setShowDetails(true)
-        await axios.post(`${managerUrl}bookings/${id}`, { userId }).then((response) => {
+        await axios.post(`${userUrl}bookings/${id}`,{userId}).then((response) => {
             const forms = response.data
             const form = forms.elements
-            console.log('items', form.items);
+            console.log('items',form.items);
             setBookingDetails(form)
             setCartDetails(form.items)
         })
@@ -32,8 +31,8 @@ function Bookings() {
     useEffect(() => {
         const bookings = async () => {
             try {
-                const token = localStorage.getItem('manager-token')
-                await axios.post(`${managerUrl}bookings`, {},
+                const token = localStorage.getItem('token')
+                await axios.post(`${userUrl}bookings`, {},
                     {
                         headers: {
                             Authorization: `Bearer ${token}`
@@ -47,11 +46,11 @@ function Bookings() {
             }
         }
         bookings()
-    }, [])
-    return (
-        <div>
-            <Layout>
-                {
+    },[])
+  return (
+    <div>
+      <Navbar/>
+      {
                     loading ? (
                         <div>Please wait...</div>
                     ) : (
@@ -66,18 +65,18 @@ function Bookings() {
                                         </header>
                                         <main class="container mx-auto mt-8 px-4">
                                             <section class="bg-white shadow-lg rounded-lg p-8">
-                                                <h2 class="text-xl font-bold mb-4">User Details</h2>
-                                                <div>
-                                                    <p>Name : {bookingDetails?.formName}</p>
-                                                    <p>Email : {bookingDetails?.formEmail}</p>
-                                                    <p>Mobile : {bookingDetails?.formMobile}</p>
-                                                    <p>Address : {bookingDetails?.address}</p>
-                                                    <p>Pin code : {bookingDetails?.pin}</p>
-                                                    <p>State : {bookingDetails?.state}</p>
-                                                    <p>District : {bookingDetails?.district}</p>
-                                                    <p className='mb-4'>Place : {bookingDetails?.place}</p>
-                                                    <h2 className='text-xl font-semibold mt-4'>Selected Services</h2>
-                                                    {cartDetails.map((datas) => (
+                                                <h2 class="text-xl font-bold mb-4">Your Personal Details</h2>
+                                                    <div>
+                                                        <p>Name : {bookingDetails?.formName}</p>
+                                                        <p>Email : {bookingDetails?.formEmail}</p>
+                                                        <p>Mobile : {bookingDetails?.formMobile}</p>
+                                                        <p>Address : {bookingDetails?.address}</p>
+                                                        <p>Pin code : {bookingDetails?.pin}</p>
+                                                        <p>State : {bookingDetails?.state}</p>
+                                                        <p>District : {bookingDetails?.district}</p>
+                                                        <p className='mb-4'>Place : {bookingDetails?.place}</p>
+                                                        <h2 className='text-xl font-semibold mt-4'>Selected Services</h2>
+                                                        {cartDetails.map((datas) => (
                                                         <div>
                                                             <h3 className='text-lg font-semibold mt-4'>1. Catering service</h3>
                                                             <h4 className='text-base font-semibold mt-4'>Starters</h4>
@@ -106,15 +105,15 @@ function Bookings() {
                                                             ))}
                                                         </div>
                                                     ))}
-                                                </div>
+                                                    </div>
                                             </section>
                                         </main>
                                     </body>
                                 </div>
                             ) : (
                                 <body className='mt-[7rem]'>
-                                    <div class="overflow-x-auto">
-                                        <div class="inline-block min-w-full">
+                                    <div class="overflow-x-auto mx-52">
+                                        <div class="inline-block min-w-7xl">
                                             <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                                                 <h1 className='font-bold text-xl mb-5'>Bookings</h1>
                                                 <table class="min-w-full divide-y divide-gray-200">
@@ -138,34 +137,34 @@ function Bookings() {
                                                         </tr>
                                                     </thead>
                                                     {booking.map((orderDatas) => (
-                                                        <tbody class="bg-slate-400 divide-y divide-gray-200">
-                                                            {orderDatas.form.map((data) => (
-                                                                <tr class="hover:bg-slate-200 transition duration-300">
-                                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                                        <div class="flex items-center">
-                                                                            <div class="ml-4">
-                                                                                <div class="text-sm font-medium text-gray-900">
-                                                                                    {data.type}
-                                                                                </div>
+                                                    <tbody class="bg-slate-400 divide-y divide-gray-200">
+                                                        {orderDatas.form.map((data) => (
+                                                            <tr class="hover:bg-slate-200 transition duration-300">
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="flex items-center">
+                                                                        <div class="ml-4">
+                                                                            <div class="text-sm font-medium text-gray-900">
+                                                                                {data.type}
                                                                             </div>
                                                                         </div>
-                                                                    </td>
-                                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                                        <div class="text-sm text-gray-900">{data.event_date}</div>
-                                                                    </td>
-                                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                                        <div class="text-sm text-gray-900">{data.time}</div>
-                                                                    </td>
-                                                                    <td class="px-6 py-4 whitespace-nowrap">
-                                                                        <div class="text-sm text-gray-900">{data.count}</div>
-                                                                    </td>
-                                                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                        <Link onClick={() => viewDetails(data._id, orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
-                                                                    </td>
-                                                                </tr>
-                                                            ))}
-                                                        </tbody>
-                                                    ))}
+                                                                    </div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-900">{data.event_date}</div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-900">{data.time}</div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap">
+                                                                    <div class="text-sm text-gray-900">{data.count}</div>
+                                                                </td>
+                                                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                                                    <Link onClick={() => viewDetails(data._id,orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
+                                                                </td>
+                                                            </tr>
+                                                        ))}
+                                                    </tbody>
+                                                     ))}
                                                 </table>
                                             </div>
                                         </div>
@@ -175,9 +174,8 @@ function Bookings() {
                         </>
                     )
                 }
-            </Layout>
-        </div>
-    )
+    </div>
+  )
 }
 
-export default Bookings
+export default UserBookings

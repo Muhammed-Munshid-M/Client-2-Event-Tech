@@ -117,7 +117,7 @@ function CartList() {
                                             <thead class="bg-slate-200">
                                                 <tr>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Category Name/Size
+                                                        Category Name / Other Name
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Category Price
