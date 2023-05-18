@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Navbar'
-import axios from 'axios'
-import { userUrl } from '../../../API/Api'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { setCheckedArray1, setCheckedArray2, setCheckedArray3, setCheckedArray4 } from '../../redux/services';
+import { setCheckedArray1, setCheckedArray2, setCheckedArray3, setCheckedArray4, setCheckedArray5, setCheckedArray6, setCheckedArray7, setCheckedArray8 } from '../../redux/services';
 
 function UserMenuList() {
     const [loading, setLoading] = useState(true)
@@ -12,6 +10,10 @@ function UserMenuList() {
     const [starter, setStarter] = useState([])
     const [main, setMain] = useState([])
     const [dessert, setDessert] = useState([])
+    const [stageCheck,setStageCheck] = useState([])
+    const [decorateCheck,setDecorateCheck] = useState([])
+    const [photoCheck,setPhotoCheck] = useState([])
+    const [vehicleCheck,setVehicleCheck] = useState([])
     const [salad, setSalad] = useState([])
     const [catering, setCatering] = useState([])
     const [stage, setStage] = useState([])
@@ -86,6 +88,63 @@ function UserMenuList() {
         }
     }
 
+    const stageChecked = async (image, name, price, event) => {
+        if (event == true) {
+            // check
+            setStageCheck([...stageCheck, { stage_image: image, stage_name: name, stage_price: price }])
+        } else {
+            // uncheck
+            for (let i = 0; i < stageCheck.length; i++) {
+                if (stageCheck[i] == name) {
+                    stageCheck.splice(i)
+                }
+            }
+        }
+    }
+
+    const decorateChecked = async (image, name, price, event) => {
+        if (event == true) {
+            // check
+            setDecorateCheck([...decorateCheck, { decorate_image: image, decorate_name: name, decorate_price: price }])
+        } else {
+            // uncheck
+            for (let i = 0; i < decorateCheck.length; i++) {
+                if (decorateCheck[i] == name) {
+                    decorateCheck.splice(i)
+                }
+            }
+        }
+    }
+
+    const photoChecked = async (image, name, price, event) => {
+        if (event == true) {
+            // check
+            setPhotoCheck([...photoCheck, { photo_image: image, photo_name: name, photo_price: price }])
+        } else {
+            // uncheck
+            for (let i = 0; i < photoCheck.length; i++) {
+                if (photoCheck[i] == name) {
+                    photoCheck.splice(i)
+                }
+            }
+        }
+    }
+
+    const vehicleChecked = async (image, name, price, event) => {
+        if (event == true) {
+            // check
+            setVehicleCheck([...vehicleCheck, { vehicle_image: image, vehicle_name: name, vehicle_price: price }])
+        } else {
+            // uncheck
+            for (let i = 0; i < vehicleCheck.length; i++) {
+                if (vehicleCheck[i] == name) {
+                    vehicleCheck.splice(i)
+                }
+            }
+        }
+    }
+
+
 
     useEffect(() => {
         setTimeout(() => {
@@ -113,6 +172,10 @@ function UserMenuList() {
             dispatch(setCheckedArray2(main))
             dispatch(setCheckedArray3(dessert))
             dispatch(setCheckedArray4(salad))
+            dispatch(setCheckedArray5(stageCheck))
+            dispatch(setCheckedArray6(decorateCheck))
+            dispatch(setCheckedArray7(photoCheck))
+            dispatch(setCheckedArray8(vehicleCheck))
             navigate('/cart-list')
         } catch (error) {
             console.log(error);
@@ -215,7 +278,8 @@ function UserMenuList() {
                                                                 <img width='200px' height='auto' src={data.stage_photo} alt="" />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                                                 onChange={(event) => stageChecked(data.stage_photo,data.stage_size, data.stage_budget, event.target.checked)}/>
                                                             </div>
                                                         ))}
                                                     </dl>
@@ -242,7 +306,8 @@ function UserMenuList() {
                                                                 <img width='200px' height='auto' src={data.stage_photo} alt="" />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                                                 onChange={(event) => stageChecked(data.stage_photo,data.stage_size, data.stage_budget, event.target.checked)} />
                                                             </div>
                                                         ))}
                                                     </dl>
@@ -273,7 +338,8 @@ function UserMenuList() {
                                                             <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                                                 <img width='200px' height='auto' src={data.decoration_photo} alt="" />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.decoration_budget}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" 
+                                                                onChange={(event) => decorateChecked(data.decoration_photo,'No Title', data.decoration_budget, event.target.checked)}/>
                                                             </div>
                                                         ))}
                                                     </dl>
@@ -308,7 +374,8 @@ function UserMenuList() {
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.shop_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.address}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.budget}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" 
+                                                                onChange={(event) => photoChecked(data.recent_photos,data.shop_name, data.budget, event.target.checked)}/>
                                                             </div>
                                                         ))}
                                                     </dl>
@@ -341,7 +408,8 @@ function UserMenuList() {
                                                                 <img width='200px' height='auto' src={data.vehicle_image} alt="" />
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.owner_name}</dd>
                                                                 <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.rent_price}</dd>
-                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" />
+                                                                <input type="checkbox" class="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5" 
+                                                                onChange={(event) => vehicleChecked(data.vehicle_image,data.owner_name, data.rent_price, event.target.checked)}/>
                                                             </div>
                                                         ))}
                                                     </dl>

@@ -13,6 +13,10 @@ function CartList() {
     const [datas2, setDatas2] = useState([])
     const [datas3, setDatas3] = useState([])
     const [datas4, setDatas4] = useState([])
+    const [datas5, setDatas5] = useState([])
+    const [datas6, setDatas6] = useState([])
+    const [datas7, setDatas7] = useState([])
+    const [datas8, setDatas8] = useState([])
     const [categoryName, setCategoryName] = useState([])
     const navigate = useNavigate()
 
@@ -25,10 +29,14 @@ function CartList() {
         setDatas2(serviceDetails.checked2)
         setDatas3(serviceDetails.checked3)
         setDatas4(serviceDetails.checked4)
+        setDatas5(serviceDetails.checked5)
+        setDatas6(serviceDetails.checked6)
+        setDatas7(serviceDetails.checked7)
+        setDatas8(serviceDetails.checked8)
         setService(serviceDetails.service.serviceData)
         setCategoryName(serviceDetails.service.serviceData.cateringMenu)
         setCategories(serviceDetails.service.serviceData.cateringMenu[0])
-        const datas = { datas1, datas2, datas3, datas4 }
+        const datas = { datas1, datas2, datas3, datas4, datas5, datas6, datas7, datas8 }
         const details = () => {
             try {
                 const token = localStorage.getItem('token')
@@ -44,12 +52,18 @@ function CartList() {
             }
         }
         details()
-    }, [datas1, datas2])
+    }, [datas1, datas2, datas3, datas4, datas5, datas6, datas7, datas8])
     const total1 = datas1.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.starter_price), 0);
     const total2 = datas2.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.main_price), 0);
     const total3 = datas3.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.dessert_price), 0);
     const total4 = datas4.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.salad_price), 0);
-    const total = total1 + total2 + total3 + total4
+    const total5 = datas5.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.stage_price), 0);
+    const total6 = datas6.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.decorate_price), 0);
+    const total7 = datas7.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.photo_price), 0);
+    const total8 = datas8.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.vehicle_price), 0);
+    const totalFloat = (total1 + total2 + total3 + total4 + total5 + total6 + total7 + total8) / 2
+    console.log('total:',totalFloat);
+    const total = Math.round(totalFloat)
     const submitCheckout = () => {
         navigate('/checkout-page', { state: { totalPrice: total } })
     }
@@ -103,7 +117,7 @@ function CartList() {
                                             <thead class="bg-slate-200">
                                                 <tr>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                                        Category Name
+                                                        Category Name/Size
                                                     </th>
                                                     <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                                         Category Price
@@ -126,7 +140,7 @@ function CartList() {
                                                                         {data.starter_name}
                                                                     </div>
                                                                     <div class="text-sm text-gray-500">
-                                                                        {/* {services.catering_name}, */}
+                                                                        {services.catering_name}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -153,6 +167,9 @@ function CartList() {
                                                                 <div class="ml-4">
                                                                     <div class="text-sm font-medium text-gray-900">
                                                                         {data.main_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {services.catering_name}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -181,7 +198,7 @@ function CartList() {
                                                                         {data.dessert_name}
                                                                     </div>
                                                                     <div class="text-sm text-gray-500">
-                                                                        {/* {services.catering_name}, */}
+                                                                        {services.catering_name}
                                                                     </div>
                                                                 </div>
                                                             </div>
@@ -209,11 +226,130 @@ function CartList() {
                                                                     <div class="text-sm font-medium text-gray-900">
                                                                         {data.salad_name}
                                                                     </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {services.catering_name}
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <div key={index} class="text-sm text-gray-900">{data.salad_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {datas5.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.stage_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.stage_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {services.stage_name},
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.stage_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {datas6.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.decorate_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.decorate_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {services.decoration_name}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.decorate_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {datas7.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.photo_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.photo_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {services.photography_name}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.photo_price}</div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                                                                stroke="currentColor">
+                                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                                            </svg>
+                                                        </td>
+                                                    </tr>
+                                                ))}
+                                                {datas8.map((data, index) => (
+                                                    <tr class="hover:bg-slate-300 transition duration-300">
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div class="flex items-center">
+                                                                <div class="flex-shrink-0 h-10 w-10">
+                                                                    <img class="h-10 w-10 rounded-full" src={data.vehicle_image} alt="" />
+                                                                </div>
+                                                                <div class="ml-4">
+                                                                    <div class="text-sm font-medium text-gray-900">
+                                                                        {data.vehicle_name}
+                                                                    </div>
+                                                                    <div class="text-sm text-gray-500">
+                                                                        {services.vehicle_name}
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                        <td class="px-6 py-4 whitespace-nowrap">
+                                                            <div key={index} class="text-sm text-gray-900">{data.vehicle_price}</div>
                                                         </td>
                                                         <td class="px-6 py-4 whitespace-nowrap">
                                                             <svg onClick={() => removeItem(index)} xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"

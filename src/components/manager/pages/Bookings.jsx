@@ -9,8 +9,8 @@ function Bookings() {
     const [booking, setBooking] = useState([])
     const [loading, setLoading] = useState(true)
     const [showDetails, setShowDetails] = useState(false)
-    const [bookingDetails, setBookingDetails] = useState([])
-    const [starters, setStarters] = useState([])
+    const [bookingDetails, setBookingDetails] = useState('')
+    const [cartDetails,setCartDetails] = useState([])
     
     useEffect(() => {
         setTimeout(() => {
@@ -18,16 +18,14 @@ function Bookings() {
         }, 1000);
     }, [])
 
-    const viewDetails = async (id) => {
+    const viewDetails = async (id,userId) => {
         setShowDetails(true)
-        await axios.post(`${managerUrl}bookings/${id}`).then((response) => {
-            const datas = response.data
-            const forms = datas.forms
-            const form = forms.form
-            const cartList = datas.cartData
-            console.log('cartDetails',cartList);
+        await axios.post(`${managerUrl}bookings/${id}`,{userId}).then((response) => {
+            const forms = response.data
+            const form = forms.elements
+            console.log('items',form.items);
             setBookingDetails(form)
-            setCartDetails(cartList)
+            setCartDetails(form.items)
         })
     }
 
@@ -69,24 +67,29 @@ function Bookings() {
                                         <main class="container mx-auto mt-8 px-4">
                                             <section class="bg-white shadow-lg rounded-lg p-8">
                                                 <h2 class="text-xl font-bold mb-4">User Details</h2>
-                                                {bookingDetails.map((data) => (
                                                     <div>
-                                                        <p>Name : {data?.formName}</p>
-                                                        <p>Email : {data?.formEmail}</p>
-                                                        <p>Mobile : {data?.formMobile}</p>
-                                                        <p>Address : {data?.address}</p>
-                                                        <p>Pin code : {data?.pin}</p>
-                                                        <p>State : {data?.state}</p>
-                                                        <p>District : {data?.district}</p>
-                                                        <p className='mb-4'>Place : {data?.place}</p>
+                                                        <p>Name : {bookingDetails?.formName}</p>
+                                                        <p>Email : {bookingDetails?.formEmail}</p>
+                                                        <p>Mobile : {bookingDetails?.formMobile}</p>
+                                                        <p>Address : {bookingDetails?.address}</p>
+                                                        <p>Pin code : {bookingDetails?.pin}</p>
+                                                        <p>State : {bookingDetails?.state}</p>
+                                                        <p>District : {bookingDetails?.district}</p>
+                                                        <p className='mb-4'>Place : {bookingDetails?.place}</p>
                                                         <h2 className='text-xl font-semibold mt-4'>Selected Services</h2>
-                                                        <h3 className='text-lg font-semibold mt-4'>1. Catering service</h3>
-                                                        <h4 className='text-base font-semibold mt-4'>Starters</h4>
-                                                        <p>Spicy lemon</p>
-                                                        <p>got in soup</p>
-                                                        <h3 className='text-lg font-semibold mt-4'>2. Stage service</h3>
+                                                        {cartDetails.map((datas)=>(
+                                                            <div>
+                                                                <h3 className='text-lg font-semibold mt-4'>1. Catering service</h3>
+                                                                <h4 className='text-base font-semibold mt-4'>Starters</h4>
+                                                                {datas.starters.map((data)=>(
+                                                                    <div>
+                                                                        <p>{data.category_name}</p>
+                                                                        {/* <h3 className='text-lg font-semibold mt-4'>2. Stage service</h3> */}
+                                                                    </div>
+                                                                ))}
+                                                            </div>
+                                                        ))}
                                                     </div>
-                                                ))}
                                             </section>
                                         </main>
                                     </body>
@@ -146,7 +149,7 @@ function Bookings() {
                                                                     <div class="text-sm text-gray-900">{data.count}</div>
                                                                 </td>
                                                                 <td class="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                                                    <Link onClick={() => viewDetails(orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
+                                                                    <Link onClick={() => viewDetails(data._id,orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
                                                                 </td>
                                                             </tr>
                                                         ))}

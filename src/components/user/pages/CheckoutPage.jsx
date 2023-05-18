@@ -124,11 +124,9 @@ function CheckoutPage() {
                           Your Details
                         </h6>
                       </div>
-                      {/* <hr className="mt-6 border-b-1 border-black" /> */}
                     </div>
                     <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
                       <div className='w-1/2 px-4'>
-                        {/* <form onSubmit={sendOtp}> */}
                         <div className="relative w-full mb-3">
                           <label
                             className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
