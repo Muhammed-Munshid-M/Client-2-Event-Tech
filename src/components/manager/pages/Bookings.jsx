@@ -104,6 +104,34 @@ function Bookings() {
                                                                     <p>{data.salad_name}</p>
                                                                 </div>
                                                             ))}
+                                                            <h3 className='text-lg font-semibold mt-4'>2. Stage service</h3>
+                                                            <h4 className='text-base font-semibold mt-4'>Stage size</h4>
+                                                            {datas.categories.map((data) => (
+                                                                <div>
+                                                                    <p>{data.stage_name}</p>
+                                                                </div>
+                                                            ))}
+                                                            <h3 className='text-lg font-semibold mt-4'>3. Decoration service</h3>
+                                                            <h4 className='text-base font-semibold mt-4'>decoration images</h4>
+                                                            {datas.categories.map((data) => (
+                                                                <div>
+                                                                    <p>{data.decorate_name}</p>
+                                                                </div>
+                                                            ))}
+                                                            <h3 className='text-lg font-semibold mt-4'>4. Photography service</h3>
+                                                            <h4 className='text-base font-semibold mt-4'>Photography shop Name</h4>
+                                                            {datas.categories.map((data) => (
+                                                                <div>
+                                                                    <p>{data.photo_name}</p>
+                                                                </div>
+                                                            ))}
+                                                            <h3 className='text-lg font-semibold mt-4'>5.Vehicle service</h3>
+                                                            <h4 className='text-base font-semibold mt-4'>Vehicle owner Name</h4>
+                                                            {datas.categories.map((data) => (
+                                                                <div>
+                                                                    <p>{data.vehicle_name}</p>
+                                                                </div>
+                                                            ))}
                                                         </div>
                                                     ))}
                                                 </div>

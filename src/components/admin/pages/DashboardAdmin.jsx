@@ -14,7 +14,6 @@ function DashboardAdmin() {
       axios.get(`${adminUrl}dashboard`)
       .then((response)=>{
         const total = response.data
-        console.log('total',total);
         setTotalUsers(total.userLength)
         setTotalApproved(total.approvedLength)
         setTotalManagers(total.managerLength)

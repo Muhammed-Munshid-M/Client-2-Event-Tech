@@ -7,6 +7,8 @@ import Layout from '../Layout';
 function SalesManager() {
     const [loading, setLoading] = useState(true)
     const [order, setOrder] = useState([])
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
 
 
     useEffect(() => {
@@ -14,6 +16,13 @@ function SalesManager() {
             setLoading(false)
         }, 1000);
     }, [])
+
+    const filteredOrders = order.filter((order) => {
+        const orderDate = new Date(order.date).getTime();
+        const start = startDate ? new Date(startDate).getTime() : 0;
+        const end = endDate ? new Date(endDate).getTime() : new Date().getTime();
+        return orderDate >= start && orderDate <= end;
+    });
 
     useEffect(() => {
         const sales = async () => {
@@ -48,7 +57,20 @@ function SalesManager() {
                                 <div class="overflow-x-auto">
                                     <div class="inline-block min-w-full">
                                         <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                                            <h1 className='font-bold text-xl mb-5'>Sales Report</h1>
+                                        <h1 className='font-bold text-xl mb-5'>Sales Report</h1>
+                                            <div className='flex justify-end mr-5 mb-4'>
+                                                <input
+                                                    type="date"
+                                                    value={startDate}
+                                                    onChange={(e) => setStartDate(e.target.value)}
+                                                />
+                                                <input
+                                                    type="date"
+                                                    value={endDate}
+                                                    onChange={(e) => setEndDate(e.target.value)}
+                                                />
+                                                <button onClick={() => (filteredOrders)}>Apply</button>
+                                            </div>
                                             <table class="min-w-full divide-y divide-gray-200">
                                                 <thead class="bg-slate-300">
                                                     <tr>

@@ -68,6 +68,7 @@ function CheckoutPage() {
                   .then((response) => {
                     if (response.data.success) {
                       toast.success(response.data.message)
+                      navigate('/')
                     } else if (response.data.noAcc) {
                       toast.error(response.data.message)
                       navigate('/login')
