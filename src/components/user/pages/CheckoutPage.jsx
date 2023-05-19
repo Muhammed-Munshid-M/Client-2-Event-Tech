@@ -6,7 +6,8 @@ import { toast } from 'react-hot-toast';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { useSelector } from 'react-redux';
-// import { useRoute } from '@react-navigation/native';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 import Swal from 'sweetalert2'
 
 function CheckoutPage() {
@@ -14,8 +15,8 @@ function CheckoutPage() {
   const [email, setEmail] = useState('')
   const [mobile, setMobile] = useState('')
   const [address, setAddress] = useState('')
-  const [date, setDate] = useState('')
-  const [time, setTime] = useState('')
+  const [date, setDate] = useState(null)
+  const [time, setTime] = useState('00:00')
   const [count, setCount] = useState('')
   const [type, setType] = useState('Wedding')
   const [pin, setPin] = useState('')
@@ -109,6 +110,11 @@ function CheckoutPage() {
         console.log(err);
       })
   }
+
+  const handleDateChange = (date) => {
+    setDate(date);
+  };
+
   return (
     <div>
       <Navbar />
@@ -268,14 +274,6 @@ function CheckoutPage() {
                         </div>
                       </div>
                     </div>
-                    {/* <div className="text-center flex-auto px-4 lg:px-10 py-8 pt-0">
-                        <button
-                          className="bg-black text-white active:bg-blueGray-600 text-sm font-bold uppercase px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 w-full ease-linear transition-all duration-150"
-                          type="submit"
-                        >
-                          Pay Now
-                        </button>
-                      </div> */}
                   </div>
                 </div>
                 <div className="w-full px-4">
@@ -286,7 +284,6 @@ function CheckoutPage() {
                           Booking Details
                         </h6>
                       </div>
-                      {/* <hr className="mt-6 border-b-1 border-black" /> */}
                     </div>
                     <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
                       <div className='w-1/2 px-4'>
@@ -296,13 +293,13 @@ function CheckoutPage() {
                           >
                             Event Date
                           </label>
-                          <input
-                            type="date"
-                            value={date}
-                            required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            placeholder="Date"
-                            onChange={(e) => setDate(e.target.value)}
+                          <DatePicker
+                          className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            selected={date}
+                            placeholderText='Select Your Date'
+                            onChange={handleDateChange}
+                            minDate={new Date()} // Restrict selection to future dates only
+                            dateFormat="dd-MM-yyyy" // Specify your desired date format
                           />
                         </div>
                         <div className="relative w-full mb-3">

@@ -37,7 +37,7 @@ function Dashboard() {
         const dashboard = async() => {
             try {
                 const token = localStorage.getItem('manager-token')
-                await axios.get(`${managerUrl}dashboard`, {},
+                await axios.get(`${managerUrl}dashboard`, {}, 
                     {
                         headers: {
                             Authorization: `Bearer ${token}`

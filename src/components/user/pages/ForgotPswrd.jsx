@@ -5,7 +5,7 @@ import axios from 'axios'
 import { userUrl } from '../../../API/Api'
 import { Toaster, toast } from 'react-hot-toast'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
-import { auth } from '../../../firebase/config'
+import auth from '../../../firebase/config'
 import OtpInput from 'otp-input-react'
 
 function ForgotPswrd() {

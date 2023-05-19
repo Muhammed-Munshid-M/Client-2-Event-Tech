@@ -30,7 +30,6 @@ import ManagerProfile from './components/manager/pages/ManagerProfile';
 import Profile from './components/user/pages/Profile';
 import ServiceList from './components/manager/pages/ServiceList';
 import CartList from './components/user/pages/CartList';
-import Checkout from './components/user/pages/Checkout';
 import CheckoutPage from './components/user/pages/CheckoutPage';
 import UserMenuList from './components/user/pages/UserMenuList';
 import SelectService from './components/user/pages/SelectService';

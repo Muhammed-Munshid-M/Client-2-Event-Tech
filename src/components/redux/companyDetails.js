@@ -1,18 +1,16 @@
-import {createSlice} from '@reduxjs/toolkit'
-const companySlice=createSlice({
+import { createSlice } from '@reduxjs/toolkit';
 
-    name:"company",
-    initialState:{
-        company:{},
-    },
+const companySlice = createSlice({
 
-    reducers:{
-        setCompany: (state,action)=>{
-            state.company=action.payload
-        }
-    }   
-})
+  name: 'company',
+  initialState: {
+    company: {},
+  },
 
+  reducers: {
+    setCompany: (state, action) => ({ ...state, company: action.payload }),
+  },
+});
 
-export const {setCompany }=companySlice.actions;
-export default companySlice
+export const { setCompany } = companySlice.actions;
+export default companySlice;

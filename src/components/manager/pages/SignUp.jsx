@@ -5,9 +5,8 @@ import axios from 'axios'
 import { managerUrl } from '../../../API/Api'
 import './Login.css'
 import { Toaster, toast } from 'react-hot-toast'
-import { auth } from '../../../firebase/config'
+import auth from '../../../firebase/config'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
-import { useDispatch, useSelector } from 'react-redux'
 
 function SignUp() {
     const [name, setName] = useState('')

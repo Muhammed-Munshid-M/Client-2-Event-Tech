@@ -6,7 +6,7 @@ import { userUrl } from '../../../API/Api'
 import toast, { Toaster } from 'react-hot-toast'
 import OtpInput from 'otp-input-react'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
-import { auth } from '../../../firebase/config'
+import auth from '../../../firebase/config'
 
 function UserOtp() {
     const [otp, setOtp] = useState('')

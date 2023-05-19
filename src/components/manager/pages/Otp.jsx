@@ -6,21 +6,17 @@ import { managerUrl } from '../../../API/Api'
 import toast, { Toaster } from 'react-hot-toast'
 import OtpInput from 'otp-input-react'
 import { RecaptchaVerifier, signInWithPhoneNumber } from 'firebase/auth'
-import { auth } from '../../../firebase/config'
-import { useSelector } from 'react-redux'
-import { useLocation } from 'react-router-dom'
+import auth from '../../../firebase/config'
 
 function Otp() {
-    // console.log(aadhar);
-
     const [otp, setOtp] = useState('')
     const [countdown, setCountdown] = useState(0)
     const navigate = useNavigate()
     const submitOtp = async (e) => {
         e.preventDefault()
-        // window.confirmationResult.confirm(otp).then(async(res) => {
+        window.confirmationResult.confirm(otp).then(async(res) => {
         try {
-            // if (res) {
+            if (res) {
             axios.post(`${managerUrl}otp`).then((response) => {
                 if (response.data.success) {
                     navigate('/manager')
@@ -30,13 +26,13 @@ function Otp() {
                     toast.error('Something error')
                 }
             })
-            // } else {
-            //     toast.error('Your otp is invalid,Please try again')
-            // }
+            } else {
+                toast.error('Your otp is invalid,Please try again')
+            }
         } catch (error) {
             console.log(error)
         }
-        // })
+        })
     }
 
     function onCaptchVerify() {
@@ -110,8 +106,6 @@ function Otp() {
                             <form action="" className="sm:w-2/3 w-full px-4 mx-auto lg:px-0">
                                 <div className="pb-2 pt-4">
                                     <OtpInput value={otp} onChange={setOtp} OTPLength={6} otpType="number" disabled={false} autoFocus className="opt-container text-black"></OtpInput>
-                                    {/* <input type="number" name="otp" id="otp" placeholder="Enter your Otp" value={otp} className="block w-full p-4 text-lg rounded-sm bg-black" 
-                                    onChange={(e) => setOtp(e.target.value)}/> */}
                                 </div>
                                 <div className="px-4 pb-2 pt-4">
                                     <button onClick={submitOtp} className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none" type="button">Verify OTP</button>
