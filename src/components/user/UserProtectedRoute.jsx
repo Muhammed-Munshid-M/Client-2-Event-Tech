@@ -1,14 +1,17 @@
-import React from 'react'
-import { toast } from 'react-hot-toast'
-import { Navigate } from 'react-router-dom'
+/* eslint-disable linebreak-style */
+/* eslint-disable no-undef */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
+import React from 'react';
+import { toast } from 'react-hot-toast';
+import { Navigate } from 'react-router-dom';
 
 function UserProtectedRoute(props) {
-    if (localStorage.getItem('token')) {
-        return props.children
-    } else {
-        toast.error('You have no account, Please Login')
-        return <Navigate to="/" />
-    }
+  if (localStorage.getItem('token')) {
+    return props.children;
+  }
+  toast.error('You have no account, Please Login');
+  return <Navigate to="/" />;
 }
 
-export default UserProtectedRoute
+export default UserProtectedRoute;

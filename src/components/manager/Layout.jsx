@@ -1,3 +1,19 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable react/prop-types */
+/* eslint-disable arrow-parens */
+/* eslint-disable no-undef */
+/* eslint-disable no-multiple-empty-lines */
+/* eslint-disable semi */
+/* eslint-disable comma-dangle */
+/* eslint-disable no-shadow */
+/* eslint-disable max-len */
+/* eslint-disable react/jsx-tag-spacing */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-indent-props */
+/* eslint-disable quotes */
+/* eslint-disable eqeqeq */
+/* eslint-disable react/jsx-indent */
+/* eslint-disable indent */
 import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
@@ -28,7 +44,6 @@ import AssessmentIcon from '@mui/icons-material/Assessment';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { ListItemText } from '@mui/material';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -83,8 +98,6 @@ export default function Layout({ children }) {
     const theme = useTheme();
     const [open, setOpen] = React.useState(false);
     const [anchorElUser, setAnchorElUser] = React.useState(null);
-    const Services = useSelector((state) => state.services);
-    console.log(Services.service);
 
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -207,7 +220,7 @@ export default function Layout({ children }) {
                         >
                             EVENT TECH
                         </Typography>
-                        <Box sx={{ flexGrow: 0 }} className='ms-auto'>
+                        <Box sx={{ flexGrow: 0 }} className="ms-auto">
                             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                                 <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                             </IconButton>
@@ -267,7 +280,7 @@ export default function Layout({ children }) {
                                     {menu.name == 'Services' && <MiscellaneousServicesIcon />}
                                     {menu.name == 'Sales Report' && <AssessmentIcon />}
                                 </ListItemIcon>
-                                <ListItemText className='text-xl text-black font-normal underline-offset-0' primary={menu.name} />
+                                <ListItemText className="text-xl text-black font-normal underline-offset-0" primary={menu.name} />
                             </ListItemButton>
                         </ListItem>
                     ))}

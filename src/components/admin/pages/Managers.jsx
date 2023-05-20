@@ -1,17 +1,28 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+/* eslint-disable react/jsx-no-useless-fragment */
+/* eslint-disable no-console */
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/button-has-type */
+/* eslint-disable indent */
+/* eslint-disable no-shadow */
+/* eslint-disable semi */
 import axios from 'axios'
 import React, { Fragment, useEffect, useState } from 'react'
-import { toast } from 'react-hot-toast'
-import { adminUrl } from '../../../API/Api'
-import LayoutAdmin from '../LayoutAdmin'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { CircularProgress } from '@mui/material'
+import { adminUrl } from '../../../API/Api'
+import LayoutAdmin from '../LayoutAdmin'
 
 function Managers() {
-  const [manager, setManager] = useState()
+  const [manager, setManager] = useState([])
   const [loading, setLoading] = useState(true)
   const [showDetails, setShowDetails] = useState(false)
-  const [managerDetails, setManagerDetails] = useState()
+  const [managerDetails, setManagerDetails] = useState('')
   const [approvalStatus, setApprovalStatus] = useState({});
   const navigate = useNavigate()
 
@@ -28,7 +39,7 @@ function Managers() {
       Swal.fire(
         'Approved',
         'Your selecting manager approved',
-        'success'
+        'success',
       ).then(() => {
         navigate('/admin/managers')
       })
@@ -60,97 +71,97 @@ function Managers() {
   return (
     <div>
       <LayoutAdmin>
-        <div className='me-5' style={{backgroundColor:'#F2F6FF'}}>
-        {
-          loading ? (
-            <div>
-              <CircularProgress variant="soft" color="info" />
-            </div>
+        <div className="me-5" style={{ backgroundColor: '#F2F6FF' }}>
+          {
+         loading ? (
+           <div>
+             <CircularProgress variant="soft" color="info" />
+           </div>
           ) : (
             <>
               {showDetails ? (
                 <div className="mt-[6rem]">
-                <div className="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
-                <div className='text-center w-full department-head mb-4'><h1>Your Details</h1></div>
-                  <div className="max-w-3xl mx-auto">
-                    <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                      <div className="px-4 py-5 sm:px-6">
-                        <h1 className="text-2xl font-medium text-gray-900">
-                          {managerDetails?.name}
-                        </h1>
-                        <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                          {managerDetails?.email}
-                        </p>
+                  <div className="max-w-7xl mx-auto py-12 sm:px-6 lg:px-8">
+                    <div className="text-center w-full department-head mb-4"><h1>Your Details</h1></div>
+                    <div className="max-w-3xl mx-auto">
+                      <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                        <div className="px-4 py-5 sm:px-6">
+                          <h1 className="text-2xl font-medium text-gray-900">
+                            {managerDetails.name}
+                          </h1>
+                          <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                            {managerDetails.email}
+                          </p>
+                        </div>
+                        <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
+                          <dl className="sm:divide-y sm:divide-gray-200">
+                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt className="text-sm font-medium text-gray-500">Mobile</dt>
+                              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {managerDetails.mobile}
+                              </dd>
+                            </div>
+                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt className="text-sm font-medium text-gray-500">Company Name</dt>
+                              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {managerDetails.company_name}
+                              </dd>
+                            </div>
+                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt className="text-sm font-medium text-gray-500">Address</dt>
+                              <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                {managerDetails.address}
+                              </dd>
+                            </div>
+                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt className="text-sm font-medium text-gray-500">Aadhar</dt>
+                              <img src="/driving-licence.jpeg" alt="" />
+                            </div>
+                            <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                              <dt className="text-sm font-medium text-gray-500">License or VoterId</dt>
+                              <img src="/driving-licence.jpeg" alt="" />
+                            </div>
+                          </dl>
+                        </div>
+                        <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
+                          <button
+                            type="button"
+                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                            onClick={() => setShowDetails(false)}
+                          >
+                            Go Back
+                          </button>
+
+                        </div>
                       </div>
-                      <div className="border-t border-gray-200 px-4 py-5 sm:p-0">
-                        <dl className="sm:divide-y sm:divide-gray-200">
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">Mobile</dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                              {managerDetails?.mobile}
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">Company Name</dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                              {managerDetails?.company_name}
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">Address</dt>
-                            <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                              {managerDetails?.address}
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">Aadhar</dt>
-                            <img src="/driving-licence.jpeg" alt="" />
-                          </div>
-                          <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                            <dt className="text-sm font-medium text-gray-500">License or VoterId</dt>
-                            <img src="/driving-licence.jpeg" alt="" />
-                          </div>
-                        </dl>
-                      </div>
-                      <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
-                    <button
-                      type="button"
-                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={()=>setShowDetails(false)}
-                   >
-                        Go Back
-                    </button>
-                   
+                    </div>
                   </div>
                 </div>
-              </div>
-            </div>
-            </div>
               ) : (
-                <body className='mt-[7rem]'>
-                  <div class="overflow-x-auto">
-                    <div class="inline-block ml-10">
-                      <div class="shadow overflow-hidden border-gray-200 sm:rounded-lg">
-                        <h1 className='font-bold text-xl mb-5'>Managers List</h1>
-                        <table class="min-w-full divide-y divide-gray-200">
-                          <thead class="bg-slate-300">
+                <body className="mt-[7rem]">
+                  <div className="overflow-x-auto">
+                    <div className="inline-block ml-10">
+                      <div className="shadow overflow-hidden border-gray-200 sm:rounded-lg">
+                        <h1 className="font-bold text-xl mb-5">Managers List</h1>
+                        <table className="min-w-full divide-y divide-gray-200">
+                          <thead className="bg-slate-300">
                             <tr>
-                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Name
                               </th>
-                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Email
                               </th>
-                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Company Name
                               </th>
-                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Mobile
                               </th>
-                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Details
                               </th>
-                              <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                              <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 Access
                               </th>
                             </tr>

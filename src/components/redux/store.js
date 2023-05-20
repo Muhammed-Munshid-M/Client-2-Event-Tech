@@ -4,9 +4,6 @@ import { alertsSlice } from './alertSlice';
 import { userSlice } from './userSlice';
 import companySlice from './companyDetails';
 import serviceSlice from './services';
-// import { imageSlice } from "./aadhar";
-// import {composeWithDevTools} from 'redux-devtools-extension'
-// import thunk from "redux-thunk";
 
 const rootReducer = combineReducers({
   alerts: alertsSlice.reducer,

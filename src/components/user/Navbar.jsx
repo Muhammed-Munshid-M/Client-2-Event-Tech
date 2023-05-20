@@ -1,3 +1,7 @@
+/* eslint-disable linebreak-style */
+/* eslint-disable max-len */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-undef */
 import * as React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -15,24 +19,22 @@ import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
 import { ThemeProvider } from '@emotion/react';
 import { createTheme } from '@mui/material';
 import { orange } from '@mui/material/colors';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const pages = [''];
 const settings = [{ label: 'Profile', path: '/profile' }, { label: 'Logout', path: '/' }];
 
-function Navbar(userDetails) {
-  const profilePhoto = userDetails.profileImage
-  const navigate = useNavigate()
+function Navbar() {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  // const [anchorEl, setAnchorEl] = React.useState(null);
+  // const open = Boolean(anchorEl);
+  // const handleClick = (event) => {
+  //   setAnchorEl(event.currentTarget);
+  // };
+  // const handleClose = () => {
+  //   setAnchorEl(null);
+  // };
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -51,25 +53,23 @@ function Navbar(userDetails) {
 
   const RoutePath = (setting) => {
     if (setting.label == 'Logout') {
-      localStorage.clear()
+      localStorage.clear();
     }
-  }
+  };
 
   const theme = createTheme({
     palette: {
       primary: {
         main: orange[600],
-      }
-    }
-  })
+      },
+    },
+  });
 
   return (
     <ThemeProvider theme={theme} sx={{ mt: 0 }}>
       <AppBar position="fixed">
         <Container maxWidth="xl">
           <Toolbar disableGutters>
-            {/* <img height='auto' src="/event logo.png" class="h-6 mr-3 sm:h-9" alt="Not working Logo"  */}
-            {/* sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
             <RestaurantMenuIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
             <Typography
               variant="h6"
@@ -125,8 +125,6 @@ function Navbar(userDetails) {
               </Menu>
             </Box>
             <RestaurantMenuIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
-            {/* <img height='auto' src="/event logo.png" class="h-6 mr-3 sm:h-9" alt="Not working Logo" 
-          sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
             <Typography
               variant="h5"
               noWrap
@@ -145,7 +143,7 @@ function Navbar(userDetails) {
             >
               EVENT TECH
             </Typography>
-            <Button
+            {/* <Button
               id="demo-positioned-button"
               aria-controls={open ? 'demo-positioned-menu' : undefined}
               aria-haspopup="true"
@@ -175,7 +173,7 @@ function Navbar(userDetails) {
               <MenuItem onClick={handleClose}>Decoraion Service</MenuItem>
               <MenuItem onClick={handleClose}>Photography Service</MenuItem>
               <MenuItem onClick={handleClose}>Luxury Vehicle Service</MenuItem>
-            </Menu>
+            </Menu> */}
             <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
               {pages.map((page) => (
                 <Button
@@ -184,7 +182,6 @@ function Navbar(userDetails) {
                   sx={{ my: 2, color: 'white', display: 'block' }}
                 >
                   {page}
-                  {/* {page.Logout = localStorage.clear} */}
                 </Button>
               ))}
             </Box>
@@ -214,13 +211,13 @@ function Navbar(userDetails) {
                 >
                   {settings.map((setting) => (
                     <MenuItem key={setting.label} component={Link} to={setting.path} onClick={handleCloseUserMenu}>
-                      <Typography textAlign="center" onClick={()=> RoutePath(setting)} >{setting.label}</Typography>
+                      <Typography textAlign="center" onClick={() => RoutePath(setting)}>{setting.label}</Typography>
                     </MenuItem>
                   ))}
                 </Menu>
               </Box>
             ) : (
-              <Link to='/login' className='text-white uppercase font-medium'>Login</Link>
+              <Link to="/login" className="text-white uppercase font-medium">Login</Link>
 
             )}
           </Toolbar>
