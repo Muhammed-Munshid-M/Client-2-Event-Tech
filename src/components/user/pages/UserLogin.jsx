@@ -96,7 +96,7 @@ function UserLogin() {
                   <Link to="/forgot">Forgot your password?</Link>
                 </div>
                 <div className="px-4 pb-2 pt-4">
-                  <button type="button" className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">sign in</button>
+                  <button type="submit" className="uppercase block w-full p-4 text-lg rounded-full bg-indigo-500 hover:bg-indigo-600 focus:outline-none">sign in</button>
                 </div>
                 <hr className="my-3" />
                 <p className="text-gray-100">
