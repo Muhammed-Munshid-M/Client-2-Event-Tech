@@ -1,4 +1,5 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable camelcase */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-shadow */
 /* eslint-disable eqeqeq */
@@ -27,10 +28,12 @@ import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import Container from '@mui/material/Container';
 import RestaurantMenuIcon from '@mui/icons-material/RestaurantMenu';
-import { Checkbox, ListItemText } from '@mui/material';
+import { Checkbox, ListItemText, Radio } from '@mui/material';
 import { Link, useLocation } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { userUrl } from '../../API/Api';
+import { setLocationFiltered, setServiceFiltered } from '../redux/companyDetails';
 
 const drawerWidth = 280;
 
@@ -85,110 +88,16 @@ const settings = [{ label: 'Profile', path: '/profile' }, { label: 'Logout', pat
 export default function Layout({ children }) {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [activeMenu, setActiveMenu] = React.useState(null);
-  //   const [manager, setManager] = React.useState([]);
+  const [activeMenu, setActiveMenu] = React.useState('');
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-  // const [selectedValue, setSelectedValue] = React.useState('a');
-  // const [foodChecked, setFoodChecked] = React.useState(false)
-  // const [stageChecked, setStageChecked] = React.useState(false)
-  // const [decorateChecked, setDecorateChecked] = React.useState(false)
-  // const [photographyChecked, setPhotographyChecked] = React.useState(false)
-  // const [vehicleChecked, setVehicleChecked] = React.useState(false)
-
-  //   React.useEffect(() => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       axios.post(`${userUrl}company-list`, {}, {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       }).then((response) => {
-  //         setManager(response.data.data.managerList);
-  //       });
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }, []);
-
-  const handleDrawerOpen = () => {
-    setOpen(true);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
-  };
-
-  const handleOpenUserMenu = (event) => {
-    setAnchorElUser(event.currentTarget);
-  };
-
-  const handleCloseUserMenu = () => {
-    setAnchorElUser(null);
-  };
-
-  const RoutePath = (setting) => {
-    if (setting.label == 'Logout') {
-      localStorage.clear();
-    }
-  };
-  const checkService = (name) => {
-    // console.log(name);
-    // {name === 'Food Service'&& (
-    //     console.log(foodChecked)
-    // )}
-    // {name === 'Stage Service'&& setStageChecked(stageChecked => !stageChecked)}
-    // {name === 'Decoration Service'&& setDecorateChecked(decorateChecked => !decorateChecked)}
-    // {name === 'Photography Service'&& setPhotographyChecked(photographyChecked => !photographyChecked)}
-    // {name === 'Vehicle Service'&& setVehicleChecked(vehicleChecked => !vehicleChecked)}
-    // const checkedData = {foodChecked,stageChecked,decorateChecked,photographyChecked,vehicleChecked}
-    // console.log(checkedData);
-    const token = localStorage.getItem('token');
-    axios.post(`${userUrl}filter-service`, { name }, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-  };
-
-  const handleLocationChange = async (event, menu) => {
-    const isChecked = event.target.checked;
-    const { name } = menu;
-    if (isChecked) {
-      const token = localStorage.getItem('token');
-      await axios.post(`${userUrl}filter-location`, name, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    }
-  };
-
-  // const filteredData = manager.filter((data) =>
-  //     selectedLocations.some((loc) => data.place === loc.name)
-  // );
-
-  // console.log('filterdData', filteredData);
-
-  const menuList = [
-    {
-      name: 'Food Service',
-      // checked: false
-    }, {
-      name: 'Stage Service',
-      // checked: false
-    }, {
-      name: 'Decoration Service',
-      // checked: false
-    }, {
-      name: 'Photography Service',
-      // checked: false
-    }, {
-      name: 'Vehicle Service',
-      // checked: false
-    },
-  ];
-
-  const locationList = [
+  const [menuList, setMenuList] = React.useState([
+    { name: 'Food Service', checked: false },
+    { name: 'Stage Service', checked: false },
+    { name: 'Decoration Service', checked: false },
+    { name: 'Photography Service', checked: false },
+    { name: 'Vehicle Service', checked: false },
+  ]);
+  const [locationList, setLocationList] = React.useState([
     {
       name: 'Kasargod',
       checked: false,
@@ -232,7 +141,95 @@ export default function Layout({ children }) {
       name: 'Thiruvananthapuram',
       checked: false,
     },
-  ];
+  ]);
+
+  const dispatch = useDispatch();
+
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  const handleOpenUserMenu = (event) => {
+    setAnchorElUser(event.currentTarget);
+  };
+
+  const handleCloseUserMenu = () => {
+    setAnchorElUser(null);
+  };
+
+  const RoutePath = (setting) => {
+    if (setting.label == 'Logout') {
+      localStorage.clear();
+    }
+  };
+  const checkService = async (event, name) => {
+    const updatedMenuList = menuList.map((menu) => {
+      if (menu.name === name) {
+        return { ...menu, checked: true };
+      }
+      return { ...menu, checked: false };
+    });
+    setMenuList(updatedMenuList);
+    setActiveMenu(name);
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      const token = localStorage.getItem('token');
+      await axios.post(`${userUrl}filter-service`, { name }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(async (res) => {
+        const managerIds = res.data;
+        const managerData = await Promise.all(
+          managerIds.map(async (managerId) => {
+            const data = await axios.post(`${userUrl}get-data`, { managerId }, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+            return data.data;
+          }),
+        );
+        const resultArray = managerData.map((nestedArray) => nestedArray.map(({
+          _id, company_logo, company_name, district, state,
+        }) => ({
+          _id,
+          company_logo,
+          company_name,
+          district,
+          state,
+        })));
+        const flattenedArray = resultArray.flat();
+        dispatch(setServiceFiltered(flattenedArray));
+      });
+    }
+  };
+
+  const handleLocationChange = async (event, name) => {
+    const updatedLocationList = locationList.map((menu) => {
+      if (menu.name === name) {
+        return { ...menu, checked: true };
+      }
+      return { ...menu, checked: false };
+    });
+    setLocationList(updatedLocationList);
+    setActiveMenu(name);
+    const isChecked = event.target.checked;
+    if (isChecked) {
+      const token = localStorage.getItem('token');
+      await axios.post(`${userUrl}filter-location`, { name }, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then((res) => {
+        dispatch(setLocationFiltered(res.data));
+      });
+    }
+  };
 
   const location = useLocation();
   React.useEffect(() => {
@@ -360,26 +357,17 @@ export default function Layout({ children }) {
         <List>
           {locationList.map((menu, index) => (
             <ListItem key={index} disablePadding>
-              {/* <Radio
-                                    checked={selectedValue === 'a'}
-                                    onChange={(e) => setSelectedValue(e.target.value)}
-                                    value="a"
-                                    name="radio-buttons"
-                                    inputProps={{ 'aria-label': 'A' }}
-                                />
-                                <Radio
-                                    checked={selectedValue === 'b'}
-                                    onChange={(e) => setSelectedValue(e.target.value)}
-                                    value="b"
-                                    name="radio-buttons"
-                                    inputProps={{ 'aria-label': 'B' }}
-                                /> */}
               <ListItemButton>
-                <Checkbox
+                <Radio
+                  name="radio-buttons"
                   checked={menu.checked}
-                  onChange={() => checkService(menu.name)}
+                  onChange={(e) => handleLocationChange(e, menu.name)}
+                  className={menu.checked ? 'bg-blue-500 text-white rounded-full' : 'bg-white border border-gray-300'}
                 />
-                <ListItemText className="text-xl text-black font-normal underline-offset-0" primary={menu.name} />
+                <ListItemText
+                  className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`}
+                  primary={menu.name}
+                />
               </ListItemButton>
             </ListItem>
           ))}
@@ -400,9 +388,10 @@ export default function Layout({ children }) {
               {menuList.map((menu, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton>
-                    <Checkbox
+                    <Radio
+                      name="service"
                       checked={menu.checked}
-                      onChange={() => checkService(menu.name)}
+                      onChange={(e) => checkService(e, menu.name)}
                     />
                     <ListItemText
                       className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`}
@@ -417,9 +406,10 @@ export default function Layout({ children }) {
               {locationList.map((menu, index) => (
                 <ListItem key={index} disablePadding>
                   <ListItemButton>
-                    <Checkbox
+                    <Radio
+                      name="radio-buttons"
                       checked={menu.checked}
-                      onChange={(e) => handleLocationChange(e, menu)}
+                      onChange={(e) => handleLocationChange(e, menu.name)}
                     />
                     <ListItemText
                       className={`text-xl font-normal underline-offset-0 ${activeMenu === menu.name ? 'text-white' : 'text-black'}`}

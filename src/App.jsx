@@ -4,6 +4,7 @@
 /* eslint-disable import/no-named-as-default */
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
+import { useSelector } from 'react-redux';
 import UserLogin from './components/user/pages/UserLogin';
 import SignUp from './components/manager/pages/SignUp';
 import Otp from './components/manager/pages/Otp';
@@ -42,9 +43,15 @@ import SalesManager from './components/manager/pages/SalesManager';
 import UserBookings from './components/user/pages/UserBookings';
 
 function App() {
+  const { loading } = useSelector((state) => state.alerts);
   return (
     <div>
       <BrowserRouter>
+        {loading && (
+        <div className="spinner-container">
+          <div className="loading-spinner" />
+        </div>
+        )}
         <Toaster position="top-center" />
         <Routes>
           <Route

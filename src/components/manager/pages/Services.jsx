@@ -194,7 +194,9 @@ function Services() {
       <Layout>
         {
                     loading ? (
-                      <div>Please wait...</div>
+                      <div className="spinner-container">
+                        <div className="loading-spinner" />
+                      </div>
                     ) : (
                       <div className="mt-[7rem]">
                         <body className="">

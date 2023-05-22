@@ -8,12 +8,13 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-indent-props */
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { userUrl } from '../../../API/Api';
 import Navbar from '../Navbar';
+import { removeItemFromChecked1, removeItemFromChecked2 } from '../../redux/services';
 
 function CartList() {
     const [services, setService] = useState('');
@@ -28,6 +29,7 @@ function CartList() {
     const [datas8, setDatas8] = useState([]);
     const [categoryName, setCategoryName] = useState([]);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const managerDetails = useSelector((state) => state.company);
     const serviceDetails = useSelector((state) => state.services);
@@ -92,11 +94,9 @@ function CartList() {
             if (result.isConfirmed) {
                 try {
                     if (datas1) {
-                        const newData = datas1.filter((data, i) => i !== index);
-                        setDatas1(newData);
+                        dispatch(removeItemFromChecked1(index));
                     } else if (datas2) {
-                        const newData = datas2.filter((data, i) => i !== index);
-                        setDatas2(newData);
+                        dispatch(removeItemFromChecked2(index));
                     }
                     Swal.fire(
                         'Removed!',

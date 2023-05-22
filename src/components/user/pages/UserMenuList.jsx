@@ -186,7 +186,9 @@ function UserMenuList() {
     <div>
       <Navbar />
       {loading ? (
-        <p>Loading...</p>
+        <div className="spinner-container">
+          <div className="loading-spinner" />
+        </div>
       ) : (
         <div className="mt-16" style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
           <div className="max-w-7xl mx-auto  py-12 sm:px-6 lg:px-8">

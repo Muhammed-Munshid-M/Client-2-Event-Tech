@@ -1,9 +1,11 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable no-console */
 /* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
-import { CircularProgress } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 import { adminUrl } from '../../../API/Api';
 import Layout from '../Layout';
 
@@ -19,40 +21,82 @@ function SalesManager() {
     }, 1000);
   }, []);
 
-  const filteredOrders = order.filter((order) => {
-    const orderDate = new Date(order.date).getTime();
-    const start = startDate ? new Date(startDate).getTime() : 0;
-    const end = endDate ? new Date(endDate).getTime() : new Date().getTime();
-    return orderDate >= start && orderDate <= end;
-  });
-
   useEffect(() => {
     const sales = async () => {
-      // try {
-      await axios.post(`${adminUrl}sales-report`).then((response) => {
-        const orderDetails = response.data;
-        setOrder(orderDetails);
-        // const userId = bookings.user_id
-        // const id = bookings._id
-        // console.log('userId', id);
-        // setUser(userId)
-        // setBookingId(id)
-        // const details = bookings.orderDetails
-        // setOrderDetails(details)
-      });
-      // } catch (error) {
-      //     console.log(error);
-      // }
+      try {
+        await axios.post(`${adminUrl}sales-report`).then((response) => {
+          const orderDetails = response.data;
+          setOrder(orderDetails);
+        });
+      } catch (error) {
+        console.log(error);
+      }
     };
     sales();
   }, []);
+
+  const filterOrders = () => {
+    const filteredData = order.filter((eachOrder) => eachOrder.form.some((data) => {
+      const orderDate = new Date(data.date);
+      const startDateObj = new Date(startDate);
+      const endDateObj = new Date(endDate);
+      return orderDate >= startDateObj && orderDate <= endDateObj;
+    }));
+
+    setOrder(filteredData);
+  };
+
+  const generatePDF = () => {
+    // Create a new jsPDF instance
+    // eslint-disable-next-line new-cap
+    const doc = new jsPDF();
+
+    // Define table column headers
+    const headers = [
+      { title: 'Order ID', dataKey: 'orderId' },
+      { title: 'Customer Name', dataKey: 'customerName' },
+      { title: 'Place', dataKey: 'place' },
+      { title: 'Mobile', dataKey: 'mobile' },
+      { title: 'Status', dataKey: 'status' },
+      { title: 'Date', dataKey: 'date' },
+      { title: 'Amount', dataKey: 'amount' },
+    ];
+
+    // Extract data from the filteredOrders array
+    const data = order.map((eachOrder) => eachOrder.form.map((data) => ({
+      orderId: data._id,
+      customerName: data.formName,
+      place: data.place,
+      mobile: data.formMobile,
+      status: 'Success',
+      date: data.date,
+      amount: data.totalPrice,
+    }))).flat();
+
+    // Set table styling
+    const tableConfig = {
+      margin: {
+        top: 20, right: 20, bottom: 20, left: 20,
+      },
+      headStyles: { fillColor: [49, 112, 143], textColor: [255] },
+      columnStyles: { 0: { cellWidth: 25 }, 6: { cellWidth: 25 } },
+    };
+
+    // Generate table in the PDF
+    doc.autoTable(headers, data, tableConfig);
+
+    // Save the PDF with a specific filename
+    doc.save('sales_report.pdf');
+  };
 
   return (
     <div>
       <Layout>
         {
                     loading ? (
-                      <div className="mt-[18rem] ms-64"><CircularProgress variant="soft" color="info" /></div>
+                      <div className="spinner-container">
+                        <div className="loading-spinner" />
+                      </div>
                     ) : (
                       <body className="mt-[7rem]">
                         <div className="overflow-x-auto">
@@ -60,17 +104,22 @@ function SalesManager() {
                             <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                               <h1 className="font-bold text-xl mb-5">Sales Report</h1>
                               <div className="flex justify-end mr-5 mb-4">
+                                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded me-auto" onClick={generatePDF}>
+                                  Download PDF
+                                </button>
                                 <input
                                   type="date"
                                   value={startDate}
                                   onChange={(e) => setStartDate(e.target.value)}
+                                  className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded"
                                 />
                                 <input
                                   type="date"
                                   value={endDate}
                                   onChange={(e) => setEndDate(e.target.value)}
+                                  className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded mx-6"
                                 />
-                                <button type="button" onClick={() => (filteredOrders)}>Apply</button>
+                                <button type="button" className="mr-3 px-3 bg-blue-500" onClick={filterOrders}>Apply</button>
                               </div>
                               <table className="min-w-full divide-y divide-gray-200">
                                 <thead className="bg-slate-300">
@@ -121,7 +170,7 @@ function SalesManager() {
                                           <div className="text-sm text-gray-900">{data.formMobile}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">Success</div>
+                                          <div className="text-sm text-gray-900">{data.status}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
                                           <div className="text-sm text-gray-900">{data.date}</div>

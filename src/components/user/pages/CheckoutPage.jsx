@@ -44,6 +44,7 @@ function CheckoutPage() {
   }, []);
 
   const handleOpenRazorpay = (data) => {
+    let token;
     const options = {
       key: 'rzp_test_z85gRD1oIkrshQ',
       amount: Number(data.amount),
@@ -51,48 +52,34 @@ function CheckoutPage() {
       name: 'EVENT TECH',
       description: 'Nothing',
       order_id: data.id,
-      handler: (response) => {
-        const token = localStorage.getItem('token');
-        axios.post(`${userUrl}verify`, { response }, {
+      handler: async (response) => {
+        token = localStorage.getItem('token');
+        await axios.post(`${userUrl}add-event/${response.razorpay_order_id}`, userData, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }).then((response) => {
-          if (response.data.status) {
-            Swal.fire(
-              'Success',
-              'Your payment Successfully',
-              'success',
-            ).then(() => {
-              try {
-                const token = localStorage.getItem('token');
-                axios.post(`${userUrl}add-event`, userData, {
-                  headers: {
-                    Authorization: `Bearer ${token}`,
-                  },
-                })
-                  .then((response) => {
-                    if (response.data.success) {
-                      toast.success(response.data.message);
-                      navigate('/');
-                    } else if (response.data.noAcc) {
-                      toast.error(response.data.message);
-                      navigate('/login');
-                    } else {
-                      toast.error('something error');
-                      navigate('/add-event');
-                    }
-                  })
-                  .catch((err) => {
-                    console.log(err);
-                  });
-              } catch (error) {
-                console.log(error);
-                toast.error('something error');
+        }).then(async (res) => {
+          if (res.data.success) {
+            token = localStorage.getItem('token');
+            await axios.post(`${userUrl}verify`, { response }, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }).then((response) => {
+              if (response.data.status) {
+                Swal.fire(
+                  'Success',
+                  'Your payment Successfully',
+                  'success',
+                ).then(() => {
+                  navigate('/');
+                });
+              } else {
+                toast.error(response.data.message);
               }
             });
           } else {
-            toast.error(response.data.message);
+            toast.error('something error');
           }
         });
       },
@@ -110,10 +97,7 @@ function CheckoutPage() {
       },
     }).then((res) => {
       handleOpenRazorpay(res.data.data);
-    })
-      .catch((err) => {
-        console.log(err);
-      });
+    });
   };
 
   const handleDateChange = (date) => {

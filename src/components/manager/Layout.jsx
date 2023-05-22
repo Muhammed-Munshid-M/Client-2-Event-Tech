@@ -149,13 +149,6 @@ export default function Layout({ children }) {
 
         const location = useLocation();
         const navigate = useNavigate()
-    // if (menuList.name == 'Services') {
-    //     if (Services.services == false) {
-    //        navigate('/manager/add-services')
-    //     } else {
-    //         navigate('/manager/services')
-    //     }
-    // }
     React.useEffect(() => {
         const active = menuList.find(menu => location.pathname.startsWith(menu.path));
         setActiveMenu(active ? active.name : null);

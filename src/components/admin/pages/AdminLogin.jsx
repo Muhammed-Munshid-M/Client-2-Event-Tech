@@ -32,9 +32,7 @@ function AdminLogin() {
       <Navbar />
       <body className="h-screen overflow-hidden flex items-center justify-center my-20">
         <section className="min-h-screen flex items-stretch text-white w-3/4">
-          <div className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center bg-[url('/stage1.png')]">
-            {/* <div className="absolute bg-black opacity-60 inset-0 z-0"></div> */}
-          </div>
+          <div className="lg:flex w-1/2 hidden bg-gray-500 bg-no-repeat bg-cover relative items-center bg-[url('/stage1.png')]" />
           <div className="lg:w-1/2 w-full flex items-center justify-center text-center md:px-16 px-0 z-0 bg-slate-950">
             <div className="absolute lg:hidden z-10 inset-0 bg-gray-500 bg-no-repeat bg-cover items-center">
               <div className="absolute bg-black opacity-10 inset-0 z-0" />

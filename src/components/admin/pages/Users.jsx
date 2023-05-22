@@ -11,14 +11,16 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
-import { CircularProgress } from '@mui/material';
+import { useDispatch } from 'react-redux';
 import { adminUrl } from '../../../API/Api';
 import LayoutAdmin from '../LayoutAdmin';
+import { hideLoading, showLoading } from '../../redux/alertSlice';
 
 function Users() {
   const [user, setUser] = useState();
   const [block, setBlock] = useState(false);
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
@@ -41,12 +43,15 @@ function Users() {
 
   useEffect(() => {
     const users = async () => {
+      dispatch(showLoading());
       try {
         await axios.get(`${adminUrl}users`).then((response) => {
+          dispatch(hideLoading());
           const user = response.data;
           setUser(user);
         });
       } catch (error) {
+        dispatch(hideLoading());
         console.log(error);
       }
     };
@@ -55,7 +60,11 @@ function Users() {
   return (
     <div>
       <LayoutAdmin>
-        { loading ? (<div className="mt-[18rem] ms-64"><CircularProgress variant="soft" color="info" /></div>) : (
+        { loading ? (
+            <div className="spinner-container">
+            <div className="loading-spinner" />
+          </div>
+        ) : (
           <body className='mt-[7rem]'>
             <div className="overflow-x-auto">
               <div className="inline-block min-w-full">

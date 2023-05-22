@@ -89,6 +89,7 @@ function CompanyDetails() {
   const closeVehicleModal = () => {
     setVehicle(false);
   };
+
   useEffect(() => {
     setCompanyDetails(managerDetails.company.managerDetails);
     const token = localStorage.getItem('token');
@@ -102,7 +103,7 @@ function CompanyDetails() {
       const menu = services.cateringMenu;
       const stageMenuData = services.stageMenu;
       const decoratedMenu = services.decorationMenu;
-      const { photographMenu } = services;
+      const photographMenu = services.photographyMenu;
       const vehiclesMenu = services.luxuryVehicleMenu;
       setCateringMenu(menu);
       setStageMenu(stageMenuData);

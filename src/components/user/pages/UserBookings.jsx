@@ -23,12 +23,19 @@ function UserBookings() {
     }, 1000);
   }, []);
 
-  const viewDetails = async (id, userId) => {
+  const viewDetails = async (id) => {
     setShowDetails(true);
-    await axios.post(`${userUrl}bookings/${id}`, { userId }).then((response) => {
-      const forms = response.data;
-      const form = forms.elements;
-      console.log('items', form.items);
+    const token = localStorage.getItem('token');
+    await axios.post(
+      `${userUrl}bookings/${id}`,
+      {},
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      },
+    ).then((response) => {
+      const form = response.data;
       setBookingDetails(form);
       setCartDetails(form.items);
     });
@@ -47,7 +54,7 @@ function UserBookings() {
             },
           },
         ).then((response) => {
-          const allBookings = response.data;
+          const allBookings = response.data.reverse();
           setBooking(allBookings);
         });
       } catch (error) {
@@ -66,114 +73,217 @@ function UserBookings() {
                   <>
                     {showDetails ? (
                       <div className="mt-[7rem]">
-                        <body className="bg-gray-100">
+                        <body className="bg-gray-100 mx-16">
                           <header className="bg-gray-800 text-white py-4">
                             <div className="container mx-auto px-4">
                               <h1 className="text-2xl font-bold">Details Page</h1>
                             </div>
                           </header>
                           <main className="container mx-auto mt-8 px-4">
-                            <section className="bg-white shadow-lg rounded-lg p-8">
-                              <h2 className="text-xl font-bold mb-4">Your Personal Details</h2>
-                              <div>
-                                <p>
-                                  Name :
-                                  {' '}
-                                  {bookingDetails.formName}
-                                </p>
-                                <p>
-                                  Email :
-                                  {' '}
-                                  {bookingDetails.formEmail}
-                                </p>
-                                <p>
-                                  Mobile :
-                                  {' '}
-                                  {bookingDetails.formMobile}
-                                </p>
-                                <p>
-                                  Address :
-                                  {' '}
-                                  {bookingDetails.address}
-                                </p>
-                                <p>
-                                  Pin code :
-                                  {' '}
-                                  {bookingDetails.pin}
-                                </p>
-                                <p>
-                                  State :
-                                  {' '}
-                                  {bookingDetails.state}
-                                </p>
-                                <p>
-                                  District :
-                                  {' '}
-                                  {bookingDetails.district}
-                                </p>
-                                <p className="mb-4">
-                                  Place :
-                                  {' '}
-                                  {bookingDetails.place}
-                                </p>
-                                <h2 className="text-xl font-semibold mt-4">Selected Services</h2>
-                                {cartDetails.map((datas) => (
-                                  <div>
-                                    <h3 className="text-lg font-semibold mt-4">1. Catering service</h3>
-                                    <h4 className="text-base font-semibold mt-4">Starters</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.starter_name}</p>
-                                      </div>
-                                    ))}
-                                    <h4 className="text-base font-semibold mt-4">Main</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.main_name}</p>
-                                      </div>
-                                    ))}
-                                    <h4 className="text-base font-semibold mt-4">Desserts</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.dessert_name}</p>
-                                      </div>
-                                    ))}
-                                    <h4 className="text-base font-semibold mt-4">Salads</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.salad_name}</p>
-                                      </div>
-                                    ))}
-                                    <h3 className="text-lg font-semibold mt-4">2. Stage service</h3>
-                                    <h4 className="text-base font-semibold mt-4">Stage size</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.stage_name}</p>
-                                      </div>
-                                    ))}
-                                    <h3 className="text-lg font-semibold mt-4">3. Decoration service</h3>
-                                    <h4 className="text-base font-semibold mt-4">decoration images</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.decorate_name}</p>
-                                      </div>
-                                    ))}
-                                    <h3 className="text-lg font-semibold mt-4">4. Photography service</h3>
-                                    <h4 className="text-base font-semibold mt-4">Photography shop Name</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.photo_name}</p>
-                                      </div>
-                                    ))}
-                                    <h3 className="text-lg font-semibold mt-4">5.Vehicle service</h3>
-                                    <h4 className="text-base font-semibold mt-4">Vehicle owner Name</h4>
-                                    {datas.categories.map((data) => (
-                                      <div>
-                                        <p>{data.vehicle_name}</p>
-                                      </div>
-                                    ))}
+                            <section className="shadow-lg rounded-lg p-8">
+                              <div className="flex justify-between">
+                                <div className="w-96 h-max shadow-xl bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                  <div className="px-8 mt-5">
+                                    <h2 className="text-xl font-bold mb-4">Your Personal Details</h2>
+                                    <div>
+                                      <p>
+                                        Name :
+                                        {' '}
+                                        {bookingDetails.formName}
+                                      </p>
+                                      <p>
+                                        Email :
+                                        {' '}
+                                        {bookingDetails.formEmail}
+                                      </p>
+                                      <p>
+                                        Mobile :
+                                        {' '}
+                                        {bookingDetails.formMobile}
+                                      </p>
+                                      <p>
+                                        Address :
+                                        {' '}
+                                        {bookingDetails.address}
+                                      </p>
+                                      <p>
+                                        Pin code :
+                                        {' '}
+                                        {bookingDetails.pin}
+                                      </p>
+                                      <p>
+                                        State :
+                                        {' '}
+                                        {bookingDetails.state}
+                                      </p>
+                                      <p>
+                                        District :
+                                        {' '}
+                                        {bookingDetails.district}
+                                      </p>
+                                      <p className="mb-4">
+                                        Place :
+                                        {' '}
+                                        {bookingDetails.place}
+                                      </p>
+                                    </div>
                                   </div>
-                                ))}
+                                </div>
+                                <div className="w-96 h-max shadow-xl bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                  <div className="px-8 mt-5">
+                                    <h2 className="text-xl font-bold mb-4">Your Booking Details</h2>
+                                    <div>
+                                      <p>
+                                        Event Type:
+                                        {' '}
+                                        {bookingDetails.status}
+                                      </p>
+                                      <p>
+                                        Event Type:
+                                        {' '}
+                                        {bookingDetails.type}
+                                      </p>
+                                      <p>
+                                        Event Date:
+                                        {' '}
+                                        {bookingDetails.event_date}
+                                      </p>
+                                      <p>
+                                        Event Time:
+                                        {' '}
+                                        {bookingDetails.time}
+                                      </p>
+                                      <p>
+                                        Count People:
+                                        {' '}
+                                        {bookingDetails.count}
+                                      </p>
+                                      <p className="mb-4">
+                                        Booking Date:
+                                        {' '}
+                                        {bookingDetails.date}
+                                      </p>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div>
+                                <h2 className="text-3xl text-center font-medium my-16">Selected Services</h2>
+                                <div className="w-screen h-max shadow-xl bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-screen-lg hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                  <div className="px-8 my-5">
+                                    <h3 className="text-lg font-semibold mt-4">1. Catering service</h3>
+                                    <div>
+                                      {cartDetails.map((datas) => (
+                                        <div className="flex justify-between">
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Starters</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.starter_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Main</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.main_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Desserts</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.dessert_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Salads</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.salad_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        </div>
+                                      ))}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex justify-between mx-14">
+                                  <div className="w-96 h-max shadow-xl my-10 bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div className="px-8 my-5">
+                                      <h3 className="text-lg font-semibold mt-4">2. Stage service</h3>
+                                      <div>
+                                        {cartDetails.map((datas) => (
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Stage size</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.stage_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="w-96 h-max shadow-xl my-10 bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div className="px-8 my-5">
+                                      <h3 className="text-lg font-semibold mt-4">3. Decoration service</h3>
+                                      <div>
+                                        {cartDetails.map((datas) => (
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">decoration images</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.decorate_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="flex justify-between mx-14">
+                                  <div className="w-96 h-max shadow-xl my-10 bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div className="px-8 my-5">
+                                      <h3 className="text-lg font-semibold mt-4">4. Photography service</h3>
+                                      <div>
+                                        {cartDetails.map((datas) => (
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Photography shop Name</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.photo_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="w-96 h-max shadow-xl my-10 bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-xl hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                    <div className="px-8 my-5">
+                                      <h3 className="text-lg font-semibold mt-4">5.Vehicle service</h3>
+                                      <div>
+                                        {cartDetails.map((datas) => (
+                                          <div>
+                                            <h4 className="text-base font-semibold mt-4">Vehicle owner Name</h4>
+                                            {datas.categories.map((data) => (
+                                              <div>
+                                                <p>{data.vehicle_name}</p>
+                                              </div>
+                                            ))}
+                                          </div>
+                                        ))}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
                               </div>
                             </section>
                           </main>
@@ -205,33 +315,31 @@ function UserBookings() {
                                     </th>
                                   </tr>
                                 </thead>
-                                {booking.map((orderDatas) => (
+                                {booking.map((data) => (
                                   <tbody className="bg-slate-400 divide-y divide-gray-200">
-                                    {orderDatas.form.map((data) => (
-                                      <tr className="hover:bg-slate-200 transition duration-300">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="flex items-center">
-                                            <div className="ml-4">
-                                              <div className="text-sm font-medium text-gray-900">
-                                                {data.type}
-                                              </div>
+                                    <tr className="hover:bg-slate-200 transition duration-300">
+                                      <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="flex items-center">
+                                          <div className="ml-4">
+                                            <div className="text-sm font-medium text-gray-900">
+                                              {data.type}
                                             </div>
                                           </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.event_date}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.time}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.count}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                          <Link onClick={() => viewDetails(data._id, orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
-                                        </td>
-                                      </tr>
-                                    ))}
+                                        </div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="text-sm text-gray-900">{data.event_date}</div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="text-sm text-gray-900">{data.time}</div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-nowrap">
+                                        <div className="text-sm text-gray-900">{data.count}</div>
+                                      </td>
+                                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                                        <Link onClick={() => viewDetails(data._id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
+                                      </td>
+                                    </tr>
                                   </tbody>
                                 ))}
                               </table>

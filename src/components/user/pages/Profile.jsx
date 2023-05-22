@@ -7,8 +7,10 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { userUrl } from '../../../API/Api';
 import Navbar from '../Navbar';
+import { hideLoading, showLoading } from '../../redux/alertSlice';
 
 function Profile() {
   const [modal, setModal] = useState(false);
@@ -18,9 +20,11 @@ function Profile() {
   const [email, setEmail] = useState('');
   const [mobile, setMobile] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     try {
+      dispatch(showLoading());
       const token = localStorage.getItem('token');
       axios.post(
         `${userUrl}profile-details`,
@@ -31,12 +35,14 @@ function Profile() {
           },
         },
       ).then((response) => {
+        dispatch(hideLoading());
         setUserDetails(response.data.data);
       })
         .catch((err) => {
           console.log(err);
         });
     } catch (err) {
+      dispatch(hideLoading());
       console.log(err);
     }
   }, []);

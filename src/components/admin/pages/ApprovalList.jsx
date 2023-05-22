@@ -12,8 +12,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
+import { useDispatch } from 'react-redux';
 import { adminUrl } from '../../../API/Api';
 import LayoutAdmin from '../LayoutAdmin';
+import { hideLoading, showLoading } from '../../redux/alertSlice';
 
 function ApprovalList() {
   const [manager, setManager] = useState([]);
@@ -21,6 +23,7 @@ function ApprovalList() {
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [managerDetails, setManagerDetails] = useState('');
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
@@ -50,12 +53,15 @@ function ApprovalList() {
 
   useEffect(() => {
     const approvalList = async () => {
+      dispatch(showLoading());
       try {
         await axios.get(`${adminUrl}approval-list`).then((response) => {
+          dispatch(hideLoading());
           const manager = response.data;
           setManager(manager);
         });
       } catch (error) {
+        dispatch(hideLoading());
         console.log(error);
       }
     };
@@ -67,7 +73,9 @@ function ApprovalList() {
         <div className="me-5" style={{ backgroundColor: '#F2F6FF' }}>
           {
             loading ? (
-              <div>Please wait...</div>
+              <div className="spinner-container">
+                <div className="loading-spinner" />
+              </div>
             ) : (
               <>
                 {showDetails ? (

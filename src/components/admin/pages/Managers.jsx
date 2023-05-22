@@ -14,9 +14,10 @@ import axios from 'axios'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
-import { CircularProgress } from '@mui/material'
+import { useDispatch } from 'react-redux'
 import { adminUrl } from '../../../API/Api'
 import LayoutAdmin from '../LayoutAdmin'
+import { hideLoading, showLoading } from '../../redux/alertSlice'
 
 function Managers() {
   const [manager, setManager] = useState([])
@@ -25,6 +26,7 @@ function Managers() {
   const [managerDetails, setManagerDetails] = useState('')
   const [approvalStatus, setApprovalStatus] = useState({});
   const navigate = useNavigate()
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setTimeout(() => {
@@ -57,8 +59,10 @@ function Managers() {
 
   useEffect(() => {
     const managers = async () => {
+      dispatch(showLoading());
       try {
         await axios.get(`${adminUrl}managers`).then((response) => {
+          dispatch(hideLoading());
           const manager = response.data
           setManager(manager)
         })
@@ -74,8 +78,8 @@ function Managers() {
         <div className="me-5" style={{ backgroundColor: '#F2F6FF' }}>
           {
          loading ? (
-           <div>
-             <CircularProgress variant="soft" color="info" />
+           <div className="spinner-container">
+             <div className="loading-spinner" />
            </div>
           ) : (
             <>

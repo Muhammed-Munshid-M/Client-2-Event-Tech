@@ -14,6 +14,7 @@ import { toast } from 'react-hot-toast';
 import Navbar from '../Navbar';
 import { userUrl } from '../../../API/Api';
 import { setService } from '../../redux/services';
+import './spinner.css';
 
 function SelectService() {
   const [loading, setLoading] = useState(true);
@@ -24,6 +25,7 @@ function SelectService() {
   const [vehicleChecked, setVehicleChecked] = useState(false);
   const [services, setServices] = useState();
   const managerDetails = useSelector((state) => state.company);
+  console.log(managerDetails);
   const managerId = managerDetails.company.managerDetails._id;
   const dispatch = useDispatch(setService);
   const navigate = useNavigate();
@@ -85,7 +87,9 @@ function SelectService() {
     <div>
       <Navbar />
       {loading ? (
-        <p>Loading...</p>
+            <div className="spinner-container">
+              <div className="loading-spinner" />
+            </div>
       ) : (
         <div className="mt-16" style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
           <div className="max-w-7xl mx-auto  py-12 sm:px-6 lg:px-8">
