@@ -1,9 +1,16 @@
 /* eslint-disable linebreak-style */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/extensions */
 /* eslint-disable no-console */
 import React, { useEffect, useState } from 'react';
-// import LayoutAdmin from '../LayoutAdmin'
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
+import {
+  Card,
+  Grid,
+  useTheme,
+} from '@mui/material';
+import ReactApexChart from 'react-apexcharts';
 import LayoutAdmin from '../LayoutAdmin';
 import { adminUrl } from '../../../API/Api';
 import { hideLoading, showLoading } from '../../redux/alertSlice';
@@ -13,7 +20,9 @@ function DashboardAdmin() {
   const [totalApproved, setTotalApproved] = useState(0);
   const [totalmanagers, setTotalManagers] = useState(0);
   const [table, setTable] = useState([]);
+  const [monthly, setMonthly] = useState([]);
   const dispatch = useDispatch();
+  const theme = useTheme();
 
   useEffect(() => {
     try {
@@ -26,11 +35,60 @@ function DashboardAdmin() {
           setTotalApproved(total.approvedLength);
           setTotalManagers(total.managerLength);
           setTable(total.forms);
+          setMonthly(total.userCount);
         });
     } catch (error) {
       console.log(error);
     }
   }, []);
+
+  const options = {
+    chart: {
+      height: 350,
+      type: 'line',
+      zoom: {
+        enabled: false,
+      },
+    },
+    dataLabels: {
+      enabled: false,
+    },
+    stroke: {
+      curve: 'straight',
+    },
+    title: {
+      text: 'Users by Month',
+      align: 'left',
+    },
+    grid: {
+      row: {
+        colors: ['light', 'transparent'],
+        opacity: 0.5,
+      },
+    },
+    xaxis: {
+      categories: [
+        'Jan',
+        'Feb',
+        'Mar',
+        'Apr',
+        'May',
+        'Jun',
+        'Jul',
+        'Aug',
+        'Sep',
+        'Oct',
+        'Nov',
+        'Dec',
+      ],
+    },
+  };
+
+  const serie = [{
+    name: 'Sales',
+    data: monthly,
+  }];
+
   return (
     <div>
       <LayoutAdmin>
@@ -64,7 +122,6 @@ function DashboardAdmin() {
                 <h1 className="pl-4 pr-2 text-black font-bold">
                   Total Managers
                 </h1>
-
                 <span className="flex justify-center text-black font-bold">
                   {totalmanagers}
                 </span>
@@ -72,7 +129,26 @@ function DashboardAdmin() {
             </div>
           </div>
 
-          <div className="overflow-auto rounded-lg shadow">
+          <div className="grid grid-cols-1 gap-6">
+            <Grid item xs={12} md={6}>
+              <Card
+                sx={{
+                  boxShadow: theme.shadows[4],
+                  borderRadius: theme.shape.borderRadius,
+                  padding: theme.spacing(5),
+                }}
+              >
+                <ReactApexChart
+                  options={options}
+                  series={serie}
+                  type="line"
+                  height={350}
+                />
+              </Card>
+            </Grid>
+          </div>
+
+          <div className="overflow-auto rounded-lg shadow mt-16">
             <table className="w-full">
               <thead className="bg-gray-50 border-b-2 border-gray-200">
                 <tr>

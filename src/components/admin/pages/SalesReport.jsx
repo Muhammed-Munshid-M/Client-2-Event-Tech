@@ -45,12 +45,18 @@ function SalesReport() {
   }, []);
 
   const filterOrders = () => {
-    const filteredData = order.filter((eachOrder) => eachOrder.form.some((data) => {
-      const orderDate = new Date(data.date);
+    let filteredData = order;
+
+    if (startDate && endDate) {
       const startDateObj = new Date(startDate);
       const endDateObj = new Date(endDate);
-      return orderDate >= startDateObj && orderDate <= endDateObj;
-    }));
+
+      filteredData = filteredData.filter((eachOrder) => eachOrder.form.some((data) => {
+        const orderDate = new Date(data.date).toISOString();
+        return orderDate >= startDateObj.toISOString() && orderDate <= endDateObj.toISOString();
+      }));
+      console.log('filtered', filteredData);
+    }
 
     setOrder(filteredData);
   };
@@ -116,17 +122,19 @@ function SalesReport() {
                     <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded me-auto" onClick={generatePDF}>
                       Download PDF
                     </button>
+                    <p className="py-2 px-2">From:</p>
                       <input
                         type="date"
                         value={startDate}
                         onChange={(e) => setStartDate(e.target.value)}
                         className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded"
                       />
+                      <p className="py-2 px-2">To:</p>
                       <input
                         type="date"
                         value={endDate}
                         onChange={(e) => setEndDate(e.target.value)}
-                        className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded mx-6"
+                        className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded mr-6"
                       />
                       <button className="mr-3 px-3 bg-blue-500" onClick={filterOrders}>Apply</button>
                     </div>
