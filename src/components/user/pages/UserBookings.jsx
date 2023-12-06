@@ -169,7 +169,7 @@ function UserBookings() {
                               </div>
                               <div>
                                 <h2 className="text-3xl text-center font-medium my-16">Selected Services</h2>
-                                <div className="w-screen h-max shadow-xl bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-screen-lg hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
+                                <div className="w-screen h-max shadow-xl mx-14 bg-white border border-gray-200 rounded-lg  md:flex-row md:max-w-screen-lg hover:bg-gray-100 dark:border-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700">
                                   <div className="px-8 my-5">
                                     <h3 className="text-lg font-semibold mt-4">1. Catering service</h3>
                                     <div>

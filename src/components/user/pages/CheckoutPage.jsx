@@ -29,6 +29,7 @@ function CheckoutPage() {
   const [district, setDistrict] = useState('Kasargod');
   const [place, setPlace] = useState('');
   const [grandTotal, setGrandTotal] = useState();
+  const [submitClicked, setSubmitClicked] = useState(false);
   const userData = {
     name, email, mobile, address, date, time, count, type, pin, state, district, place, grandTotal,
   };
@@ -89,6 +90,12 @@ function CheckoutPage() {
   };
 
   const handlePayment = (amount) => {
+    setSubmitClicked(true);
+    if (!email || !email || !mobile || !address || !pin || !place || !date || !count) {
+      // You can display an error message, prevent the payment, or take appropriate action
+      // alert('Email is required before proceeding to payment.');
+      return;
+    }
     const data = { amount };
     const token = localStorage.getItem('token');
     axios.post(`${userUrl}orders`, data, {
@@ -123,51 +130,57 @@ function CheckoutPage() {
                     </div>
                     <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
                       <div className="w-1/2 px-4">
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !name ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !name ? 'text-red-500' : ''}`}
                             htmlFor="grid-password"
                           >
                             Name
+                            {' '}
+                            {submitClicked && !name && '(Required)'}
                           </label>
                           <input
-                            type="name"
+                            type="text"
                             value={name}
                             required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !name ? 'border-red-500' : ''}`}
                             placeholder="Name"
                             onChange={(e) => setName(e.target.value)}
                           />
                         </div>
-
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !mobile ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !mobile ? 'text-red-500' : ''}`}
                             htmlFor="grid-password"
                           >
                             Mobile
+                            {' '}
+                            {submitClicked && !mobile && '(Required)'}
                           </label>
                           <input
                             type="number"
                             value={mobile}
                             required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !mobile ? 'border-red-500' : ''}`}
                             placeholder="Mobile"
                             onChange={(e) => setMobile(e.target.value)}
                           />
                         </div>
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !pin ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !pin ? 'text-red-500' : ''}`}
                             htmlFor="grid-password"
                           >
-                            Pin code
+                            Pin
+                            {' '}
+                            {submitClicked && !pin && '(Required)'}
                           </label>
                           <input
                             type="number"
                             value={pin}
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                            placeholder="Pin Code"
+                            required
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !pin ? 'border-red-500' : ''}`}
+                            placeholder="Pin"
                             onChange={(e) => setPin(e.target.value)}
                           />
                         </div>
@@ -204,35 +217,38 @@ function CheckoutPage() {
                       </div>
                       <div className="w-1/2 px-4">
                         {/* <form onSubmit={sendOtp}> */}
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !email ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !email ? 'text-red-500' : ''}`}
                             htmlFor="grid-password"
                           >
                             Email
+                            {' '}
+                            {submitClicked && !email && '(Required)'}
                           </label>
                           <input
                             type="email"
                             value={email}
                             required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !email ? 'border-red-500' : ''}`}
                             placeholder="Email"
                             onChange={(e) => setEmail(e.target.value)}
                           />
                         </div>
-
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !address ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !address ? 'text-red-500' : ''}`}
                             htmlFor="grid-password"
                           >
                             Address
+                            {' '}
+                            {submitClicked && !address && '(Required)'}
                           </label>
                           <input
-                            type="text"
+                            type="address"
                             value={address}
                             required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !address ? 'border-red-500' : ''}`}
                             placeholder="Address"
                             onChange={(e) => setAddress(e.target.value)}
                           />
@@ -256,17 +272,20 @@ function CheckoutPage() {
                             <option value="Kerala">Karnataka</option>
                           </select>
                         </div>
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !place ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !place ? 'text-red-500' : ''}`}
                             htmlFor="grid-password"
                           >
-                            place
+                            Place
+                            {' '}
+                            {submitClicked && !place && '(Required)'}
                           </label>
                           <input
                             type="text"
                             value={place}
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            required
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !place ? 'border-red-500' : ''}`}
                             placeholder="Place"
                             onChange={(e) => setPlace(e.target.value)}
                           />
@@ -286,14 +305,15 @@ function CheckoutPage() {
                     </div>
                     <div className="px-4 lg:px-10 py-10 pt-0 flex flex-row">
                       <div className="w-1/2 px-4">
-                        <div className="relative w-full mb-3">
+                        <div className={`relative w-full mb-3 ${submitClicked && !date ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !date ? 'text-red-500' : ''}`}
                           >
                             Event Date
+                            {submitClicked && !date && ' (Required)'}
                           </label>
                           <DatePicker
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !date ? 'border-red-500' : ''}`}
                             selected={date}
                             placeholderText="Select Your Date"
                             onChange={handleDateChange}
@@ -301,23 +321,25 @@ function CheckoutPage() {
                             dateFormat="dd-MM-yyyy" // Specify your desired date format
                           />
                         </div>
-                        <div className="relative w-full mb-3">
+
+                        <div className={`relative w-full mb-3 ${submitClicked && !count ? 'has-danger' : ''}`}>
                           <label
-                            className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                            className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !count ? 'text-red-500' : ''}`}
                           >
                             Count of people
+                            {submitClicked && !count && ' (Required)'}
                           </label>
                           <input
                             type="number"
                             value={count}
                             required
-                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !count ? 'border-red-500' : ''}`}
                             placeholder="Count of people"
                             onChange={(e) => setCount(e.target.value)}
                           />
-
                         </div>
                       </div>
+
                       <div className="w-1/2 px-4">
                         <div className="relative w-full mb-3">
                           <label

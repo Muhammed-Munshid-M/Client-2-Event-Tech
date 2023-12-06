@@ -28,6 +28,7 @@ function UserMenuList() {
   const [vehicle, setVehicle] = useState([]);
   const [cateringMenu, setCateringMenu] = useState('');
   const Services = useSelector((state) => state.services || {});
+  console.log('service: ', Services);
   const serviceDetails = Services.service.serviceData || {};
   const navigate = useNavigate();
   const dispatch = useDispatch();

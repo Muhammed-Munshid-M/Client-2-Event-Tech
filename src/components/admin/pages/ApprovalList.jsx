@@ -19,7 +19,8 @@ import { hideLoading, showLoading } from '../../redux/alertSlice';
 
 function ApprovalList() {
   const [manager, setManager] = useState([]);
-  const [block, setBlock] = useState(false);
+  // const [block, setBlock] = useState(false);
+  const [blockStates, setBlockStates] = useState({});
   const [loading, setLoading] = useState(true);
   const [showDetails, setShowDetails] = useState(false);
   const [managerDetails, setManagerDetails] = useState('');
@@ -32,15 +33,26 @@ function ApprovalList() {
   }, []);
 
   const Block = async (id) => {
-    const response = await axios.post(`${adminUrl}block-manager?managerId=${id}`, { block });
+    const currentBlockState = blockStates[id] || false;
+
+    const response = await axios.post(`${adminUrl}block-manager?managerId=${id}`, { block: currentBlockState });
+
     if (response.data.block) {
       toast.success(response.data.message);
-      setBlock(true);
+      // Update the block state only for the specific person
+      setBlockStates((prevBlockStates) => ({
+        ...prevBlockStates,
+        [id]: true,
+      }));
     } else if (response.data.unBlock) {
       toast.success(response.data.message);
-      setBlock(false);
+      // Update the block state only for the specific person
+      setBlockStates((prevBlockStates) => ({
+        ...prevBlockStates,
+        [id]: false,
+      }));
     } else {
-      toast.error('Somthing Problem');
+      toast.error('Something went wrong');
     }
   };
 
@@ -187,16 +199,15 @@ function ApprovalList() {
                                     <div key={index} className="text-sm text-gray-900">{data.mobile}</div>
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap">
-                                    {block == false ? (
-                                      <button onClick={() => Block(data._id)} value={block} className="custom-select font-weight-bold bg-transparent text-info border-0" name="orderStatus">
-                                        Block
-                                      </button>
-                                    ) : (
-                                      <button onClick={() => Block(data._id)} value={block} className="custom-select font-weight-bold bg-transparent text-info border-0" name="orderStatus">
-                                        Un Block
-                                      </button>
-                                    )}
+                                    <button
+                                      onClick={() => Block(data._id)}
+                                      className="custom-select font-weight-bold bg-transparent text-info border-0"
+                                      name="orderStatus"
+                                    >
+                                      {blockStates[data._id] ? 'Unblock' : 'Block'}
+                                    </button>
                                   </td>
+
                                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
                                     <a onClick={() => viewDetails(data._id)} className="text-indigo-600 hover:text-indigo-900">View</a>
                                   </td>
