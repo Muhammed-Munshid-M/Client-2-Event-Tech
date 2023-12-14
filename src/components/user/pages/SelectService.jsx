@@ -23,9 +23,9 @@ function SelectService() {
   const [decorateChecked, setDecorateChecked] = useState(false);
   const [photographyChecked, setPhotographyChecked] = useState(false);
   const [vehicleChecked, setVehicleChecked] = useState(false);
-  const [services, setServices] = useState();
+  const [services, setServices] = useState({});
   const managerDetails = useSelector((state) => state.company);
-  console.log(managerDetails);
+  console.log('services:', services);
   const managerId = managerDetails.company.managerDetails._id;
   const dispatch = useDispatch(setService);
   const navigate = useNavigate();
@@ -71,6 +71,7 @@ function SelectService() {
           .then((response) => {
             if (response.data.success) {
               const serviceData = response.data.data;
+              console.log('serviceData:', serviceData);
               setServices(serviceData);
               dispatch(setService({ serviceData }));
             } else {
@@ -82,7 +83,7 @@ function SelectService() {
       }
     };
     Services();
-  }, []);
+  });
   return (
     <div>
       <Navbar />

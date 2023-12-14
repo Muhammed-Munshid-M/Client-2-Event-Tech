@@ -187,7 +187,7 @@ function CompanyDetails() {
                                                       <td className="px-6 py-4 whitespace-nowrap">
                                                         {showServices ? (
                                                           <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="max-w-7xl p-6 bg-white divide-y divide-gray-500">
+                                                            <div className="mt-60 max-w-7xl p-6 bg-white divide-y divide-gray-500">
                                                               <div className="flex items-center justify-between">
                                                                 <h3 className="text-2xl">Food Menu Details</h3>
                                                                 <svg
@@ -261,7 +261,7 @@ function CompanyDetails() {
                                                       <td className="px-6 py-4 whitespace-nowrap">
                                                         {stage ? (
                                                           <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                                            <div className="mt-20 max-w-sm p-6 bg-white divide-y divide-gray-500">
                                                               <div className="flex items-center justify-between">
                                                                 <h3 className="text-2xl">Stage Menu Details</h3>
                                                                 <svg
