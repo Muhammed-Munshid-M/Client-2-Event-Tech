@@ -30,7 +30,6 @@ function Home() {
       );
       dispatch(setUser(data.data));
     } catch (error) {
-      console.log('error:', error);
       if (error.response.data.expired) {
         toast.error(error.response.data.message);
         console.log('expired');
