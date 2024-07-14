@@ -5,6 +5,7 @@ import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import toast from 'react-hot-toast';
 import Navbar from '../Navbar';
 import Banner from '../Banner';
 import Paragraph from './Paragraph';
@@ -29,7 +30,12 @@ function Home() {
       );
       dispatch(setUser(data.data));
     } catch (error) {
-      console.log(error);
+      console.log('error:', error);
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        console.log('expired');
+        localStorage.clear();
+      }
     }
   };
   useEffect(() => {
