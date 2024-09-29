@@ -13,6 +13,7 @@ import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { toast } from 'react-hot-toast';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { adminUrl } from '../../../API/Api';
 import LayoutAdmin from '../LayoutAdmin';
 import { hideLoading, showLoading } from '../../redux/alertSlice';
@@ -201,7 +202,7 @@ function ApprovalList() {
                                   <td className="px-6 py-4 whitespace-nowrap">
                                     <button
                                       onClick={() => Block(data._id)}
-                                      className="custom-select font-weight-bold bg-transparent text-info border-0"
+                                      className="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 transition duration-200"
                                       name="orderStatus"
                                     >
                                       {blockStates[data._id] ? 'Unblock' : 'Block'}
@@ -209,7 +210,7 @@ function ApprovalList() {
                                   </td>
 
                                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <a onClick={() => viewDetails(data._id)} className="text-indigo-600 hover:text-indigo-900">View</a>
+                                    <Link onClick={() => viewDetails(data._id)} className="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200">View</Link>
                                   </td>
                                 </tr>
                               ))}

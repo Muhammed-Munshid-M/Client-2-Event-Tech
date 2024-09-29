@@ -342,7 +342,7 @@ function Bookings() {
                                     <div className="text-sm text-gray-900">{data.count}</div>
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
-                                    <Link onClick={() => viewDetails(data._id, orderDatas.user_id)} class="text-indigo-600 hover:text-indigo-900">View</Link>
+                                    <Link onClick={() => viewDetails(data._id, orderDatas.user_id)} class="bg-blue-500 text-white px-3 py-2 rounded hover:bg-blue-600 transition duration-200">View</Link>
                                   </td>
                                 </tr>
                               ))}
