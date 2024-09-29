@@ -104,6 +104,13 @@ function CheckoutPage() {
       },
     }).then((res) => {
       handleOpenRazorpay(res.data.data);
+    }).catch((error) => {
+      console.log(error);
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        localStorage.clear();
+        navigate('/login');
+      }
     });
   };
 

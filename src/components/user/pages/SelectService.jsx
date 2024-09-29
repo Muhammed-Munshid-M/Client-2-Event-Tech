@@ -56,6 +56,11 @@ function SelectService() {
         });
     } catch (error) {
       console.log(error);
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        localStorage.clear();
+        navigate('/login');
+      }
     }
   };
 
@@ -80,6 +85,11 @@ function SelectService() {
           });
       } catch (error) {
         console.log(error);
+        if (error.response.data.expired) {
+          toast.error(error.response.data.message);
+          localStorage.clear();
+          navigate('/login');
+        }
       }
     };
     Services();

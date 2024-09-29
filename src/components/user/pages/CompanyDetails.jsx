@@ -172,331 +172,331 @@ function CompanyDetails() {
                         </thead>
                         <tbody className="bg-slate-400 divide-y divide-gray-200">
                           {serviceDetails.catering_status == true
-                                                    && (
-                                                    <tr className="hover:bg-slate-200 transition duration-300">
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                          1.
-                                                          <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                              {serviceDetails.catering_name}
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </td>
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        {showServices ? (
-                                                          <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="mt-60 max-w-7xl p-6 bg-white divide-y divide-gray-500">
-                                                              <div className="flex items-center justify-between">
-                                                                <h3 className="text-2xl">Food Menu Details</h3>
-                                                                <svg
-                                                                  onClick={closeServiceModal}
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  className="w-6 h-6"
-                                                                  fill="none"
-                                                                  viewBox="0 0 24 24"
-                                                                  stroke="currentColor"
-                                                                >
-                                                                  <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                              <div className="mt-4">
-                                                                <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                                                  <dl className="sm:divide-y sm:divide-gray-200">
-                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                                      <dt className="text-sm font-medium text-gray-500">Startes</dt>
-                                                                      <dt className="text-sm font-medium text-gray-500">Main</dt>
-                                                                      <dt className="text-sm font-medium text-gray-500">Desserts</dt>
-                                                                      <dt className="text-sm font-medium text-gray-500">Salads</dt>
+                            && (
+                              <tr className="hover:bg-slate-200 transition duration-300">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    1.
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {serviceDetails.catering_name}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  {showServices ? (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                      <div className="mt-60 max-w-7xl p-6 bg-white divide-y divide-gray-500">
+                                        <div className="flex items-center justify-between">
+                                          <h3 className="text-2xl">Food Menu Details</h3>
+                                          <svg
+                                            onClick={closeServiceModal}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-6 h-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth="2"
+                                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                          </svg>
+                                        </div>
+                                        <div className="mt-4">
+                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                                            <dl className="sm:divide-y sm:divide-gray-200">
+                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                <dt className="text-sm font-medium text-gray-500">Startes</dt>
+                                                <dt className="text-sm font-medium text-gray-500">Main</dt>
+                                                <dt className="text-sm font-medium text-gray-500">Desserts</dt>
+                                                <dt className="text-sm font-medium text-gray-500">Salads</dt>
 
-                                                                    </div>
-                                                                    {cateringMenu.map((data) => (
-                                                                      <div className="py-4 sm:py-5 sm:grid sm:grid-cols-8 sm:gap-8 sm:px-6">
-                                                                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
-                                                                        <img src={data.starter_image} alt="" />
-                                                                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.main_name}</dd>
-                                                                        <img src={data.main_image} alt="" />
-                                                                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
-                                                                        <img src={data.dessert_image} alt="" />
-                                                                        <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.salad_name}</dd>
-                                                                        <img src={data.salad_image} alt="" />
-                                                                      </div>
-                                                                    ))}
-                                                                  </dl>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        ) : (
-                                                          <button
-                                                            type="button"
-                                                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                                            onClick={openFoodService}
-                                                          >
-                                                            View
-                                                          </button>
-                                                        )}
-                                                      </td>
-                                                    </tr>
-                                                    )}
+                                              </div>
+                                              {cateringMenu.map((data) => (
+                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-8 sm:gap-8 sm:px-6">
+                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
+                                                  <img src={data.starter_image} alt="" />
+                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.main_name}</dd>
+                                                  <img src={data.main_image} alt="" />
+                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
+                                                  <img src={data.dessert_image} alt="" />
+                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.salad_name}</dd>
+                                                  <img src={data.salad_image} alt="" />
+                                                </div>
+                                              ))}
+                                            </dl>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                      onClick={openFoodService}
+                                    >
+                                      View
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            )}
                           {serviceDetails.stage_status == true
-                                                    && (
-                                                    <tr className="hover:bg-slate-200 transition duration-300">
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                          2.
-                                                          <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                              {serviceDetails.stage_name}
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </td>
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        {stage ? (
-                                                          <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="mt-20 max-w-sm p-6 bg-white divide-y divide-gray-500">
-                                                              <div className="flex items-center justify-between">
-                                                                <h3 className="text-2xl">Stage Menu Details</h3>
-                                                                <svg
-                                                                  onClick={closeStageModal}
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  className="w-6 h-6"
-                                                                  fill="none"
-                                                                  viewBox="0 0 24 24"
-                                                                  stroke="currentColor"
-                                                                >
-                                                                  <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                              <div className="mt-4">
-                                                                <div className="border-b border-gray-200 py-5 sm:p-0">
-                                                                  <dl className="sm:divide-y sm:divide-gray-200">
-                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                                      <dt className="text-sm font-medium text-gray-500">Stages</dt>
-                                                                    </div>
-                                                                    {stageMenu.map((data) => (
-                                                                      <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
-                                                                        <img src={data.stage_photo} alt="" />
-                                                                      </div>
-                                                                    ))}
-                                                                  </dl>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        ) : (
-                                                          <button
-                                                            type="button"
-                                                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                                            onClick={openStageService}
-                                                          >
-                                                            View
-                                                          </button>
-                                                        )}
-                                                      </td>
-                                                    </tr>
-                                                    )}
+                            && (
+                              <tr className="hover:bg-slate-200 transition duration-300">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    2.
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {serviceDetails.stage_name}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  {stage ? (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                      <div className="mt-20 max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                        <div className="flex items-center justify-between">
+                                          <h3 className="text-2xl">Stage Menu Details</h3>
+                                          <svg
+                                            onClick={closeStageModal}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-6 h-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth="2"
+                                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                          </svg>
+                                        </div>
+                                        <div className="mt-4">
+                                          <div className="border-b border-gray-200 py-5 sm:p-0">
+                                            <dl className="sm:divide-y sm:divide-gray-200">
+                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                              </div>
+                                              {stageMenu.map((data) => (
+                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                  <img src={data.stage_photo} alt="" />
+                                                </div>
+                                              ))}
+                                            </dl>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                      onClick={openStageService}
+                                    >
+                                      View
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            )}
                           {serviceDetails.decoration_status == true
-                                                    && (
-                                                    <tr className="hover:bg-slate-200 transition duration-300">
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                          3.
-                                                          <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                              {serviceDetails.decoration_name}
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </td>
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        {decorate ? (
-                                                          <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
-                                                              <div className="flex items-center justify-between">
-                                                                <h3 className="text-2xl">Decoration Menu Details</h3>
-                                                                <svg
-                                                                  onClick={closeDecorateModal}
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  className="w-6 h-6"
-                                                                  fill="none"
-                                                                  viewBox="0 0 24 24"
-                                                                  stroke="currentColor"
-                                                                >
-                                                                  <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                              <div className="mt-4">
-                                                                <div className="border-b border-gray-200 py-5 sm:p-0">
-                                                                  <dl className="sm:divide-y sm:divide-gray-200">
-                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                                      <dt className="text-sm font-medium text-gray-500">Stages</dt>
-                                                                    </div>
-                                                                    {decorateMenu.map((data) => (
-                                                                      <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
-                                                                        <img src={data.decoration_photo} alt="" />
-                                                                      </div>
-                                                                    ))}
-                                                                  </dl>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        ) : (
-                                                          <button
-                                                            type="button"
-                                                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                                            onClick={openDecorateService}
-                                                          >
-                                                            View
-                                                          </button>
-                                                        )}
-                                                      </td>
-                                                    </tr>
-                                                    )}
+                            && (
+                              <tr className="hover:bg-slate-200 transition duration-300">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    3.
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {serviceDetails.decoration_name}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  {decorate ? (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                      <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                        <div className="flex items-center justify-between">
+                                          <h3 className="text-2xl">Decoration Menu Details</h3>
+                                          <svg
+                                            onClick={closeDecorateModal}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-6 h-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth="2"
+                                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                          </svg>
+                                        </div>
+                                        <div className="mt-4">
+                                          <div className="border-b border-gray-200 py-5 sm:p-0">
+                                            <dl className="sm:divide-y sm:divide-gray-200">
+                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                              </div>
+                                              {decorateMenu.map((data) => (
+                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                  <img src={data.decoration_photo} alt="" />
+                                                </div>
+                                              ))}
+                                            </dl>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                      onClick={openDecorateService}
+                                    >
+                                      View
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            )}
                           {serviceDetails.photography_status == true
-                                                    && (
-                                                    <tr className="hover:bg-slate-200 transition duration-300">
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                          4.
-                                                          <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                              {serviceDetails.photography_name}
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </td>
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        {photography ? (
-                                                          <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
-                                                              <div className="flex items-center justify-between">
-                                                                <h3 className="text-2xl">Photography Menu Details</h3>
-                                                                <svg
-                                                                  onClick={closePhotographyModal}
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  className="w-6 h-6"
-                                                                  fill="none"
-                                                                  viewBox="0 0 24 24"
-                                                                  stroke="currentColor"
-                                                                >
-                                                                  <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                              <div className="mt-4">
-                                                                <div className="border-b border-gray-200 py-5 sm:p-0">
-                                                                  <dl className="sm:divide-y sm:divide-gray-200">
-                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                                      <dt className="text-sm font-medium text-gray-500">Stages</dt>
-                                                                    </div>
-                                                                    {photographyMenu.map((data) => (
-                                                                      <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
-                                                                        <img src={data.recent_photos} alt="" />
-                                                                      </div>
-                                                                    ))}
-                                                                  </dl>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        ) : (
-                                                          <button
-                                                            type="button"
-                                                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                                            onClick={openPhotographyService}
-                                                          >
-                                                            View
-                                                          </button>
-                                                        )}
-                                                      </td>
-                                                    </tr>
-                                                    )}
+                            && (
+                              <tr className="hover:bg-slate-200 transition duration-300">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    4.
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {serviceDetails.photography_name}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  {photography ? (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                      <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                        <div className="flex items-center justify-between">
+                                          <h3 className="text-2xl">Photography Menu Details</h3>
+                                          <svg
+                                            onClick={closePhotographyModal}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-6 h-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth="2"
+                                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                          </svg>
+                                        </div>
+                                        <div className="mt-4">
+                                          <div className="border-b border-gray-200 py-5 sm:p-0">
+                                            <dl className="sm:divide-y sm:divide-gray-200">
+                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                              </div>
+                                              {photographyMenu.map((data) => (
+                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                  <img src={data.recent_photos} alt="" />
+                                                </div>
+                                              ))}
+                                            </dl>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                      onClick={openPhotographyService}
+                                    >
+                                      View
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            )}
                           {serviceDetails.vehicle_status == true
-                                                    && (
-                                                    <tr className="hover:bg-slate-200 transition duration-300">
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                          5.
-                                                          <div className="ml-4">
-                                                            <div className="text-sm font-medium text-gray-900">
-                                                              {serviceDetails.vehicle_name}
-                                                            </div>
-                                                          </div>
-                                                        </div>
-                                                      </td>
-                                                      <td className="px-6 py-4 whitespace-nowrap">
-                                                        {vehicle ? (
-                                                          <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                                                            <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
-                                                              <div className="flex items-center justify-between">
-                                                                <h3 className="text-2xl">Luxury Vehicle Menu Details</h3>
-                                                                <svg
-                                                                  onClick={closeVehicleModal}
-                                                                  xmlns="http://www.w3.org/2000/svg"
-                                                                  className="w-6 h-6"
-                                                                  fill="none"
-                                                                  viewBox="0 0 24 24"
-                                                                  stroke="currentColor"
-                                                                >
-                                                                  <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    strokeWidth="2"
-                                                                    d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                                                                  />
-                                                                </svg>
-                                                              </div>
-                                                              <div className="mt-4">
-                                                                <div className="border-b border-gray-200 py-5 sm:p-0">
-                                                                  <dl className="sm:divide-y sm:divide-gray-200">
-                                                                    <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                                      <dt className="text-sm font-medium text-gray-500">Stages</dt>
-                                                                    </div>
-                                                                    {vehicleMenu.map((data) => (
-                                                                      <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
-                                                                        <img src={data.vehicle_image} alt="" />
-                                                                      </div>
-                                                                    ))}
-                                                                  </dl>
-                                                                </div>
-                                                              </div>
-                                                            </div>
-                                                          </div>
-                                                        ) : (
-                                                          <button
-                                                            type="button"
-                                                            className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                                                            onClick={openVehicleService}
-                                                          >
-                                                            View
-                                                          </button>
-                                                        )}
-                                                      </td>
-                                                    </tr>
-                                                    )}
+                            && (
+                              <tr className="hover:bg-slate-200 transition duration-300">
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  <div className="flex items-center">
+                                    5.
+                                    <div className="ml-4">
+                                      <div className="text-sm font-medium text-gray-900">
+                                        {serviceDetails.vehicle_name}
+                                      </div>
+                                    </div>
+                                  </div>
+                                </td>
+                                <td className="px-6 py-4 whitespace-nowrap">
+                                  {vehicle ? (
+                                    <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                                      <div className="max-w-sm p-6 bg-white divide-y divide-gray-500">
+                                        <div className="flex items-center justify-between">
+                                          <h3 className="text-2xl">Luxury Vehicle Menu Details</h3>
+                                          <svg
+                                            onClick={closeVehicleModal}
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            className="w-6 h-6"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                            stroke="currentColor"
+                                          >
+                                            <path
+                                              strokeLinecap="round"
+                                              strokeLinejoin="round"
+                                              strokeWidth="2"
+                                              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                                            />
+                                          </svg>
+                                        </div>
+                                        <div className="mt-4">
+                                          <div className="border-b border-gray-200 py-5 sm:p-0">
+                                            <dl className="sm:divide-y sm:divide-gray-200">
+                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                                <dt className="text-sm font-medium text-gray-500">Stages</dt>
+                                              </div>
+                                              {vehicleMenu.map((data) => (
+                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-1 sm:px-6">
+                                                  <img src={data.vehicle_image} alt="" />
+                                                </div>
+                                              ))}
+                                            </dl>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    <button
+                                      type="button"
+                                      className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                                      onClick={openVehicleService}
+                                    >
+                                      View
+                                    </button>
+                                  )}
+                                </td>
+                              </tr>
+                            )}
                         </tbody>
                       </table>
                     </div>

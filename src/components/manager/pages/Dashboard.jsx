@@ -223,7 +223,7 @@ function Dashboard() {
                         {data.formMobile}
                       </td>
                       <td className=" p-3 text-sm text-gray-700 whitespace-nowrap text-center">
-                        {data.date}
+                        {new Date(data.date).toLocaleDateString('en-GB')}
                       </td>
                       <td className=" p-3 text-sm text-gray-700 whitespace-nowrap text-center">
                         {data.status}

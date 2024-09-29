@@ -6,6 +6,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import Navbar from '../Navbar';
 import {
   setCheckedArray1, setCheckedArray2, setCheckedArray3, setCheckedArray4, setCheckedArray5, setCheckedArray6, setCheckedArray7, setCheckedArray8,
@@ -181,6 +182,12 @@ function UserMenuList() {
       navigate('/cart-list');
     } catch (error) {
       console.log(error);
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        // eslint-disable-next-line no-undef
+        localStorage.clear();
+        navigate('/login');
+      }
     }
   };
   return (

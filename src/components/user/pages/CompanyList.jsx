@@ -15,6 +15,7 @@ import { Button } from '@mui/material';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import toast from 'react-hot-toast';
 import Layout from '../Layout';
 import { setCompany } from '../../redux/companyDetails';
 import { userUrl } from '../../../API/Api';
@@ -64,9 +65,13 @@ export default function CompanyList() {
           setFilteredData(locationData);
         }
       });
-    } catch (err) {
+    } catch (error) {
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        localStorage.clear();
+      }
       dispatch(hideLoading());
-      console.log(err);
+      console.log(error);
     }
   }, [limit, page, serviceDatas, locationData]);
 
@@ -78,10 +83,19 @@ export default function CompanyList() {
         Authorization: `Bearer ${token}`,
       },
     }).then((response) => {
+      console.log('res:', response);
       dispatch(hideLoading());
       const managerDetails = response.data.data;
       dispatch(setCompany({ managerDetails }));
       navigate('/company-details');
+    }).catch((error) => {
+      console.log('err: ', error);
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        console.log('expired');
+        localStorage.clear();
+        navigate('/login');
+      }
     });
   };
 

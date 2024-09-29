@@ -110,8 +110,8 @@ function SalesReport() {
         {
           loading ? (
             <div className="spinner-container">
-            <div className="loading-spinner" />
-          </div>
+              <div className="loading-spinner" />
+            </div>
           ) : (
             <body className="mt-[7rem]">
               <div className="overflow-x-auto">
@@ -119,10 +119,10 @@ function SalesReport() {
                   <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
                     <h1 className="font-bold text-xl mb-5">Sales Report</h1>
                     <div className="flex justify-end mr-5 mb-4">
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded me-auto" onClick={generatePDF}>
-                      Download PDF
-                    </button>
-                    <p className="py-2 px-2">From:</p>
+                      <button className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded me-auto" onClick={generatePDF}>
+                        Download PDF
+                      </button>
+                      <p className="py-2 px-2">From:</p>
                       <input
                         type="date"
                         value={startDate}
@@ -190,7 +190,9 @@ function SalesReport() {
                                 <div className="text-sm text-gray-900">{data.status}</div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
-                                <div className="text-sm text-gray-900">{data.date}</div>
+                                <div className="text-sm text-gray-900">
+                                  {new Date(data.date).toLocaleDateString('en-GB')}
+                                </div>
                               </td>
                               <td className="px-6 py-4 whitespace-nowrap">
                                 <div className="text-sm text-gray-900">{data.totalPrice}</div>

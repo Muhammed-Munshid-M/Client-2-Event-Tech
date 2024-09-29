@@ -147,7 +147,7 @@ function Bookings() {
                                 <p>
                                   Event Date:
                                   {' '}
-                                  {bookingDetails.event_date}
+                                  {new Date(bookingDetails.event_date).toLocaleDateString('en-GB')}
                                 </p>
                                 <p>
                                   Event Time:
@@ -162,7 +162,7 @@ function Bookings() {
                                 <p className="mb-4">
                                   Booking Date:
                                   {' '}
-                                  {bookingDetails.date}
+                                  {new Date(bookingDetails.date).toLocaleDateString('en-GB')}
                                 </p>
                               </div>
                             </div>
@@ -330,8 +330,11 @@ function Bookings() {
                                     </div>
                                   </td>
                                   <td className="px-6 py-4 whitespace-nowrap">
-                                    <div className="text-sm text-gray-900">{data.event_date}</div>
+                                    <div className="text-sm text-gray-900">
+                                      {new Date(data.event_date).toLocaleDateString('en-GB')}
+                                    </div>
                                   </td>
+
                                   <td className="px-6 py-4 whitespace-nowrap">
                                     <div className="text-sm text-gray-900">{data.time}</div>
                                   </td>

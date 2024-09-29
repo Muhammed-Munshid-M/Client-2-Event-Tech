@@ -93,104 +93,106 @@ function SalesManager() {
     <div>
       <Layout>
         {
-                    loading ? (
-                      <div className="spinner-container">
-                        <div className="loading-spinner" />
-                      </div>
-                    ) : (
-                      <body className="mt-[7rem]">
-                        <div className="overflow-x-auto">
-                          <div className="inline-block min-w-full">
-                            <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
-                              <h1 className="font-bold text-xl mb-5">Sales Report</h1>
-                              <div className="flex justify-end mr-5 mb-4">
-                                <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded me-auto" onClick={generatePDF}>
-                                  Download PDF
-                                </button>
-                                <p className="py-2 px-2">From:</p>
-                                <input
-                                  type="date"
-                                  value={startDate}
-                                  onChange={(e) => setStartDate(e.target.value)}
-                                  className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded"
-                                />
-                                <p className="py-2 px-2">To:</p>
-                                <input
-                                  type="date"
-                                  value={endDate}
-                                  onChange={(e) => setEndDate(e.target.value)}
-                                  className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded mr-6"
-                                />
-                                <button type="button" className="mr-3 px-3 bg-blue-500" onClick={filterOrders}>Apply</button>
-                              </div>
-                              <table className="min-w-full divide-y divide-gray-200">
-                                <thead className="bg-slate-300">
-                                  <tr>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Order Id
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Customer Name
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Place
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Mobile
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Status
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Date
-                                    </th>
-                                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                      Amount
-                                    </th>
-                                  </tr>
-                                </thead>
-                                {order.map((eachOrder) => (
-                                  <tbody className="bg-slate-400 divide-y divide-gray-200">
-                                    {eachOrder.form.map((data) => (
-                                      <tr className="hover:bg-slate-200 transition duration-300">
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="flex items-center">
-                                            <div className="ml-4">
-                                              <div className="text-sm font-medium text-gray-900">
-                                                {data._id}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.formName}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.place}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.formMobile}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.status}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.date}</div>
-                                        </td>
-                                        <td className="px-6 py-4 whitespace-nowrap">
-                                          <div className="text-sm text-gray-900">{data.totalPrice}</div>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>
-                                ))}
-                              </table>
-                            </div>
-                          </div>
-                        </div>
-                      </body>
-                    )
-                }
+          loading ? (
+            <div className="spinner-container">
+              <div className="loading-spinner" />
+            </div>
+          ) : (
+            <body className="mt-[7rem]">
+              <div className="overflow-x-auto">
+                <div className="inline-block min-w-full">
+                  <div className="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+                    <h1 className="font-bold text-xl mb-5">Sales Report</h1>
+                    <div className="flex justify-end mr-5 mb-4">
+                      <button type="button" className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded me-auto" onClick={generatePDF}>
+                        Download PDF
+                      </button>
+                      <p className="py-2 px-2">From:</p>
+                      <input
+                        type="date"
+                        value={startDate}
+                        onChange={(e) => setStartDate(e.target.value)}
+                        className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded"
+                      />
+                      <p className="py-2 px-2">To:</p>
+                      <input
+                        type="date"
+                        value={endDate}
+                        onChange={(e) => setEndDate(e.target.value)}
+                        className="border border-gray-300 bg-green-400 hover:bg-green-500 px-2 py-1 rounded mr-6"
+                      />
+                      <button type="button" className="mr-3 px-3 bg-blue-500" onClick={filterOrders}>Apply</button>
+                    </div>
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead className="bg-slate-300">
+                        <tr>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Order Id
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Customer Name
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Place
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Mobile
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Status
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Date
+                          </th>
+                          <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Amount
+                          </th>
+                        </tr>
+                      </thead>
+                      {order.map((eachOrder) => (
+                        <tbody className="bg-slate-400 divide-y divide-gray-200">
+                          {eachOrder.form.map((data) => (
+                            <tr className="hover:bg-slate-200 transition duration-300">
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="flex items-center">
+                                  <div className="ml-4">
+                                    <div className="text-sm font-medium text-gray-900">
+                                      {data._id}
+                                    </div>
+                                  </div>
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{data.formName}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{data.place}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{data.formMobile}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{data.status}</div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">
+                                  {new Date(data.date).toLocaleDateString('en-GB')}
+                                </div>
+                              </td>
+                              <td className="px-6 py-4 whitespace-nowrap">
+                                <div className="text-sm text-gray-900">{data.totalPrice}</div>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      ))}
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </body>
+          )
+        }
       </Layout>
     </div>
   );

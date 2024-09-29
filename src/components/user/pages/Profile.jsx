@@ -38,12 +38,22 @@ function Profile() {
         dispatch(hideLoading());
         setUserDetails(response.data.data);
       })
-        .catch((err) => {
-          console.log(err);
+        .catch((error) => {
+          console.log(error);
+          if (error.response.data.expired) {
+            toast.error(error.response.data.message);
+            localStorage.clear();
+            navigate('/login');
+          }
         });
-    } catch (err) {
+    } catch (error) {
+      if (error.response.data.expired) {
+        toast.error(error.response.data.message);
+        localStorage.clear();
+        navigate('/login');
+      }
       dispatch(hideLoading());
-      console.log(err);
+      console.log(error);
     }
   }, []);
 
