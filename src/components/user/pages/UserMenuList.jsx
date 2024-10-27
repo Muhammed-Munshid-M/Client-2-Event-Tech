@@ -10,6 +10,7 @@ import toast from 'react-hot-toast';
 import Navbar from '../Navbar';
 import {
   setCheckedArray1, setCheckedArray2, setCheckedArray3, setCheckedArray4, setCheckedArray5, setCheckedArray6, setCheckedArray7, setCheckedArray8,
+  setCountPeople,
 } from '../../redux/services';
 
 function UserMenuList() {
@@ -28,6 +29,8 @@ function UserMenuList() {
   const [photography, setPhotography] = useState([]);
   const [vehicle, setVehicle] = useState([]);
   const [cateringMenu, setCateringMenu] = useState('');
+  const [count, setCount] = useState(0);
+  const [submitClicked, setSubmitClicked] = useState(false);
   const Services = useSelector((state) => state.services || {});
   console.log('service: ', Services);
   const serviceDetails = Services.service.serviceData || {};
@@ -169,8 +172,21 @@ function UserMenuList() {
     }
   }, []);
 
+  const handleCountChange = (e) => {
+    setCount(e.target.value);
+  };
+
   const openCart = () => {
     try {
+      setSubmitClicked(true);
+      if (count == 0) {
+        // eslint-disable-next-line no-undef
+        window.scrollTo({
+          top: 0,
+          behavior: 'smooth',
+        });
+        return;
+      }
       dispatch(setCheckedArray1(starter));
       dispatch(setCheckedArray2(main));
       dispatch(setCheckedArray3(dessert));
@@ -179,6 +195,7 @@ function UserMenuList() {
       dispatch(setCheckedArray6(decorateCheck));
       dispatch(setCheckedArray7(photoCheck));
       dispatch(setCheckedArray8(vehicleCheck));
+      dispatch(setCountPeople(count));
       navigate('/cart-list');
     } catch (error) {
       console.log(error);
@@ -203,272 +220,292 @@ function UserMenuList() {
             <div className="max-w-full mx-auto">
               <div className="bg-white shadow overflow-hidden sm:rounded-lg">
                 {serviceDetails.user_catering_status === true
-                                    && (
-                                    <div className="px-4 py-5 sm:px-6">
-                                      <h1 className="text-center text-4xl font-serif font-medium">Select Menu List</h1>
-                                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
-                                        {serviceDetails.catering_name}
-                                      </h1>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="px-4 py-5 sm:px-6">
+                      <h1 className="text-center text-4xl font-serif font-medium">Select Menu List</h1>
+
+                      {/* Flex container for catering name and number of people input */}
+                      <div className="flex justify-between items-center p-6 pt-10">
+                        <h1 className="text-3xl font-medium text-gray-900">
+                          {serviceDetails.catering_name}
+                        </h1>
+
+                        <div className="flex items-center">
+                          <h1 htmlFor="count" className={`block text-lg font-medium text-gray-700 mr-2 ${submitClicked && !count ? 'text-red-500' : ''}`}>
+                            Number of People:
+                            {' '}
+                            {submitClicked && !count && '(Required)'}
+                          </h1>
+                          <input
+                            type="number"
+                            id="count"
+                            className="border-0 ms-2 px-1 py-3 placeholder-blueGray-300 text-blueGray-400 bg-gray-200 rounded text-sm shadow focus:outline-none focus:ring  ease-linear transition-all duration-150"
+                            value={count}
+                            onChange={handleCountChange}
+                            placeholder="Enter count"
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {serviceDetails.user_catering_status === true
-                                    && (
-                                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
-                                      <div className="mx-auto">
-                                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-6 sm:grid-cols-3 lg:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">{cateringMenu.category_name[0]}</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                                <dt className="text-sm font-medium text-gray-500 ml-5">{cateringMenu.category_name[1]}</dt>
-                                                <dt className="text-sm font-medium text-gray-500 ml-5">Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500 ml-5">Select</dt>
-                                              </div>
+                  && (
+                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
+                      <div className="mx-auto">
+                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                            <dl className="sm:divide-y sm:divide-gray-200">
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-6 sm:grid-cols-3 lg:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">{cateringMenu.category_name[0]}</dt>
+                                <dt className="text-sm font-medium text-gray-500">Price</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                                <dt className="text-sm font-medium text-gray-500 ml-5">{cateringMenu.category_name[1]}</dt>
+                                <dt className="text-sm font-medium text-gray-500 ml-5">Price</dt>
+                                <dt className="text-sm font-medium text-gray-500 ml-5">Select</dt>
+                              </div>
 
-                                              {catering.map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_price}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    checked={data.checked}
-                                                    onChange={(event) => starterChecked(data.starter_image, data.starter_name, data.starter_price, event.target.checked)}
-                                                  />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_name}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_price}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
-                                                    onChange={(event) => mainChecked(data.main_image, data.main_name, data.main_price, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
+                              {catering.map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_price}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    checked={data.checked}
+                                    onChange={(event) => starterChecked(data.starter_image, data.starter_name, data.starter_price, event.target.checked)}
+                                  />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_name}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.main_price}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
+                                    onChange={(event) => mainChecked(data.main_image, data.main_name, data.main_price, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
 
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-6 mt-10 sm:grid-cols-6 sm:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">{cateringMenu.category_name[2]}</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                                <dt className="text-sm font-medium text-gray-500 ml-5">{cateringMenu.category_name[3]}</dt>
-                                                <dt className="text-sm font-medium text-gray-500 ml-5">Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500 ml-5">Select</dt>
-                                              </div>
-                                              {catering.map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_price}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    checked={data.checked}
-                                                    onChange={(event) => dessertChecked(data.dessert_image, data.dessert_name, data.dessert_price, event.target.checked)}
-                                                  />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_name}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_price}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
-                                                    onChange={(event) => saladChecked(data.salad_image, data.salad_name, data.salad_price, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
-                                            </dl>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    )}
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-6 mt-10 sm:grid-cols-6 sm:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">{cateringMenu.category_name[2]}</dt>
+                                <dt className="text-sm font-medium text-gray-500">Price</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                                <dt className="text-sm font-medium text-gray-500 ml-5">{cateringMenu.category_name[3]}</dt>
+                                <dt className="text-sm font-medium text-gray-500 ml-5">Price</dt>
+                                <dt className="text-sm font-medium text-gray-500 ml-5">Select</dt>
+                              </div>
+                              {catering.map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-6 sm:gap-4 sm:px-6">
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_price}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    checked={data.checked}
+                                    onChange={(event) => dessertChecked(data.dessert_image, data.dessert_name, data.dessert_price, event.target.checked)}
+                                  />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_name}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ml-5">{data.salad_price}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 lg:ml-7 mt-2 w-5 h-5"
+                                    onChange={(event) => saladChecked(data.salad_image, data.salad_name, data.salad_price, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {serviceDetails.user_stage_status === true
-                                    && (
-                                    <div className="px-4 py-1 sm:px-6">
-                                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
-                                        {serviceDetails.stage_name}
-                                      </h1>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="px-4 py-1 sm:px-6">
+                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
+                        {serviceDetails.stage_name}
+                      </h1>
+                    </div>
+                  )}
                 {serviceDetails.user_stage_status === true
-                                    && (
-                                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
-                                      <h1 className="p-6 text-2xl font-medium text-gray-800">High Level Budget</h1>
-                                      <div className="mx-auto">
-                                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-3 lg:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">Stage Image</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                              </div>
-                                              {stage.filter((data) => data.stage_budget > 15000).map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                  <img width="200px" height="auto" src={data.stage_photo} alt="" />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    onChange={(event) => stageChecked(data.stage_photo, data.stage_size, data.stage_budget, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
-                                            </dl>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
+                      <h1 className="p-6 text-2xl font-medium text-gray-800">High Level Budget</h1>
+                      <div className="mx-auto">
+                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                            <dl className="sm:divide-y sm:divide-gray-200">
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-3 lg:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">Stage Image</dt>
+                                <dt className="text-sm font-medium text-gray-500">Price</dt>
+                                <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                              </div>
+                              {stage.filter((data) => data.stage_budget > 15000).map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                  <img width="200px" height="auto" src={data.stage_photo} alt="" />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    onChange={(event) => stageChecked(data.stage_photo, data.stage_size, data.stage_budget, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {serviceDetails.user_stage_status === true
-                                    && (
-                                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
-                                      <h1 className="p-6 text-2xl font-medium text-gray-800">Low Level Budget</h1>
-                                      <div className="mx-auto">
-                                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-3 lg:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">Stage Image</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                              </div>
-                                              {stage.filter((data) => data.stage_budget < 15000).map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                  <img width="200px" height="auto" src={data.stage_photo} alt="" />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    onChange={(event) => stageChecked(data.stage_photo, data.stage_size, data.stage_budget, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
-                                            </dl>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
+                      <h1 className="p-6 text-2xl font-medium text-gray-800">Low Level Budget</h1>
+                      <div className="mx-auto">
+                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                            <dl className="sm:divide-y sm:divide-gray-200">
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-3 lg:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">Stage Image</dt>
+                                <dt className="text-sm font-medium text-gray-500">Price</dt>
+                                <dt className="text-sm font-medium text-gray-500">Stage Size</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                              </div>
+                              {stage.filter((data) => data.stage_budget < 15000).map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                  <img width="200px" height="auto" src={data.stage_photo} alt="" />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_budget}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    onChange={(event) => stageChecked(data.stage_photo, data.stage_size, data.stage_budget, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {serviceDetails.user_decoration_status === true
-                                    && (
-                                    <div className="px-4 py-1 sm:px-6">
-                                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
-                                        {serviceDetails.decoration_name}
-                                      </h1>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="px-4 py-1 sm:px-6">
+                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
+                        {serviceDetails.decoration_name}
+                      </h1>
+                    </div>
+                  )}
                 {serviceDetails.user_decoration_status === true
-                                    && (
-                                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
-                                      <div className="mx-auto">
-                                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-3 lg:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">Decoration Photo</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Decoration Budget</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                              </div>
-                                              {decoration.map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                                                  <img width="200px" height="auto" src={data.decoration_photo} alt="" />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.decoration_budget}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    onChange={(event) => decorateChecked(data.decoration_photo, 'No Title', data.decoration_budget, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
-                                            </dl>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
+                      <div className="mx-auto">
+                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                            <dl className="sm:divide-y sm:divide-gray-200">
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-3 lg:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">Decoration Photo</dt>
+                                <dt className="text-sm font-medium text-gray-500">Decoration Budget</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                              </div>
+                              {decoration.map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                  <img width="200px" height="auto" src={data.decoration_photo} alt="" />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.decoration_budget}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    onChange={(event) => decorateChecked(data.decoration_photo, 'No Title', data.decoration_budget, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {serviceDetails.user_photography_status === true
-                                    && (
-                                    <div className="px-4 py-1 sm:px-6">
-                                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
-                                        {serviceDetails.photography_name}
-                                      </h1>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="px-4 py-1 sm:px-6">
+                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
+                        {serviceDetails.photography_name}
+                      </h1>
+                    </div>
+                  )}
                 {serviceDetails.user_photography_status === true
-                                    && (
-                                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
-                                      <div className="mx-auto">
-                                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-5 sm:grid-cols-5 lg:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">Recent Photo</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Shop Name</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Address</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Budget</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                              </div>
-                                              {photography.map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
-                                                  <img width="200px" height="auto" src={data.recent_photos} alt="" />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.shop_name}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.address}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.budget}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    onChange={(event) => photoChecked(data.recent_photos, data.shop_name, data.budget, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
-                                            </dl>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
+                      <div className="mx-auto">
+                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                            <dl className="sm:divide-y sm:divide-gray-200">
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-5 sm:grid-cols-5 lg:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">Recent Photo</dt>
+                                <dt className="text-sm font-medium text-gray-500">Shop Name</dt>
+                                <dt className="text-sm font-medium text-gray-500">Address</dt>
+                                <dt className="text-sm font-medium text-gray-500">Budget</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                              </div>
+                              {photography.map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
+                                  <img width="200px" height="auto" src={data.recent_photos} alt="" />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.shop_name}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.address}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.budget}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    onChange={(event) => photoChecked(data.recent_photos, data.shop_name, data.budget, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 {serviceDetails.user_vehicle_status === true
-                                    && (
-                                    <div className="px-4 py-1 sm:px-6">
-                                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
-                                        {serviceDetails.vehicle_name}
-                                      </h1>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="px-4 py-1 sm:px-6">
+                      <h1 className="p-6 pt-10 text-3xl font-medium text-gray-900">
+                        {serviceDetails.vehicle_name}
+                      </h1>
+                    </div>
+                  )}
                 {serviceDetails.user_vehicle_status === true
-                                    && (
-                                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
-                                      <div className="mx-auto">
-                                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-                                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                                            <dl className="sm:divide-y sm:divide-gray-200">
-                                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 lg:gap-4 sm:px-6">
-                                                <dt className="text-sm font-medium text-gray-500">Vehicle</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Owner Name</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Rent Price</dt>
-                                                <dt className="text-sm font-medium text-gray-500">Select</dt>
-                                              </div>
-                                              {vehicle.map((data) => (
-                                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                                                  <img width="200px" height="auto" src={data.vehicle_image} alt="" />
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.owner_name}</dd>
-                                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.rent_price}</dd>
-                                                  <input
-                                                    type="checkbox"
-                                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
-                                                    onChange={(event) => vehicleChecked(data.vehicle_image, data.owner_name, data.rent_price, event.target.checked)}
-                                                  />
-                                                </div>
-                                              ))}
-                                            </dl>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="lg:max-w-7xl sm:max-w-sm mx-auto pb-12 sm:px-6 lg:px-8">
+                      <div className="mx-auto">
+                        <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                          <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                            <dl className="sm:divide-y sm:divide-gray-200">
+                              <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 lg:gap-4 sm:px-6">
+                                <dt className="text-sm font-medium text-gray-500">Vehicle</dt>
+                                <dt className="text-sm font-medium text-gray-500">Owner Name</dt>
+                                <dt className="text-sm font-medium text-gray-500">Rent Price</dt>
+                                <dt className="text-sm font-medium text-gray-500">Select</dt>
+                              </div>
+                              {vehicle.map((data) => (
+                                <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                                  <img width="200px" height="auto" src={data.vehicle_image} alt="" />
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.owner_name}</dd>
+                                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.rent_price}</dd>
+                                  <input
+                                    type="checkbox"
+                                    className="checked:bg-blue-500 sm:ml-2 mt-2 w-5 h-5"
+                                    onChange={(event) => vehicleChecked(data.vehicle_image, data.owner_name, data.rent_price, event.target.checked)}
+                                  />
+                                </div>
+                              ))}
+                            </dl>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
               </div>
               <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button

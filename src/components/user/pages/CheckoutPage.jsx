@@ -22,7 +22,7 @@ function CheckoutPage() {
   const [address, setAddress] = useState('');
   const [date, setDate] = useState(null);
   const [time, setTime] = useState('00:00');
-  const [count, setCount] = useState('');
+  const [count, setCount] = useState('100%');
   const [type, setType] = useState('Wedding');
   const [pin, setPin] = useState('');
   const [state, setState] = useState('Kerala');
@@ -36,13 +36,22 @@ function CheckoutPage() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const total = location.state.totalPrice;
+  let total = 0;
+  total = location.state.totalPrice;
+  console.log(count);
+  if (count === '25%') {
+    const subTotal = Math.floor(parseFloat(total) / 2);
+    total = Math.floor(parseFloat(subTotal) / 2);
+  } else if (count === '50%') {
+    total = Math.floor(parseFloat(total) / 2);
+  }
+  console.log('total: ', total);
   const gst = 10;
   const GrandTotal = total + gst;
 
   useEffect(() => {
     setGrandTotal(GrandTotal);
-  }, []);
+  }, [GrandTotal]);
 
   const handleOpenRazorpay = (data) => {
     let token;
@@ -333,17 +342,20 @@ function CheckoutPage() {
                           <label
                             className={`block uppercase text-blueGray-600 text-xs font-bold mb-2 ${submitClicked && !count ? 'text-red-500' : ''}`}
                           >
-                            Count of people
+                            Choose Payment Type
                             {submitClicked && !count && ' (Required)'}
                           </label>
-                          <input
-                            type="number"
+                          <select
+                            name=""
                             value={count}
-                            required
-                            className={`border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150 ${submitClicked && !count ? 'border-red-500' : ''}`}
-                            placeholder="Count of people"
                             onChange={(e) => setCount(e.target.value)}
-                          />
+                            className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                            id=""
+                          >
+                            <option value="25%">25%</option>
+                            <option value="50%">50%</option>
+                            <option value="100%">FUll Amount</option>
+                          </select>
                         </div>
                       </div>
 
@@ -428,8 +440,8 @@ function CheckoutPage() {
                             About Payment
                           </label>
                           <div className="">
-                            <p>For Booking time, Your Advance Payment have to only paying 50% of the total amount.</p>
-                            <p>And you must need payment after the event programme.</p>
+                            <p>For Booking time, You can choose the payment method and how much percentage need to pay of the total amount.</p>
+                            {/* <p>And you must need payment after the event programme.</p> */}
                           </div>
                         </div>
                       </div>

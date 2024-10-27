@@ -27,10 +27,10 @@ function CartList() {
     const [datas6, setDatas6] = useState([]);
     const [datas7, setDatas7] = useState([]);
     const [datas8, setDatas8] = useState([]);
+    const [count, setCount] = useState(0);
     const [categoryName, setCategoryName] = useState([]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
     const managerDetails = useSelector((state) => state.company);
     const serviceDetails = useSelector((state) => state.services);
     const managerId = managerDetails.company.managerDetails._id;
@@ -44,6 +44,7 @@ function CartList() {
         setDatas6(serviceDetails.checked6);
         setDatas7(serviceDetails.checked7);
         setDatas8(serviceDetails.checked8);
+        setCount(serviceDetails.count);
         setService(serviceDetails.service.serviceData);
         setCategoryName(serviceDetails.service.serviceData.cateringMenu);
         setCategories(serviceDetails.service.serviceData.cateringMenu[0]);
@@ -67,15 +68,15 @@ function CartList() {
         };
         details();
     }, [datas1, datas2, datas3, datas4, datas5, datas6, datas7, datas8]);
-    const total1 = datas1.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.starter_price), 0);
-    const total2 = datas2.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.main_price), 0);
-    const total3 = datas3.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.dessert_price), 0);
-    const total4 = datas4.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.salad_price), 0);
+    const total1 = datas1.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.starter_price * count), 0);
+    const total2 = datas2.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.main_price * count), 0);
+    const total3 = datas3.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.dessert_price * count), 0);
+    const total4 = datas4.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.salad_price * count), 0);
     const total5 = datas5.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.stage_price), 0);
     const total6 = datas6.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.decorate_price), 0);
     const total7 = datas7.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.photo_price), 0);
     const total8 = datas8.reduce((accumulator, currentValue) => accumulator + parseFloat(currentValue.vehicle_price), 0);
-    const totalFloat = (total1 + total2 + total3 + total4 + total5 + total6 + total7 + total8) / 2;
+    const totalFloat = (total1 + total2 + total3 + total4 + total5 + total6 + total7 + total8);
     const total = Math.round(totalFloat);
     const submitCheckout = () => {
         navigate('/checkout-page', { state: { totalPrice: total } });
@@ -155,7 +156,13 @@ function CartList() {
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            <div key={index} className="text-sm text-gray-900">{data.starter_price}</div>
+                                                            <div key={index} className="text-sm text-gray-900">
+                                                                {data.starter_price}
+                                                                {' '}
+                                                                *
+                                                                {' '}
+                                                                {count}
+                                                            </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <svg
@@ -194,7 +201,13 @@ function CartList() {
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            <div key={index} className="text-sm text-gray-900">{data.main_price}</div>
+                                                            <div key={index} className="text-sm text-gray-900">
+                                                                {data.main_price}
+                                                                {' '}
+                                                                *
+                                                                {' '}
+                                                                {count}
+                                                            </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <svg
@@ -233,7 +246,13 @@ function CartList() {
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            <div key={index} className="text-sm text-gray-900">{data.dessert_price}</div>
+                                                            <div key={index} className="text-sm text-gray-900">
+                                                                {data.dessert_price}
+                                                                {' '}
+                                                                *
+                                                                {' '}
+                                                                {count}
+                                                            </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <svg
@@ -272,7 +291,13 @@ function CartList() {
                                                             </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
-                                                            <div key={index} className="text-sm text-gray-900">{data.salad_price}</div>
+                                                            <div key={index} className="text-sm text-gray-900">
+                                                                {data.salad_price}
+                                                                {' '}
+                                                                *
+                                                                {' '}
+                                                                {count}
+                                                            </div>
                                                         </td>
                                                         <td className="px-6 py-4 whitespace-nowrap">
                                                             <svg

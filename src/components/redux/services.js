@@ -14,6 +14,7 @@ const serviceSlice = createSlice({
     checked6: [],
     checked7: [],
     checked8: [],
+    count: 0,
   },
 
   reducers: {
@@ -26,6 +27,7 @@ const serviceSlice = createSlice({
     setCheckedArray6: (state, action) => ({ ...state, checked6: action.payload }),
     setCheckedArray7: (state, action) => ({ ...state, checked7: action.payload }),
     setCheckedArray8: (state, action) => ({ ...state, checked8: action.payload }),
+    setCountPeople: (state, action) => ({ ...state, count: action.payload }),
     removeItemFromChecked1: (state, action) => {
       const index = action.payload;
       state.checked1 = state.checked1.filter((_, i) => i !== index);
@@ -40,7 +42,7 @@ const serviceSlice = createSlice({
 
 export const {
   setService, setCheckedArray1, setCheckedArray2, setCheckedArray3, setCheckedArray4,
-  setCheckedArray5, setCheckedArray6, setCheckedArray7, setCheckedArray8, removeItemFromChecked1,
-  removeItemFromChecked2,
+  setCheckedArray5, setCheckedArray6, setCheckedArray7, setCheckedArray8, setCountPeople,
+  removeItemFromChecked1, removeItemFromChecked2,
 } = serviceSlice.actions;
 export default serviceSlice;
