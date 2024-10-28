@@ -12,6 +12,8 @@ import { managerUrl } from '../../../API/Api';
 import Layout from '../Layout';
 
 function MenuList() {
+  const [loading, setLoading] = useState(false);
+  const [refresh, setRefresh] = useState(false);
   const [modal, setModal] = useState(false);
   const [stage, setStage] = useState(false);
   const [decoration, setDecoration] = useState(false);
@@ -129,6 +131,7 @@ function MenuList() {
   const submitCatering = async () => {
     try {
       setModal(false);
+      setLoading(true);
       const uploadImage = async (image) => {
         const data = new FormData();
         data.append('file', image);
@@ -153,6 +156,7 @@ function MenuList() {
           },
         })
           .then((response) => {
+            setLoading(false);
             if (response.data.success) {
               Swal.fire({
                 position: 'center',
@@ -160,7 +164,7 @@ function MenuList() {
                 title: 'Catering Menu Added',
                 showConfirmButton: true,
               }).then(() => {
-                window.location.reload();
+                setRefresh(true);
               });
             } else {
               toast.error('something error');
@@ -180,7 +184,7 @@ function MenuList() {
   const submitStage = async () => {
     try {
       setStage(false);
-      // window.location.reload()
+      setLoading(true);
 
       const uploadImage = async (image) => {
         const data = new FormData();
@@ -202,7 +206,7 @@ function MenuList() {
           },
         })
           .then((response) => {
-            console.log('Hi');
+            setLoading(false);
             if (response.data.success) {
               Swal.fire({
                 position: 'center',
@@ -210,7 +214,7 @@ function MenuList() {
                 title: 'Stage Menu Added',
                 showConfirmButton: true,
               }).then(() => {
-                window.location.reload();
+                setRefresh(true);
               });
             } else {
               toast.error('something error');
@@ -231,7 +235,7 @@ function MenuList() {
   const submitDecorate = async () => {
     try {
       setDecoration(false);
-      // window.location.reload()
+      setLoading(true);
 
       const uploadImage = async (image) => {
         const data = new FormData();
@@ -253,7 +257,7 @@ function MenuList() {
           },
         })
           .then((response) => {
-            console.log('Hi');
+            setLoading(false);
             if (response.data.success) {
               Swal.fire({
                 position: 'center',
@@ -261,7 +265,7 @@ function MenuList() {
                 title: 'Decorate Menu Added',
                 showConfirmButton: true,
               }).then(() => {
-                window.location.reload();
+                setRefresh(true);
               });
             } else {
               toast.error('something error');
@@ -282,7 +286,7 @@ function MenuList() {
   const submitPhotography = async () => {
     try {
       setPhotography(false);
-      // window.location.reload()
+      setLoading(true);
 
       const uploadImage = async (image) => {
         const data = new FormData();
@@ -303,7 +307,7 @@ function MenuList() {
           },
         })
           .then((response) => {
-            console.log('Hi');
+            setLoading(false);
             if (response.data.success) {
               Swal.fire({
                 position: 'center',
@@ -311,7 +315,7 @@ function MenuList() {
                 title: 'PhotographyMenu Added',
                 showConfirmButton: true,
               }).then(() => {
-                window.location.reload();
+                setRefresh(true);
               });
             } else {
               toast.error('something error');
@@ -332,7 +336,7 @@ function MenuList() {
   const submitVehicle = async () => {
     try {
       setVehicles(false);
-      // window.location.reload()
+      setLoading(true);
 
       const uploadImage = async (image) => {
         const data = new FormData();
@@ -353,7 +357,7 @@ function MenuList() {
           },
         })
           .then((response) => {
-            console.log('Hi');
+            setLoading(false);
             if (response.data.success) {
               Swal.fire({
                 position: 'center',
@@ -361,7 +365,7 @@ function MenuList() {
                 title: 'VehicleMenu Added',
                 showConfirmButton: true,
               }).then(() => {
-                window.location.reload();
+                setRefresh(true);
               });
             } else {
               toast.error('something error');
@@ -428,840 +432,848 @@ function MenuList() {
       }
     };
     MenuList();
-  }, []);
+  }, [refresh]);
 
   return (
     <div>
       <Layout />
-      <div className="mt-12" style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
-        <div className="max-w-7xl mx-auto  py-12 sm:px-6 lg:px-8">
-          <div className="max-w-full mx-auto sm:ml-60">
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg">
-              <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-2xl font-medium text-gray-900">
-                  {/* {managerDetails?.name} */}
-                  Catering or Food Menu
-                </h1>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  {/* {managerDetails?.email} */}
-                </p>
-              </div>
-              <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200">
-                  <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                    {catering.map((data) => (
-                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
-                    ))}
+      {
+        loading ? (
+          <div className="spinner-container">
+            <div className="loading-spinner" />
+          </div>
+        ) : (
+          <div className="mt-12" style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
+            <div className="max-w-7xl mx-auto  py-12 sm:px-6 lg:px-8">
+              <div className="max-w-full mx-auto sm:ml-60">
+                <div className="bg-white shadow overflow-hidden sm:rounded-lg">
+                  <div className="px-4 py-5 sm:px-6">
+                    <h1 className="text-2xl font-medium text-gray-900">
+                      {/* {managerDetails?.name} */}
+                      Catering or Food Menu
+                    </h1>
+                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                      {/* {managerDetails?.email} */}
+                    </p>
                   </div>
-                  {cateringMenu.map((data) => (
-                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.main_name}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.salad_name}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {modal ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                    <div className="max-w-5xl ml-56 p-6 bg-white">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl">Catering Menu Details</h3>
-                        <svg
-                          onClick={closeModal}
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
+                  <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                    <dl className="sm:divide-y sm:divide-gray-200">
+                      <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                        {catering.map((data) => (
+                          <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                        ))}
                       </div>
-                      <div className="flex items-center justify-between">
-                        <div className="mt-4">
-                          <form className="w-full max-w-xl">
-                            <div className="md:flex md:items-center mb-6 mt-5">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                  Starter Name
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="text"
-                                  placeholder="starter Name"
-                                  value={starterName}
-                                  onChange={(e) => setStarterName(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6 mt-5">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                  Main Name
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="text"
-                                  placeholder="Main Name"
-                                  value={mainName}
-                                  onChange={(e) => setMainName(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                  Dessert Name
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="text"
-                                  placeholder="Dessert Name"
-                                  value={dessertsName}
-                                  onChange={(e) => setDessertsName(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                  Salad Name
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="text"
-                                  placeholder="Salad Name"
-                                  value={saladsName}
-                                  onChange={(e) => setSaladsName(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center">
-                              <div className="md:w-1/3" />
-                              <div className="md:w-2/3" />
-                            </div>
-                          </form>
+                      {cateringMenu.map((data) => (
+                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.starter_name}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.main_name}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.dessert_name}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.salad_name}</dd>
                         </div>
-                        <div className="mt-4">
-                          <form className="w-full max-w-xl">
-                            <div className="md:flex md:items-center mb-6 mt-5">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                  Starter Price
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="number"
-                                  placeholder="Price/Head"
-                                  value={starterPrice}
-                                  onChange={(e) => setStarterPrice(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6 mt-5">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                  Main Price
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="number"
-                                  placeholder="Price/Head"
-                                  value={mainPrice}
-                                  onChange={(e) => setMainPrice(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                  Dessert Price
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="number"
-                                  placeholder="Price/Head"
-                                  value={dessertsPrice}
-                                  onChange={(e) => setDessertsPrice(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                  Salad Price
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="number"
-                                  placeholder="Price/Head"
-                                  value={saladsPrice}
-                                  onChange={(e) => setSaladsPrice(e.target.value)}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center">
-                              <div className="md:w-1/3" />
-                              <div className="md:w-2/3" />
-                            </div>
-                          </form>
-                        </div>
-                        <div className="mt-4">
-                          <form className="w-full max-w-xl">
-                            <div className="md:flex md:items-center mb-6 mt-5">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                  Starter Image
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="file"
-                                  onChange={(e) => setStarterImage(e.target.files[0])}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6 mt-5">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                  Main Image
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="file"
-                                  onChange={(e) => setMainImage(e.target.files[0])}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                  Dessert Image
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="file"
-                                  onChange={(e) => setDessertImage(e.target.files[0])}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center mb-6">
-                              <div className="md:w-1/3">
-                                <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                  Salad Image
-                                </label>
-                              </div>
-                              <div className="md:w-2/3">
-                                <input
-                                  className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                  type="file"
-                                  onChange={(e) => setSaladImage(e.target.files[0])}
-                                />
-                              </div>
-                            </div>
-                            <div className="md:flex md:items-center">
-                              <div className="md:w-1/3" />
-                              <div className="md:w-2/3" />
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                      <div className="md:flex md:items-center justify-center">
-                        <div className="">
-                          <button onClick={submitCatering} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                            Add
-                          </button>
-                        </div>
-                      </div>
-                    </div>
+                      ))}
+                    </dl>
                   </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openModal}
-                  >
-                    Add Menu
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
-              <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-2xl font-medium text-gray-900">
-                  Stage Menu
-                </h1>
-              </div>
-              <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200">
-                  <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                    {stageData.map((data) => (
-                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
-                    ))}
-                  </div>
-                  {stageDataMenu.map((data) => (
-                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <img width="230px" src={data.stage_photo} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0">{data.stage_budget}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {stage ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                    <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl">Stage Menu Details</h3>
-                        <svg
-                          onClick={closeStage}
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                      <div className="mt-4">
-                        <form className="w-full max-w-xl">
-                          <div className="md:flex md:items-center mb-6 mt-5">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Stage Photo
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setStagePhoto(e.target.files[0])}
+                  <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
+                    {modal ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                        <div className="max-w-5xl ml-56 p-6 bg-white">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-2xl">Catering Menu Details</h3>
+                            <svg
+                              onClick={closeModal}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-6 h-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
                               />
+                            </svg>
+                          </div>
+                          <div className="flex items-center justify-between">
+                            <div className="mt-4">
+                              <form className="w-full max-w-xl">
+                                <div className="md:flex md:items-center mb-6 mt-5">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                      Starter Name
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="text"
+                                      placeholder="Starter Name"
+                                      value={starterName}
+                                      onChange={(e) => setStarterName(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6 mt-5">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                      Main Name
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="text"
+                                      placeholder="Main Name"
+                                      value={mainName}
+                                      onChange={(e) => setMainName(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                      Dessert Name
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="text"
+                                      placeholder="Dessert Name"
+                                      value={dessertsName}
+                                      onChange={(e) => setDessertsName(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                      Salad Name
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="text"
+                                      placeholder="Salad Name"
+                                      value={saladsName}
+                                      onChange={(e) => setSaladsName(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center">
+                                  <div className="md:w-1/3" />
+                                  <div className="md:w-2/3" />
+                                </div>
+                              </form>
+                            </div>
+                            <div className="mt-4">
+                              <form className="w-full max-w-xl">
+                                <div className="md:flex md:items-center mb-6 mt-5">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                      Starter Price
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="number"
+                                      placeholder="Price/Head"
+                                      value={starterPrice}
+                                      onChange={(e) => setStarterPrice(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6 mt-5">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                      Main Price
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="number"
+                                      placeholder="Price/Head"
+                                      value={mainPrice}
+                                      onChange={(e) => setMainPrice(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                      Dessert Price
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="number"
+                                      placeholder="Price/Head"
+                                      value={dessertsPrice}
+                                      onChange={(e) => setDessertsPrice(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                      Salad Price
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="number"
+                                      placeholder="Price/Head"
+                                      value={saladsPrice}
+                                      onChange={(e) => setSaladsPrice(e.target.value)}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center">
+                                  <div className="md:w-1/3" />
+                                  <div className="md:w-2/3" />
+                                </div>
+                              </form>
+                            </div>
+                            <div className="mt-4">
+                              <form className="w-full max-w-xl">
+                                <div className="md:flex md:items-center mb-6 mt-5">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                      Starter Image
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="file"
+                                      onChange={(e) => setStarterImage(e.target.files[0])}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6 mt-5">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                      Main Image
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="file"
+                                      onChange={(e) => setMainImage(e.target.files[0])}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                      Dessert Image
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="file"
+                                      onChange={(e) => setDessertImage(e.target.files[0])}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center mb-6">
+                                  <div className="md:w-1/3">
+                                    <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                      Salad Image
+                                    </label>
+                                  </div>
+                                  <div className="md:w-2/3">
+                                    <input
+                                      className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                      type="file"
+                                      onChange={(e) => setSaladImage(e.target.files[0])}
+                                    />
+                                  </div>
+                                </div>
+                                <div className="md:flex md:items-center">
+                                  <div className="md:w-1/3" />
+                                  <div className="md:w-2/3" />
+                                </div>
+                              </form>
                             </div>
                           </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Stage Budget
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-password"
-                                type="number"
-                                placeholder="Price"
-                                value={stageBudget}
-                                onChange={(e) => setStageBudget(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Stage Size
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="text"
-                                placeholder="Stage Size"
-                                value={stageSize}
-                                onChange={(e) => setStageSize(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center">
-                            <div className="md:w-1/3" />
-                            <div className="md:w-2/3">
-                              <button onClick={submitStage} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                          <div className="md:flex md:items-center justify-center">
+                            <div className="">
+                              <button onClick={submitCatering} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
                                 Add
                               </button>
                             </div>
                           </div>
-                        </form>
+                        </div>
                       </div>
-                    </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={openModal}
+                      >
+                        Add Menu
+                      </button>
+                    )}
                   </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openStage}
-                  >
-                    Add Menu
-                  </button>
-                )}
-              </div>
-            </div>
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
-              <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-2xl font-medium text-gray-900">
-                  {/* {managerDetails?.name} */}
-                  Decoration Menu
-                </h1>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  {/* {managerDetails?.email} */}
-                </p>
-              </div>
-              <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200">
-                  <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                    {decorateData.map((data) => (
-                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
-                    ))}
+                </div>
+                <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
+                  <div className="px-4 py-5 sm:px-6">
+                    <h1 className="text-2xl font-medium text-gray-900">
+                      Stage Menu
+                    </h1>
                   </div>
-                  {decorateDataMenu.map((data) => (
-                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                      <img width="230px" src={data.decoration_photo} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
-                      <img width="230px" src={data.including_photos} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.decoration_budget}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {decoration ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                    <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl">Stage Menu Details</h3>
-                        <svg
-                          onClick={closeDecoration}
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
+                  <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                    <dl className="sm:divide-y sm:divide-gray-200">
+                      <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                        {stageData.map((data) => (
+                          <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                        ))}
                       </div>
-                      <div className="mt-4">
-                        <form className="w-full max-w-xl">
-                          <div className="md:flex md:items-center mb-6 mt-5">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Decoration  Photo
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setDecoratePhoto(e.target.files[0])}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Including Photos
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setIncludingPhotos(e.target.files[0])}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Decoration Budget
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-password"
-                                type="number"
-                                placeholder="Price"
-                                value={budget}
-                                onChange={(e) => setBudget(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center">
-                            <div className="md:w-1/3" />
-                            <div className="md:w-2/3">
-                              <button onClick={submitDecorate} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                Add
-                              </button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+                      {stageDataMenu.map((data) => (
+                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                          <img width="230px" src={data.stage_photo} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0">{data.stage_budget}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.stage_size}</dd>
+                        </div>
+                      ))}
+                    </dl>
                   </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openDecoration}
-                  >
-                    Add Menu
-                  </button>
-                )}
+                  <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
+                    {stage ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                        <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-2xl">Stage Menu Details</h3>
+                            <svg
+                              onClick={closeStage}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-6 h-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="mt-4">
+                            <form className="w-full max-w-xl">
+                              <div className="md:flex md:items-center mb-6 mt-5">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Stage Photo
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setStagePhoto(e.target.files[0])}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                    Stage Budget
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-password"
+                                    type="number"
+                                    placeholder="Price"
+                                    value={stageBudget}
+                                    onChange={(e) => setStageBudget(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Stage Size
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="text"
+                                    placeholder="Stage Size"
+                                    value={stageSize}
+                                    onChange={(e) => setStageSize(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center">
+                                <div className="md:w-1/3" />
+                                <div className="md:w-2/3">
+                                  <button onClick={submitStage} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                                    Add
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={openStage}
+                      >
+                        Add Menu
+                      </button>
+                    )}
+                  </div>
+                </div>
+                <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
+                  <div className="px-4 py-5 sm:px-6">
+                    <h1 className="text-2xl font-medium text-gray-900">
+                      {/* {managerDetails?.name} */}
+                      Decoration Menu
+                    </h1>
+                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                      {/* {managerDetails?.email} */}
+                    </p>
+                  </div>
+                  <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                    <dl className="sm:divide-y sm:divide-gray-200">
+                      <div className="py-4 sm:py-5 sm:grid lg:grid-cols-3 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                        {decorateData.map((data) => (
+                          <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                        ))}
+                      </div>
+                      {decorateDataMenu.map((data) => (
+                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                          <img width="230px" src={data.decoration_photo} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
+                          <img width="230px" src={data.including_photos} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.decoration_budget}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
+                    {decoration ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                        <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-2xl">Stage Menu Details</h3>
+                            <svg
+                              onClick={closeDecoration}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-6 h-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="mt-4">
+                            <form className="w-full max-w-xl">
+                              <div className="md:flex md:items-center mb-6 mt-5">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Decoration  Photo
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setDecoratePhoto(e.target.files[0])}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Including Photos
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setIncludingPhotos(e.target.files[0])}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                    Decoration Budget
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-password"
+                                    type="number"
+                                    placeholder="Price"
+                                    value={budget}
+                                    onChange={(e) => setBudget(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center">
+                                <div className="md:w-1/3" />
+                                <div className="md:w-2/3">
+                                  <button onClick={submitDecorate} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                                    Add
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={openDecoration}
+                      >
+                        Add Menu
+                      </button>
+                    )}
 
-              </div>
-            </div>
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
-              <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-2xl font-medium text-gray-900">
-                  {/* {managerDetails?.name} */}
-                  Photography Menu
-                </h1>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  {/* {managerDetails?.email} */}
-                </p>
-              </div>
-              <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200">
-                  <div className="py-4 sm:py-5 sm:grid lg:grid-cols-5 sm:grid-cols-5 sm:gap-4 sm:px-6">
-                    {photographyData.map((data) => (
-                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
-                    ))}
                   </div>
-                  {photographyDataMenu.map((data) => (
-                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
-                      <img width="230px" src={data.recent_photos} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.shop_name}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.mobile_number}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.address}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.budget}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {photography ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                    <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl">Photography Menu Details</h3>
-                        <svg
-                          onClick={closePhotography}
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                      <div className="mt-4">
-                        <form className="w-full max-w-xl">
-                          <div className="md:flex md:items-center mb-6 mt-5">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Recent Photos
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setRecentPhotos(e.target.files[0])}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Shop Name
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-password"
-                                type="text"
-                                placeholder="Shop Name"
-                                value={shopName}
-                                onChange={(e) => setShopName(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Mobile Number
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="number"
-                                placeholder="Mobile Number"
-                                value={mobile}
-                                onChange={(e) => setMobile(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Address
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-password"
-                                type="text"
-                                placeholder="Address"
-                                value={address}
-                                onChange={(e) => setAddress(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Budget
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="number"
-                                placeholder="Budget"
-                                value={budgetPhoto}
-                                onChange={(e) => setBudgetPhoto(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center">
-                            <div className="md:w-1/3" />
-                            <div className="md:w-2/3">
-                              <button onClick={submitPhotography} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
-                                Add
-                              </button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+                </div>
+                <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
+                  <div className="px-4 py-5 sm:px-6">
+                    <h1 className="text-2xl font-medium text-gray-900">
+                      {/* {managerDetails?.name} */}
+                      Photography Menu
+                    </h1>
+                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                      {/* {managerDetails?.email} */}
+                    </p>
                   </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openPhotography}
-                  >
-                    Add Menu
-                  </button>
-                )}
+                  <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                    <dl className="sm:divide-y sm:divide-gray-200">
+                      <div className="py-4 sm:py-5 sm:grid lg:grid-cols-5 sm:grid-cols-5 sm:gap-4 sm:px-6">
+                        {photographyData.map((data) => (
+                          <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                        ))}
+                      </div>
+                      {photographyDataMenu.map((data) => (
+                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-5 sm:gap-4 sm:px-6">
+                          <img width="230px" src={data.recent_photos} className="mt-1 text-sm text-gray-900 sm:mt-0 " alt="" />
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.shop_name}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.mobile_number}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.address}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.budget}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
+                    {photography ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                        <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-2xl">Photography Menu Details</h3>
+                            <svg
+                              onClick={closePhotography}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-6 h-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="mt-4">
+                            <form className="w-full max-w-xl">
+                              <div className="md:flex md:items-center mb-6 mt-5">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Recent Photos
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setRecentPhotos(e.target.files[0])}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                    Shop Name
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-password"
+                                    type="text"
+                                    placeholder="Shop Name"
+                                    value={shopName}
+                                    onChange={(e) => setShopName(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Mobile Number
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="number"
+                                    placeholder="Mobile Number"
+                                    value={mobile}
+                                    onChange={(e) => setMobile(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                    Address
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-password"
+                                    type="text"
+                                    placeholder="Address"
+                                    value={address}
+                                    onChange={(e) => setAddress(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Budget
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="number"
+                                    placeholder="Budget"
+                                    value={budgetPhoto}
+                                    onChange={(e) => setBudgetPhoto(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center">
+                                <div className="md:w-1/3" />
+                                <div className="md:w-2/3">
+                                  <button onClick={submitPhotography} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="button">
+                                    Add
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={openPhotography}
+                      >
+                        Add Menu
+                      </button>
+                    )}
 
-              </div>
-            </div>
-            <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
-              <div className="px-4 py-5 sm:px-6">
-                <h1 className="text-2xl font-medium text-gray-900">
-                  {/* {managerDetails?.name} */}
-                  Luxury Vehicles Menu
-                </h1>
-                <p className="mt-1 max-w-2xl text-sm text-gray-500">
-                  {/* {managerDetails?.email} */}
-                </p>
-              </div>
-              <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
-                <dl className="sm:divide-y sm:divide-gray-200">
-                  <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
-                    {vehicleData.map((data) => (
-                      <dt className="text-sm font-medium text-gray-500">{data}</dt>
-                    ))}
                   </div>
-                  {vehicleDataMenu.map((data) => (
-                    <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
-                      <img width="230px" src={data.vehicle_image} className="mt-1 text-sm text-gray-900 sm:mt-0" alt="" />
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.owner_name}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.mobile_number}</dd>
-                      <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.rent_price}</dd>
-                    </div>
-                  ))}
-                </dl>
-              </div>
-              <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
-                {vehicles ? (
-                  <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
-                    <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
-                      <div className="flex items-center justify-between">
-                        <h3 className="text-2xl">Vehicle Menu Details</h3>
-                        <svg
-                          onClick={closeVehicles}
-                          xmlns="http://www.w3.org/2000/svg"
-                          className="w-6 h-6"
-                          fill="none"
-                          viewBox="0 0 24 24"
-                          stroke="currentColor"
-                        >
-                          <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth="2"
-                            d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
-                          />
-                        </svg>
-                      </div>
-                      <div className="mt-4">
-                        <form className="w-full max-w-xl">
-                          <div className="md:flex md:items-center mb-6 mt-5">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Vehicle
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setVehicle(e.target.files[0])}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
-                                Owner Name
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-password"
-                                type="text"
-                                placeholder="Owner Name"
-                                value={owner}
-                                onChange={(e) => setOwner(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Mobile Number
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="number"
-                                placeholder="Mobile Number"
-                                value={mobileNumber}
-                                onChange={(e) => setMobileNumber(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center mb-6">
-                            <div className="md:w-1/3">
-                              <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
-                                Rent Price
-                              </label>
-                            </div>
-                            <div className="md:w-2/3">
-                              <input
-                                className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
-                                id="inline-full-name"
-                                type="number"
-                                placeholder="Rent Price"
-                                value={rent}
-                                onChange={(e) => setRent(e.target.value)}
-                              />
-                            </div>
-                          </div>
-                          <div className="md:flex md:items-center">
-                            <div className="md:w-1/3" />
-                            <div className="md:w-2/3">
-                              <button onClick={submitVehicle} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
-                                Add
-                              </button>
-                            </div>
-                          </div>
-                        </form>
-                      </div>
-                    </div>
+                </div>
+                <div className="bg-white shadow overflow-hidden sm:rounded-lg mt-8">
+                  <div className="px-4 py-5 sm:px-6">
+                    <h1 className="text-2xl font-medium text-gray-900">
+                      {/* {managerDetails?.name} */}
+                      Luxury Vehicles Menu
+                    </h1>
+                    <p className="mt-1 max-w-2xl text-sm text-gray-500">
+                      {/* {managerDetails?.email} */}
+                    </p>
                   </div>
-                ) : (
-                  <button
-                    type="button"
-                    className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                    onClick={openVehicles}
-                  >
-                    Add Menu
-                  </button>
-                )}
+                  <div className="border-b border-gray-200 px-4 py-5 sm:p-0">
+                    <dl className="sm:divide-y sm:divide-gray-200">
+                      <div className="py-4 sm:py-5 sm:grid lg:grid-cols-4 sm:grid-cols-4 sm:gap-4 sm:px-6">
+                        {vehicleData.map((data) => (
+                          <dt className="text-sm font-medium text-gray-500">{data}</dt>
+                        ))}
+                      </div>
+                      {vehicleDataMenu.map((data) => (
+                        <div className="py-4 sm:py-5 sm:grid sm:grid-cols-4 sm:gap-4 sm:px-6">
+                          <img width="230px" src={data.vehicle_image} className="mt-1 text-sm text-gray-900 sm:mt-0" alt="" />
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.owner_name}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.mobile_number}</dd>
+                          <dd className="mt-1 text-sm text-gray-900 sm:mt-0 ">{data.rent_price}</dd>
+                        </div>
+                      ))}
+                    </dl>
+                  </div>
+                  <div className="bg-gray-50 px-4 py-4 sm:px-6 sm:text-center">
+                    {vehicles ? (
+                      <div className="absolute inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 mt-10">
+                        <div className="max-w-xl p-6 bg-white divide-y divide-gray-500">
+                          <div className="flex items-center justify-between">
+                            <h3 className="text-2xl">Vehicle Menu Details</h3>
+                            <svg
+                              onClick={closeVehicles}
+                              xmlns="http://www.w3.org/2000/svg"
+                              className="w-6 h-6"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke="currentColor"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth="2"
+                                d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="mt-4">
+                            <form className="w-full max-w-xl">
+                              <div className="md:flex md:items-center mb-6 mt-5">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Vehicle
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="file"
+                                    accept="image/*"
+                                    onChange={(e) => setVehicle(e.target.files[0])}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-password">
+                                    Owner Name
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-password"
+                                    type="text"
+                                    placeholder="Owner Name"
+                                    value={owner}
+                                    onChange={(e) => setOwner(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Mobile Number
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="number"
+                                    placeholder="Mobile Number"
+                                    value={mobileNumber}
+                                    onChange={(e) => setMobileNumber(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center mb-6">
+                                <div className="md:w-1/3">
+                                  <label className="block text-gray-500 font-bold md:text-right mb-1 md:mb-0 pr-4" htmlFor="inline-full-name">
+                                    Rent Price
+                                  </label>
+                                </div>
+                                <div className="md:w-2/3">
+                                  <input
+                                    className="bg-gray-200 appearance-none border-2 border-gray-200 rounded w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-purple-500"
+                                    id="inline-full-name"
+                                    type="number"
+                                    placeholder="Rent Price"
+                                    value={rent}
+                                    onChange={(e) => setRent(e.target.value)}
+                                  />
+                                </div>
+                              </div>
+                              <div className="md:flex md:items-center">
+                                <div className="md:w-1/3" />
+                                <div className="md:w-2/3">
+                                  <button onClick={submitVehicle} className="shadow bg-purple-500 hover:bg-purple-400 focus:shadow-outline focus:outline-none text-white font-bold py-2 px-4 rounded" type="submit">
+                                    Add
+                                  </button>
+                                </div>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    ) : (
+                      <button
+                        type="button"
+                        className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                        onClick={openVehicles}
+                      >
+                        Add Menu
+                      </button>
+                    )}
 
+                  </div>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      </div>
+        )
+      }
     </div>
   );
 }
