@@ -98,9 +98,9 @@ function SelectService() {
     <div>
       <Navbar />
       {loading ? (
-            <div className="spinner-container">
-              <div className="loading-spinner" />
-            </div>
+        <div className="spinner-container">
+          <div className="loading-spinner" />
+        </div>
       ) : (
         <div className="mt-16" style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
           <div className="max-w-7xl mx-auto  py-12 sm:px-6 lg:px-8">
@@ -110,100 +110,100 @@ function SelectService() {
                   <h1 className="text-center text-4xl font-serif font-medium">Select Service</h1>
                 </div>
                 {services.catering_status === true
-                                    && (
-                                    <div className="bg-slate-200 hover:bg-slate-300 px-4 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5">
-                                      <ul role="list" className="p-6 divide-y divide-slate-800">
-                                        <li className="flex py-4 first:pt-0 last:pb-0">
-                                          <img className="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
-                                          <div className="ml-3 overflow-hidden">
-                                            <p className="text-sm font-medium text-slate-900 pt-2">Food Service</p>
-                                          </div>
-                                          <input
-                                            type="checkbox"
-                                            className="checked:bg-blue-500 mt-2 w-5 ml-44 h-5"
-                                            checked={foodChecked}
-                                            onChange={() => setFoodChecked(!foodChecked)}
-                                          />
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="bg-slate-200 hover:bg-slate-300 px-4 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5">
+                      <ul role="list" className="p-6 divide-y divide-slate-800">
+                        <li className="flex py-4 first:pt-0 last:pb-0">
+                          <img className="h-10 w-10 rounded-full" src="/pexels-kseniia.jpg" alt="" />
+                          <div className="ml-3 overflow-hidden">
+                            <p className="text-sm font-medium text-slate-900 pt-2">Food Service</p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            className="checked:bg-blue-500 mt-2 w-5 ml-44 h-5"
+                            checked={foodChecked}
+                            onChange={() => setFoodChecked(!foodChecked)}
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 {services.stage_status === true
-                                    && (
-                                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 xl:mx-72 rounded-2xl sm:p-0 sm:mx-5">
-                                      <ul role="list" className="p-6 divide-y divide-slate-800">
-                                        <li className="flex py-4 first:pt-0 last:pb-0">
-                                          <img className="h-10 w-10 rounded-full" src="/pexels-edo.jpg" alt="" />
-                                          <div className="ml-3 overflow-hidden">
-                                            <p className="text-sm font-medium text-slate-900 pt-2">Stage Service</p>
-                                          </div>
-                                          <input
-                                            type="checkbox"
-                                            className="checked:bg-blue-400 mt-2 w-5 ml-44 h-5"
-                                            checked={stageChecked}
-                                            onChange={() => setStageChecked(!stageChecked)}
-                                          />
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 xl:mx-72 rounded-2xl sm:p-0 sm:mx-5">
+                      <ul role="list" className="p-6 divide-y divide-slate-800">
+                        <li className="flex py-4 first:pt-0 last:pb-0">
+                          <img className="h-10 w-10 rounded-full" src="/pexels-edo.jpg" alt="" />
+                          <div className="ml-3 overflow-hidden">
+                            <p className="text-sm font-medium text-slate-900 pt-2">Stage Service</p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            className="checked:bg-blue-400 mt-2 w-5 ml-44 h-5"
+                            checked={stageChecked}
+                            onChange={() => setStageChecked(!stageChecked)}
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 {services.decoration_status === true
-                                    && (
-                                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5 ">
-                                      <ul role="list" className="p-6 divide-y divide-slate-800">
-                                        <li className="flex py-4 first:pt-0 last:pb-0">
-                                          <img className="h-10 w-10 rounded-full" src="/evnt3.jpeg" alt="" />
-                                          <div className="ml-3 overflow-hidden">
-                                            <p className="text-sm font-medium text-slate-900 pt-2">Decoration</p>
-                                          </div>
-                                          <input
-                                            type="checkbox"
-                                            className="checked:bg-blue-400 mt-2 w-5 ml-48 h-5"
-                                            checked={decorateChecked}
-                                            onChange={() => setDecorateChecked(!decorateChecked)}
-                                          />
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5 ">
+                      <ul role="list" className="p-6 divide-y divide-slate-800">
+                        <li className="flex py-4 first:pt-0 last:pb-0">
+                          <img className="h-10 w-10 rounded-full" src="/evnt3.jpeg" alt="" />
+                          <div className="ml-3 overflow-hidden">
+                            <p className="text-sm font-medium text-slate-900 pt-2">Decoration</p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            className="checked:bg-blue-400 mt-2 w-5 ml-48 h-5"
+                            checked={decorateChecked}
+                            onChange={() => setDecorateChecked(!decorateChecked)}
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 {services.photography_status === true
-                                    && (
-                                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5 ">
-                                      <ul role="list" className="p-6 divide-y divide-slate-800">
-                                        <li className="flex py-4 first:pt-0 last:pb-0">
-                                          <img className="h-10 w-10 rounded-full" src="/stage1.png" alt="" />
-                                          <div className="ml-3 overflow-hidden">
-                                            <p className="text-sm font-medium text-slate-900 pt-2">Photography</p>
-                                          </div>
-                                          <input
-                                            type="checkbox"
-                                            className="checked:bg-blue-400 mt-2 w-5 ml-44 h-5"
-                                            checked={photographyChecked}
-                                            onChange={() => setPhotographyChecked(!photographyChecked)}
-                                          />
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5 ">
+                      <ul role="list" className="p-6 divide-y divide-slate-800">
+                        <li className="flex py-4 first:pt-0 last:pb-0">
+                          <img className="h-10 w-10 rounded-full" src="/stage1.png" alt="" />
+                          <div className="ml-3 overflow-hidden">
+                            <p className="text-sm font-medium text-slate-900 pt-2">Photography</p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            className="checked:bg-blue-400 mt-2 w-5 ml-44 h-5"
+                            checked={photographyChecked}
+                            onChange={() => setPhotographyChecked(!photographyChecked)}
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 {services.vehicle_status === true
-                                    && (
-                                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5 ">
-                                      <ul role="list" className="p-6 divide-y divide-slate-800">
-                                        <li className="flex py-4 first:pt-0 last:pb-0">
-                                          <img className="h-10 w-10 rounded-full" src="/stage2.png" alt="" />
-                                          <div className="ml-3 overflow-hidden">
-                                            <p className="text-sm font-medium text-slate-900 pt-2">Luxury Vehicles</p>
-                                          </div>
-                                          <input
-                                            type="checkbox"
-                                            className="checked:bg-blue-400 mt-2 w-5 ml-40 h-5"
-                                            checked={vehicleChecked}
-                                            onChange={() => setVehicleChecked(!vehicleChecked)}
-                                          />
-                                        </li>
-                                      </ul>
-                                    </div>
-                                    )}
+                  && (
+                    <div className="bg-slate-200 hover:bg-slate-300 px-4 my-5 rounded-2xl sm:p-0 xl:mx-72 sm:mx-5 ">
+                      <ul role="list" className="p-6 divide-y divide-slate-800">
+                        <li className="flex py-4 first:pt-0 last:pb-0">
+                          <img className="h-10 w-10 rounded-full" src="/stage2.png" alt="" />
+                          <div className="ml-3 overflow-hidden">
+                            <p className="text-sm font-medium text-slate-900 pt-2">Luxury Vehicles</p>
+                          </div>
+                          <input
+                            type="checkbox"
+                            className="checked:bg-blue-400 mt-2 w-5 ml-40 h-5"
+                            checked={vehicleChecked}
+                            onChange={() => setVehicleChecked(!vehicleChecked)}
+                          />
+                        </li>
+                      </ul>
+                    </div>
+                  )}
                 <div className="flex items-center">
                   <button type="button" onClick={submitService} className="inline-flex items-center px-5 mt-4 my-10 mx-auto py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-300 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:w-auto sm:text-sm">
                     Next

@@ -32,7 +32,6 @@ function UserMenuList() {
   const [count, setCount] = useState(0);
   const [submitClicked, setSubmitClicked] = useState(false);
   const Services = useSelector((state) => state.services || {});
-  console.log('service: ', Services);
   const serviceDetails = Services.service.serviceData || {};
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -207,6 +206,11 @@ function UserMenuList() {
       }
     }
   };
+
+  const goBack = () => {
+    navigate('/select-service');
+  };
+
   return (
     <div>
       <Navbar />
@@ -514,6 +518,13 @@ function UserMenuList() {
                   onClick={openCart}
                 >
                   Submit
+                </button>
+                <button
+                  type="button"
+                  className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={goBack}
+                >
+                  Go Back
                 </button>
               </div>
             </div>

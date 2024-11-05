@@ -37,6 +37,10 @@ function Bookings() {
     });
   };
 
+  const goBackDetails = () => {
+    setShowDetails(false);
+  };
+
   useEffect(() => {
     const bookings = async () => {
       try {
@@ -77,7 +81,12 @@ function Bookings() {
                   <body className="bg-gray-100">
                     <header className="bg-gray-800 text-white py-4">
                       <div className="container mx-auto px-4">
-                        <h1 className="text-2xl font-bold">Details Page</h1>
+                        <div className="flex justify-between">
+                          <h1 className="text-2xl font-bold">Details Page</h1>
+                          <button type="button" onClick={goBackDetails} className="inline-flex me-6 items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-500 hover:bg-cyan-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+                            Go Back
+                          </button>
+                        </div>
                       </div>
                     </header>
                     <main className="container mx-auto mt-8 px-4">
@@ -155,7 +164,7 @@ function Bookings() {
                                   {bookingDetails.time}
                                 </p>
                                 <p>
-                                  Count People:
+                                  Payment Type:
                                   {' '}
                                   {bookingDetails.count}
                                 </p>
@@ -309,7 +318,7 @@ function Bookings() {
                                 Event Time
                               </th>
                               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Count of people
+                                Payment Type
                               </th>
                               <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                                 User Details

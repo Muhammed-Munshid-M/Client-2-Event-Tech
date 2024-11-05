@@ -90,6 +90,10 @@ function CompanyDetails() {
     setVehicle(false);
   };
 
+  const goBack = () => {
+    navigate('/company-list');
+  };
+
   useEffect(() => {
     setCompanyDetails(managerDetails.company.managerDetails);
     const token = localStorage.getItem('token');
@@ -507,6 +511,7 @@ function CompanyDetails() {
                 <button
                   type="button"
                   className="inline-flex items-center px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  onClick={goBack}
                 >
                   Go Back
                 </button>

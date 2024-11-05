@@ -106,6 +106,10 @@ function Profile() {
     setModal(false);
   };
 
+  const goBack = () => {
+    navigate('/');
+  };
+
   return (
     <div className="mt-16 pb-16" style={{ backgroundColor: 'rgb(210, 240, 275)' }}>
 
@@ -248,6 +252,11 @@ function Profile() {
                 </div>
               </dl>
             </div>
+          </div>
+          <div className="flex justify-center mt-4">
+            <button type="button" onClick={goBack} className="inline-flex items-center px-10 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium bg-cyan-200 hover:bg-cyan-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">
+              Go Back
+            </button>
           </div>
         </div>
       </div>
